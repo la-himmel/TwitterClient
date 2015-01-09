@@ -7,15 +7,24 @@
 //
 
 #import "ViewController.h"
+#import "TableVC.h"
+#import "CollectionVC.h"
 #import <Accounts/Accounts.h>
 #import <Social/Social.h>
 
-#define API_URL @"http://api.twitter.com/1.1/statuses/user_timeline.json"
+#define API_URL @"https://api.twitter.com/1.1/statuses/"
+#define TIMELINE @"user_timeline.json"
+#define HOME @"home_timeline.json"
 #define API_KEY @"nRpsj7pkldHieAbjQrHOdZCpb"
 #define CONSUMER_SECRET @"h3Ldr7GAVgsfnh9p15uwDMjRMSAfCB1OloU9quy8CyGeiQHnH9"
 
 @interface ViewController () <NSURLSessionDelegate>
 @property (nonatomic, strong) NSArray *data;
+@property (nonatomic, strong) NSString *accessToken;
+@property (nonatomic, weak) TableVC *tableVC;
+@property (nonatomic, weak) CollectionVC *collectionVC;
+@property (nonatomic, weak) IBOutlet UIView *viewForTable;
+@property (nonatomic, weak) IBOutlet UIView *viewForCollection;
 @end
 
 @implementation ViewController
@@ -23,13 +32,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self twitterConnection];
-    [self getAccounts];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    self.viewForTable.hidden = NO;
+    self.viewForCollection.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)didChangeSegmentedControl:(id)sender
+{
+    UISegmentedControl *segmented = (UISegmentedControl*)sender;
+    BOOL tableShown = (segmented.selectedSegmentIndex == 0);
+    self.viewForTable.hidden = !tableShown;
+    self.viewForCollection.hidden = tableShown;
 }
 
 - (void)getAccounts
@@ -40,12 +57,10 @@
     __weak ViewController *weakSelf = self;
     [account requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
         if (granted) {
-            NSLog(@"granted");
-            
             NSArray *accounts = [account accountsWithAccountType:accountType];
             if ([accounts count]) {
                 ACAccount *twitterAccount = [accounts firstObject];
-                NSURL *apiUrl = [NSURL URLWithString:API_URL];
+                NSURL *apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", API_URL, HOME]];
                 NSMutableDictionary *parameters = [NSMutableDictionary new];
                 [parameters setObject:@"100" forKey:@"count"];
                 [parameters setObject:@"1" forKey:@"include_entities"];
@@ -62,7 +77,7 @@
                                                                       error:&error];
                     if (weakSelf.data.count) {
                         NSLog(@"Succeed, count %lu", (unsigned long)weakSelf.data.count);
-                        
+                        NSString *json = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             NSLog(@"reload the table");
                             
@@ -124,14 +139,13 @@
         if (data) {
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data
                                                                        options:NSJSONReadingMutableLeaves error:&error];
-            NSString *access_token = [dictionary objectForKey:@"access_token"];
-            NSLog(@"access_token %@", access_token);
+            self.accessToken = [dictionary objectForKey:@"access_token"];
+            NSLog(@"access_token %@", self.accessToken);
+            [self getAccounts];
         }
     }];
     
     [postDataTask resume];
-    
-    
 }
 
 @end
