@@ -79,7 +79,10 @@
                         NSLog(@"Succeed, count %lu", (unsigned long)weakSelf.data.count);
                         NSString *json = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            NSLog(@"reload the table");
+                            weakSelf.tableVC.data = weakSelf.data;
+                            [weakSelf.tableVC reload];
+                            weakSelf.collectionVC.data = weakSelf.data;
+                            [weakSelf.collectionVC reload];
                             
                         });
                     } else {
@@ -96,6 +99,18 @@
         }
     }];
     
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSLog(@"segue id %@", segue.identifier);
+    if ([segue.identifier isEqualToString:@"embed_table"]) {
+        self.tableVC = segue.destinationViewController;
+    }
+    
+    if ([segue.identifier isEqualToString:@"embed_collevtion"]) {
+        self.collectionVC = segue.destinationViewController;
+    }
 }
 
 - (void)twitterConnection

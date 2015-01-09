@@ -95,4 +95,9 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 */
 
+- (void)reload
+{
+    [self.collectionView reloadData];
+}
+
 @end

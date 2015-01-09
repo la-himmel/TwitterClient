@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface TableVC : UITableViewController
+@property (nonatomic, strong) NSArray *data;
+
+- (void)reload;
 
 @end
