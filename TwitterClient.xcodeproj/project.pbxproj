@@ -14,6 +14,10 @@
 		C4D77B391A5ED6EF00DB83EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4D77B381A5ED6EF00DB83EC /* Images.xcassets */; };
 		C4D77B3C1A5ED6EF00DB83EC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D77B3A1A5ED6EF00DB83EC /* LaunchScreen.xib */; };
 		C4D77B481A5ED6EF00DB83EC /* TwitterClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D77B471A5ED6EF00DB83EC /* TwitterClientTests.m */; };
+		C4D77B521A5EDCB800DB83EC /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4D77B511A5EDCB800DB83EC /* Social.framework */; };
+		C4D77B541A5EDCC200DB83EC /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4D77B531A5EDCC200DB83EC /* Accounts.framework */; };
+		C4D77B561A5EDCC800DB83EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4D77B551A5EDCC800DB83EC /* UIKit.framework */; };
+		C4D77B581A5EDCD000DB83EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4D77B571A5EDCD000DB83EC /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +44,10 @@
 		C4D77B411A5ED6EF00DB83EC /* TwitterClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwitterClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4D77B461A5ED6EF00DB83EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4D77B471A5ED6EF00DB83EC /* TwitterClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TwitterClientTests.m; sourceTree = "<group>"; };
+		C4D77B511A5EDCB800DB83EC /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		C4D77B531A5EDCC200DB83EC /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		C4D77B551A5EDCC800DB83EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C4D77B571A5EDCD000DB83EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +55,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4D77B541A5EDCC200DB83EC /* Accounts.framework in Frameworks */,
+				C4D77B561A5EDCC800DB83EC /* UIKit.framework in Frameworks */,
+				C4D77B581A5EDCD000DB83EC /* Foundation.framework in Frameworks */,
+				C4D77B521A5EDCB800DB83EC /* Social.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +100,7 @@
 				C4D77B351A5ED6EF00DB83EC /* Main.storyboard */,
 				C4D77B381A5ED6EF00DB83EC /* Images.xcassets */,
 				C4D77B3A1A5ED6EF00DB83EC /* LaunchScreen.xib */,
+				C4D77B591A5EDCF000DB83EC /* frameworks */,
 				C4D77B2B1A5ED6EF00DB83EC /* Supporting Files */,
 			);
 			path = TwitterClient;
@@ -117,6 +130,17 @@
 				C4D77B461A5ED6EF00DB83EC /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C4D77B591A5EDCF000DB83EC /* frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C4D77B571A5EDCD000DB83EC /* Foundation.framework */,
+				C4D77B551A5EDCC800DB83EC /* UIKit.framework */,
+				C4D77B531A5EDCC200DB83EC /* Accounts.framework */,
+				C4D77B511A5EDCB800DB83EC /* Social.framework */,
+			);
+			name = frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,6 +370,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TwitterClient/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -356,6 +381,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TwitterClient/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
