@@ -44,20 +44,21 @@ static NSString *const reuseIdentifier = @"cell";
     
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
     NSDictionary *media = [[item objectForKey:@"entities"] objectForKey:@"media"];
-//    if (!media) {
+    if (!media) {
+        cell.dateLabel.backgroundColor = [UIColor clearColor];
 //        cell.picHeight.constant = 0;
 //        cell.tweetBottom.constant = COMMON_OFFSET;
-//    } else {
+    } else {
+        cell.dateLabel.backgroundColor = [UIColor blueColor];
 //        cell.picHeight.constant = PIC_DEFAULT_H;
 //        cell.tweetBottom.constant = COMMON_OFFSET*2 + PIC_DEFAULT_H;
-//    }
-//    [cell.contentView setNeedsUpdateConstraints];
+    }
+    [cell.contentView setNeedsUpdateConstraints];
 
     NSString *userName = [item authorUsername];
     NSString *tweet = [item tweet];
     NSString *date = [item date];
     NSString *avatarUrl = [item avatarURL];
-    
     
 //    +cache
     __weak CollectionViewCell *wcell = cell;
@@ -71,24 +72,24 @@ static NSString *const reuseIdentifier = @"cell";
             });
         }
     });
+    
     cell.tweetLabel.text = tweet;
     cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [Geometry defaultLabelSizeForView:self.view]};
     cell.nameLabel.text = userName;
 
     [cell.nameLabel sizeToFit];
     cell.nameWidth.constant = cell.nameLabel.frame.size.width;
-    [cell.contentView setNeedsUpdateConstraints];
-    [cell.contentView layoutIfNeeded];
 
     cell.dateLabel.frame = (CGRect){cell.dateLabel.frame.origin,
         CGSizeMake(DATE_DEFAULT_W, LABEL_HEIGHT)};
     cell.dateLabel.text = date;
     [cell.dateLabel sizeToFit];
+    cell.dateWidth.constant = [Geometry widthForDate:date view:self.view];
     
+    [cell.contentView setNeedsUpdateConstraints];
+    [cell.contentView layoutIfNeeded];
     return cell;
 }
-
-
 
 - (void)reload
 {
@@ -106,10 +107,12 @@ static NSString *const reuseIdentifier = @"cell";
     float nameDateWidth = [Geometry widthForName:[item authorUsername]
                                             date:[item date]
                                             view:self.view];
-    
     float contentWidth = MAX(tweetSize.width, nameDateWidth);
     float width = [Geometry baseWidth] + contentWidth;
     float height = [Geometry baseHeight] + tweetSize.height;
+    
+    NSLog(@"tweet size (%ld) %f, content %f", indexPath.item, tweetSize.width, contentWidth);
+
     
 //    if (media) {
 //        height += 450;

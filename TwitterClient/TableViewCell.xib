@@ -3,47 +3,74 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tablecell" rowHeight="109" id="2Yx-eh-MIS" customClass="TableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="543" height="109"/>
+            <rect key="frame" x="0.0" y="0.0" width="543" height="80"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Yx-eh-MIS" id="sap-o6-wDX">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2CE-hU-UWt">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2CE-hU-UWt">
                         <rect key="frame" x="8" y="8" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="ETp-VV-lWy"/>
+                            <constraint firstAttribute="width" constant="50" id="SqG-jG-wOM"/>
+                        </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kxV-l4-ulB">
-                        <rect key="frame" x="66" y="55" width="469" height="47"/>
-                    </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name Lastname" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPd-tF-OzD">
-                        <rect key="frame" x="66" y="9" width="206" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Lastname" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPd-tF-OzD">
+                        <rect key="frame" x="66" y="8" width="200" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="200" id="fVj-jY-Ytz"/>
+                            <constraint firstAttribute="height" constant="21" id="qG2-4u-q1e"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- some date ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lGl-o8-KRM">
-                        <rect key="frame" x="365" y="9" width="170" height="21"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- some date ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lGl-o8-KRM">
+                        <rect key="frame" x="274" y="8" width="170" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="170" id="F9y-hW-M55"/>
+                            <constraint firstAttribute="height" constant="21" id="phL-JT-vfr"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                         <color key="textColor" red="0.5135337752525253" green="0.5135337752525253" blue="0.5135337752525253" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tweet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atq-9u-aua">
-                        <rect key="frame" x="66" y="27" width="469" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweet" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atq-9u-aua">
+                        <rect key="frame" x="66" y="34" width="469" height="38"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="atq-9u-aua" firstAttribute="trailing" secondItem="sap-o6-wDX" secondAttribute="trailingMargin" id="2Fy-ho-bY2"/>
+                    <constraint firstItem="lGl-o8-KRM" firstAttribute="top" secondItem="sap-o6-wDX" secondAttribute="topMargin" id="5IL-4F-HP9"/>
+                    <constraint firstItem="lGl-o8-KRM" firstAttribute="leading" secondItem="CPd-tF-OzD" secondAttribute="trailing" constant="8" id="E7W-o3-kJj"/>
+                    <constraint firstItem="atq-9u-aua" firstAttribute="top" secondItem="sap-o6-wDX" secondAttribute="topMargin" constant="26" id="HZe-Nh-tdQ"/>
+                    <constraint firstItem="CPd-tF-OzD" firstAttribute="top" secondItem="sap-o6-wDX" secondAttribute="topMargin" id="Ka1-wZ-qc6"/>
+                    <constraint firstItem="2CE-hU-UWt" firstAttribute="top" secondItem="sap-o6-wDX" secondAttribute="topMargin" id="Xff-V6-EgW"/>
+                    <constraint firstItem="atq-9u-aua" firstAttribute="top" secondItem="CPd-tF-OzD" secondAttribute="bottom" constant="6" id="bGf-CH-SZ6"/>
+                    <constraint firstItem="2CE-hU-UWt" firstAttribute="leading" secondItem="sap-o6-wDX" secondAttribute="leadingMargin" id="hyx-H5-uHD"/>
+                    <constraint firstItem="CPd-tF-OzD" firstAttribute="leading" secondItem="sap-o6-wDX" secondAttribute="leadingMargin" constant="58" id="m2G-uh-7xE"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="atq-9u-aua" secondAttribute="bottom" constant="-1" id="pro-pF-yWy"/>
+                    <constraint firstItem="atq-9u-aua" firstAttribute="leading" secondItem="sap-o6-wDX" secondAttribute="leadingMargin" constant="58" id="wEa-dq-Yww"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="bGf-CH-SZ6"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="avatar" destination="2CE-hU-UWt" id="Zm2-ia-srB"/>
                 <outlet property="dateLabel" destination="lGl-o8-KRM" id="OeS-w6-atp"/>
                 <outlet property="nameLabel" destination="CPd-tF-OzD" id="GLm-oE-vfy"/>
-                <outlet property="pic" destination="kxV-l4-ulB" id="RyJ-Tj-BhN"/>
                 <outlet property="tweetLabel" destination="atq-9u-aua" id="6ze-ue-Shb"/>
             </connections>
             <point key="canvasLocation" x="319.5" y="229.5"/>

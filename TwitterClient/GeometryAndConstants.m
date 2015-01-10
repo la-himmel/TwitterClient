@@ -23,14 +23,14 @@
     CGRect frame = view.frame;
     CGRect labelRect = CGRectMake(2*COMMON_OFFSET + AVATAR_SIZE,
                                   TWEET_TOP_OFFSET,
-                                  frame.size.width - 3*COMMON_OFFSET - AVATAR_SIZE,
+                                  frame.size.width - [Geometry baseWidth],
                                   DEFAULT_HEIGHT);
     return labelRect;
 }
 
 + (float)baseWidth
 {
-    return AVATAR_SIZE + 3*COMMON_OFFSET;    
+    return AVATAR_SIZE + 3*COMMON_OFFSET;
 }
 
 + (float)baseHeight
@@ -50,20 +50,29 @@
 
 + (float)widthForName:(NSString*)name date:(NSString*)date view:(UIView*)view
 {
+    return [Geometry widthForName:name view:view] + COMMON_OFFSET + [Geometry widthForDate:date view:view];
+}
+
++ (float)widthForName:(NSString*)name view:(UIView*)view
+{
     CGRect labelRect = (CGRect){CGPointZero, [Geometry defaultLabelSizeForView:view]};
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:labelRect];
     nameLabel.numberOfLines = 1;
     nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:17.0];
     nameLabel.text = name;
     [nameLabel sizeToFit];
-    
+    return nameLabel.frame.size.width;
+}
+
++ (float)widthForDate:(NSString*)date view:(UIView*)view
+{
+    CGRect labelRect = (CGRect){CGPointZero, [Geometry defaultLabelSizeForView:view]};
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:labelRect];
     dateLabel.numberOfLines = 1;
-    dateLabel.font = [UIFont systemFontOfSize:15.0];
-    dateLabel.text = name;
+    dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:15.0];
+    dateLabel.text = date;
     [dateLabel sizeToFit];
-    
-    return dateLabel.frame.size.width + COMMON_OFFSET + nameLabel.frame.size.width;
+    return dateLabel.frame.size.width;
 }
 
 @end

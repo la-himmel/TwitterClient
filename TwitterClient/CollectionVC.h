@@ -24,4 +24,5 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *picHeight;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *tweetBottom;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *nameWidth;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateWidth;
 @end
