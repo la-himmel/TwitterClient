@@ -61,8 +61,20 @@ static NSString *const reuseIdentifier = @"cell";
     NSString *userName = [item authorUsername];
     NSString *tweet = [item tweet];
     NSString *date = [item date];
-    NSString *avatar = [item avatarURL];
+    NSString *avatarUrl = [item avatarURL];
     
+//    +cache
+    __weak CollectionViewCell *wcell = cell;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:avatarUrl]];
+        if (imageData) {
+            UIImage *image = [UIImage imageWithData:imageData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (wcell)
+                    [wcell.avatar setImage:image];
+            });
+        }
+    });
     cell.tweetLabel.text = tweet;
     cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [self defaultOneLineLabelSize]};
     cell.nameLabel.text = userName;
@@ -70,7 +82,7 @@ static NSString *const reuseIdentifier = @"cell";
     [cell.nameLabel sizeToFit];
     cell.nameWidth.constant = cell.nameLabel.frame.size.width;
     [cell.contentView setNeedsUpdateConstraints];
-    [cell.contentView layoutIfNeeded]; 
+    [cell.contentView layoutIfNeeded];
 
     
     return cell;
