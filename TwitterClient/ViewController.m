@@ -77,7 +77,7 @@
                                                                       error:&error];
                     if (weakSelf.data.count) {
                         NSLog(@"Succeed, count %lu", (unsigned long)weakSelf.data.count);
-                        NSString *json = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+//                        NSString *json = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             weakSelf.tableVC.data = weakSelf.data;
                             [weakSelf.tableVC reload];

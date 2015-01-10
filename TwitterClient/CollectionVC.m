@@ -15,6 +15,7 @@
 #define TWEET_TOP_OFFSET 34
 #define PIC_DEFAULT_H 96
 #define LABEL_HEIGHT 21
+#define DATE_DEFAULT_W 140
 
 @interface CollectionVC () <UICollectionViewDelegateFlowLayout>
 @end
@@ -63,6 +64,7 @@ static NSString *const reuseIdentifier = @"cell";
     NSString *date = [item date];
     NSString *avatarUrl = [item avatarURL];
     
+    
 //    +cache
     __weak CollectionViewCell *wcell = cell;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -84,6 +86,10 @@ static NSString *const reuseIdentifier = @"cell";
     [cell.contentView setNeedsUpdateConstraints];
     [cell.contentView layoutIfNeeded];
 
+    cell.dateLabel.frame = (CGRect){cell.dateLabel.frame.origin,
+        CGSizeMake(DATE_DEFAULT_W, LABEL_HEIGHT)};
+    cell.dateLabel.text = date;
+    [cell.dateLabel sizeToFit];
     
     return cell;
 }
@@ -126,19 +132,17 @@ static NSString *const reuseIdentifier = @"cell";
 //        height += 450;
 //    }
     CGSize size = CGSizeMake(width, height);
-    NSLog(@"indexpath %ld size TOTAL %@", (long)indexPath.item, NSStringFromCGSize(size));
+//    NSLog(@"indexpath %ld size TOTAL %@", (long)indexPath.item, NSStringFromCGSize(size));
     return size;
 }
 
 - (CGSize)sizeForTweetWithContent:(NSString*)content
 {
-    NSLog(@"content: %@", content);
     UILabel *tweetLabel = [[UILabel alloc] initWithFrame:[self tweetDefaultRect]];
     tweetLabel.numberOfLines = 0;
     tweetLabel.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:17.0];
     tweetLabel.text = content;
     [tweetLabel sizeToFit];
-    NSLog(@"Size: %@", NSStringFromCGSize(tweetLabel.frame.size));
     return tweetLabel.frame.size;
 }
 

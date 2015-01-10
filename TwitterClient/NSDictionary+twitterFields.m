@@ -40,7 +40,11 @@
 
 - (NSString*)date
 {
-    return [self objectForKey:KEY_CREATED];
+    //simplified date formatting. it should be more complicated, using
+    //date formatters and determining if the tweet was today, etc.
+    NSString *rawDate = [self objectForKey:KEY_CREATED];
+    NSArray *components = [rawDate componentsSeparatedByString:@" "];
+    return [NSString stringWithFormat:@"- %@ %@", components[1], components[2]];
 }
 
 

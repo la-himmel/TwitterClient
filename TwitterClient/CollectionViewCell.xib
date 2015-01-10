@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="3bE-vx-c5m" customClass="CollectionViewCell">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="cell" id="3bE-vx-c5m" customClass="CollectionViewCell">
             <rect key="frame" x="0.0" y="0.0" width="430" height="80"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -24,7 +24,6 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Lastname" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xcs-2t-pJl">
                         <rect key="frame" x="66" y="8" width="172" height="21"/>
-                        <color key="backgroundColor" red="0.50100558390000005" green="1" blue="0.79194279199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="172" id="Mw3-6b-rmg"/>
                             <constraint firstAttribute="height" constant="21" id="oz2-bZ-rwi"/>
@@ -34,19 +33,22 @@
                         <color key="highlightedColor" red="0.89270754100000005" green="0.98024522680000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- Some time ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2kH-Fs-KWA">
-                        <rect key="frame" x="246" y="8" width="139" height="21"/>
-                        <color key="backgroundColor" red="0.73370855893107967" green="1" blue="0.64973605424121161" alpha="1" colorSpace="calibratedRGB"/>
+                        <rect key="frame" x="246" y="8" width="176" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="5cl-ZM-Iil"/>
-                            <constraint firstAttribute="width" constant="139" id="cTD-5i-kcO"/>
+                            <constraint firstAttribute="width" constant="140" id="cTD-5i-kcO"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                         <color key="textColor" red="0.45203993055555558" green="0.45203993055555558" blue="0.45203993055555558" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="cTD-5i-kcO"/>
+                            </mask>
+                        </variation>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweet" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxs-eN-3QT">
                         <rect key="frame" x="66" y="34" width="356" height="38"/>
-                        <color key="backgroundColor" red="1" green="0.85923045647052765" blue="0.88916165611801379" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="355" id="8fk-vK-7ZB"/>
                             <constraint firstAttribute="height" constant="37" id="vVO-p4-UqF"/>
@@ -66,6 +68,7 @@
             </view>
             <color key="backgroundColor" red="0.89270754104850836" green="0.98024522677647363" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="2kH-Fs-KWA" secondAttribute="trailing" constant="8" id="0Dn-yb-802"/>
                 <constraint firstItem="2kH-Fs-KWA" firstAttribute="top" secondItem="3bE-vx-c5m" secondAttribute="top" constant="8" id="251-nd-eEz"/>
                 <constraint firstItem="SxY-1H-pVz" firstAttribute="leading" secondItem="3bE-vx-c5m" secondAttribute="leading" constant="8" id="4pC-VT-EIa"/>
                 <constraint firstItem="xcs-2t-pJl" firstAttribute="top" secondItem="3bE-vx-c5m" secondAttribute="top" constant="8" id="BhP-bX-uP0"/>
@@ -91,7 +94,7 @@
                 <outlet property="nameWidth" destination="Mw3-6b-rmg" id="z00-ZG-1Wd"/>
                 <outlet property="tweetLabel" destination="cxs-eN-3QT" id="iic-yn-KGS"/>
             </connections>
-            <point key="canvasLocation" x="480" y="96.5"/>
+            <point key="canvasLocation" x="480" y="96"/>
         </collectionViewCell>
     </objects>
 </document>
