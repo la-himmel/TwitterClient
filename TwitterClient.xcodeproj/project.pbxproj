@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C46C58651A61713F00F2394A /* NSDictionary+twitterFields.m in Sources */ = {isa = PBXBuildFile; fileRef = C46C58641A61713F00F2394A /* NSDictionary+twitterFields.m */; };
+		C46C58681A618F8B00F2394A /* GeometryAndConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C46C58671A618F8B00F2394A /* GeometryAndConstants.m */; };
 		C474FE491A6052CB0001E5C3 /* TableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C474FE481A6052CB0001E5C3 /* TableVC.m */; };
 		C474FE4C1A6052F30001E5C3 /* CollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C474FE4B1A6052F30001E5C3 /* CollectionVC.m */; };
 		C474FE521A6151410001E5C3 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C474FE511A6151410001E5C3 /* TableViewCell.xib */; };
@@ -38,6 +39,8 @@
 /* Begin PBXFileReference section */
 		C46C58631A61713F00F2394A /* NSDictionary+twitterFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+twitterFields.h"; sourceTree = "<group>"; };
 		C46C58641A61713F00F2394A /* NSDictionary+twitterFields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+twitterFields.m"; sourceTree = "<group>"; };
+		C46C58661A618F8B00F2394A /* GeometryAndConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeometryAndConstants.h; sourceTree = "<group>"; };
+		C46C58671A618F8B00F2394A /* GeometryAndConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeometryAndConstants.m; sourceTree = "<group>"; };
 		C474FE471A6052CB0001E5C3 /* TableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableVC.h; sourceTree = "<group>"; };
 		C474FE481A6052CB0001E5C3 /* TableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableVC.m; sourceTree = "<group>"; };
 		C474FE4A1A6052F30001E5C3 /* CollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionVC.h; sourceTree = "<group>"; };
@@ -123,6 +126,8 @@
 				C4D77B331A5ED6EF00DB83EC /* ViewController.m */,
 				C46C58631A61713F00F2394A /* NSDictionary+twitterFields.h */,
 				C46C58641A61713F00F2394A /* NSDictionary+twitterFields.m */,
+				C46C58661A618F8B00F2394A /* GeometryAndConstants.h */,
+				C46C58671A618F8B00F2394A /* GeometryAndConstants.m */,
 			);
 			path = TwitterClient;
 			sourceTree = "<group>";
@@ -268,6 +273,7 @@
 			files = (
 				C474FE4C1A6052F30001E5C3 /* CollectionVC.m in Sources */,
 				C4D77B341A5ED6EF00DB83EC /* ViewController.m in Sources */,
+				C46C58681A618F8B00F2394A /* GeometryAndConstants.m in Sources */,
 				C474FE491A6052CB0001E5C3 /* TableVC.m in Sources */,
 				C4D77B311A5ED6EF00DB83EC /* AppDelegate.m in Sources */,
 				C4D77B2E1A5ED6EF00DB83EC /* main.m in Sources */,

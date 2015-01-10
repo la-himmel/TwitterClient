@@ -8,14 +8,7 @@
 
 #import "CollectionVC.h"
 #import "NSDictionary+twitterFields.h"
-
-#define AVATAR_SIZE 50
-#define COMMON_OFFSET 8
-#define DEFAULT_HEIGHT 150
-#define TWEET_TOP_OFFSET 34
-#define PIC_DEFAULT_H 96
-#define LABEL_HEIGHT 21
-#define DATE_DEFAULT_W 140
+#import "GeometryAndConstants.h"
 
 @interface CollectionVC () <UICollectionViewDelegateFlowLayout>
 @end
@@ -35,17 +28,18 @@ static NSString *const reuseIdentifier = @"cell";
 
 #pragma mark <UICollectionViewDataSource>
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
     return 1;
 }
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.data.count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
@@ -78,7 +72,7 @@ static NSString *const reuseIdentifier = @"cell";
         }
     });
     cell.tweetLabel.text = tweet;
-    cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [self defaultOneLineLabelSize]};
+    cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [Geometry defaultLabelSizeForView:self.view]};
     cell.nameLabel.text = userName;
 
     [cell.nameLabel sizeToFit];
@@ -94,23 +88,7 @@ static NSString *const reuseIdentifier = @"cell";
     return cell;
 }
 
-- (CGSize)defaultOneLineLabelSize
-{
-    CGRect frame = self.view.frame;
-    CGSize size = CGSizeMake(frame.size.width - 3*COMMON_OFFSET - AVATAR_SIZE,
-                             LABEL_HEIGHT);
-    return size;
-}
 
-- (CGRect)tweetDefaultRect
-{
-    CGRect frame = self.view.frame;
-    CGRect labelRect = CGRectMake(2*COMMON_OFFSET + AVATAR_SIZE,
-                                  TWEET_TOP_OFFSET,
-                                  frame.size.width - 3*COMMON_OFFSET - AVATAR_SIZE,
-                                  DEFAULT_HEIGHT);
-    return labelRect;
-}
 
 - (void)reload
 {
@@ -124,26 +102,21 @@ static NSString *const reuseIdentifier = @"cell";
     NSDictionary *item = [self.data objectAtIndex:indexPath.item];
     NSDictionary *media = [[item objectForKey:@"entities"] objectForKey:@"media"];
     
-    CGSize tweetSize = [self sizeForTweetWithContent:[item tweet]];
+    CGSize tweetSize = [Geometry sizeForTweetWithContent:[item tweet] view:self.view];
+    float nameDateWidth = [Geometry widthForName:[item authorUsername]
+                                            date:[item date]
+                                            view:self.view];
     
-    float width = AVATAR_SIZE + 3*COMMON_OFFSET + tweetSize.width;
-    float height = TWEET_TOP_OFFSET + COMMON_OFFSET + tweetSize.height;
+    float contentWidth = MAX(tweetSize.width, nameDateWidth);
+    float width = [Geometry baseWidth] + contentWidth;
+    float height = [Geometry baseHeight] + tweetSize.height;
+    
 //    if (media) {
 //        height += 450;
 //    }
     CGSize size = CGSizeMake(width, height);
 //    NSLog(@"indexpath %ld size TOTAL %@", (long)indexPath.item, NSStringFromCGSize(size));
     return size;
-}
-
-- (CGSize)sizeForTweetWithContent:(NSString*)content
-{
-    UILabel *tweetLabel = [[UILabel alloc] initWithFrame:[self tweetDefaultRect]];
-    tweetLabel.numberOfLines = 0;
-    tweetLabel.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:17.0];
-    tweetLabel.text = content;
-    [tweetLabel sizeToFit];
-    return tweetLabel.frame.size;
 }
 
 
