@@ -7,12 +7,14 @@
 //
 
 #import "CollectionVC.h"
+#import "NSDictionary+twitterFields.h"
 
 #define AVATAR_SIZE 50
 #define COMMON_OFFSET 8
 #define DEFAULT_HEIGHT 150
 #define TWEET_TOP_OFFSET 34
 #define PIC_DEFAULT_H 96
+#define LABEL_HEIGHT 21
 
 @interface CollectionVC () <UICollectionViewDelegateFlowLayout>
 @end
@@ -56,18 +58,30 @@ static NSString *const reuseIdentifier = @"cell";
 //    }
 //    [cell.contentView setNeedsUpdateConstraints];
 
-    NSString *userName = [[item objectForKey:@"user"] objectForKey:@"name"];
-    NSString *tweet = [item objectForKey:@"text"];
-    NSString *date = [item objectForKey:@"created_at"];
-    NSString *avatar = [[item objectForKey:@"user"] objectForKey:@"profile_image_url"];
+    NSString *userName = [item authorUsername];
+    NSString *tweet = [item tweet];
+    NSString *date = [item date];
+    NSString *avatar = [item avatarURL];
     
-    cell.nameLabel.text = userName;
-    CGRect tweetRect = [self tweetDefaultRect];
-    cell.tweetLabel.frame = (CGRect){cell.tweetLabel.frame.origin, tweetRect.size};
     cell.tweetLabel.text = tweet;
-    [cell.tweetLabel sizeToFit];
+    cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [self defaultOneLineLabelSize]};
+    cell.nameLabel.text = userName;
+
+    [cell.nameLabel sizeToFit];
+    cell.nameWidth.constant = cell.nameLabel.frame.size.width;
+    [cell.contentView setNeedsUpdateConstraints];
+    [cell.contentView layoutIfNeeded]; 
+
     
     return cell;
+}
+
+- (CGSize)defaultOneLineLabelSize
+{
+    CGRect frame = self.view.frame;
+    CGSize size = CGSizeMake(frame.size.width - 3*COMMON_OFFSET - AVATAR_SIZE,
+                             LABEL_HEIGHT);
+    return size;
 }
 
 - (CGRect)tweetDefaultRect
@@ -92,7 +106,7 @@ static NSString *const reuseIdentifier = @"cell";
     NSDictionary *item = [self.data objectAtIndex:indexPath.item];
     NSDictionary *media = [[item objectForKey:@"entities"] objectForKey:@"media"];
     
-    CGSize tweetSize = [self sizeForTweetWithContent:[item objectForKey:@"text"]];
+    CGSize tweetSize = [self sizeForTweetWithContent:[item tweet]];
     
     float width = AVATAR_SIZE + 3*COMMON_OFFSET + tweetSize.width;
     float height = TWEET_TOP_OFFSET + COMMON_OFFSET + tweetSize.height;

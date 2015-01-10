@@ -7,6 +7,7 @@
 //
 
 #import "TableVC.h"
+#import "NSDictionary+twitterFields.h"
 
 @interface TableVC ()
 
@@ -18,7 +19,6 @@ static NSString *const reuseIdentifier = @"tablecell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"1");
     [self.tableView registerNib:[UINib nibWithNibName:@"TableViewCell" bundle:nil] forCellReuseIdentifier:reuseIdentifier];
 }
 
@@ -49,10 +49,10 @@ static NSString *const reuseIdentifier = @"tablecell";
     
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
     
-    NSString *userName = [[item objectForKey:@"user"] objectForKey:@"name"];
-    NSString *tweet = [item objectForKey:@"text"];
-    NSString *date = [item objectForKey:@"created_at"];
-    NSString *avatar = [[item objectForKey:@"user"] objectForKey:@"profile_image_url"];
+    NSString *userName = [item author];
+    NSString *tweet = [item tweet];
+    NSString *date = [item date];
+    NSString *avatar = [item avatarURL];
 
     cell.nameLabel.text = userName;
     cell.tweetLabel.text = tweet;
