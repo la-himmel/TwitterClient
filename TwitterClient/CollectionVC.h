@@ -21,4 +21,6 @@
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *dateLabel;
 @property (nonatomic, weak) IBOutlet UILabel *tweetLabel;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *picHeight;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *tweetBottom;
 @end

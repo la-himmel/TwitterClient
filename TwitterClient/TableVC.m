@@ -57,7 +57,7 @@ static NSString *const reuseIdentifier = @"tablecell";
     cell.nameLabel.text = userName;
     cell.tweetLabel.text = tweet;
     
-    NSLog(@"name: %@ / %@ \n %@ \n %@", userName, date, tweet, avatar);
+//    NSLog(@"name: %@ / %@ \n %@ \n %@", userName, date, tweet, avatar);
     
     return cell;
 }

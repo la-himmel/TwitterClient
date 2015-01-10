@@ -103,21 +103,21 @@
 		C4D77B2A1A5ED6EF00DB83EC /* TwitterClient */ = {
 			isa = PBXGroup;
 			children = (
-				C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */,
-				C474FE511A6151410001E5C3 /* TableViewCell.xib */,
 				C4D77B2F1A5ED6EF00DB83EC /* AppDelegate.h */,
 				C4D77B301A5ED6EF00DB83EC /* AppDelegate.m */,
-				C4D77B321A5ED6EF00DB83EC /* ViewController.h */,
-				C4D77B331A5ED6EF00DB83EC /* ViewController.m */,
-				C4D77B351A5ED6EF00DB83EC /* Main.storyboard */,
+				C474FE4A1A6052F30001E5C3 /* CollectionVC.h */,
+				C474FE4B1A6052F30001E5C3 /* CollectionVC.m */,
+				C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */,
+				C4D77B591A5EDCF000DB83EC /* frameworks */,
 				C4D77B381A5ED6EF00DB83EC /* Images.xcassets */,
 				C4D77B3A1A5ED6EF00DB83EC /* LaunchScreen.xib */,
-				C4D77B591A5EDCF000DB83EC /* frameworks */,
+				C4D77B351A5ED6EF00DB83EC /* Main.storyboard */,
 				C4D77B2B1A5ED6EF00DB83EC /* Supporting Files */,
 				C474FE471A6052CB0001E5C3 /* TableVC.h */,
 				C474FE481A6052CB0001E5C3 /* TableVC.m */,
-				C474FE4A1A6052F30001E5C3 /* CollectionVC.h */,
-				C474FE4B1A6052F30001E5C3 /* CollectionVC.m */,
+				C474FE511A6151410001E5C3 /* TableViewCell.xib */,
+				C4D77B321A5ED6EF00DB83EC /* ViewController.h */,
+				C4D77B331A5ED6EF00DB83EC /* ViewController.m */,
 			);
 			path = TwitterClient;
 			sourceTree = "<group>";
