@@ -14,11 +14,11 @@
 
 @implementation CollectionVC
 
-static NSString * const reuseIdentifier = @"cell";
+static NSString *const reuseIdentifier = @"cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.collectionView registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewCell" bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,7 +39,17 @@ static NSString * const reuseIdentifier = @"cell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-        
+    
+    NSDictionary *item = [self.data objectAtIndex:indexPath.row];
+    
+    NSString *userName = [[item objectForKey:@"user"] objectForKey:@"name"];
+    NSString *tweet = [item objectForKey:@"text"];
+    NSString *date = [item objectForKey:@"created_at"];
+    NSString *avatar = [[item objectForKey:@"user"] objectForKey:@"profile_image_url"];
+    
+    cell.nameLabel.text = userName;
+    cell.tweetLabel.text = tweet;
+    
     return cell;
 }
 

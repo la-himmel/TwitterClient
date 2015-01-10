@@ -42,6 +42,13 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <size key="customSize" width="430" height="183"/>
+            <connections>
+                <outlet property="avatar" destination="SxY-1H-pVz" id="VLr-M3-5aJ"/>
+                <outlet property="dateLabel" destination="2kH-Fs-KWA" id="Z52-lh-ibF"/>
+                <outlet property="nameLabel" destination="xcs-2t-pJl" id="yu5-lV-cYL"/>
+                <outlet property="pic" destination="Zhc-mi-dlY" id="3w0-Yw-o3e"/>
+                <outlet property="tweetLabel" destination="cxs-eN-3QT" id="iic-yn-KGS"/>
+            </connections>
             <point key="canvasLocation" x="480" y="96.5"/>
         </collectionViewCell>
     </objects>

@@ -12,12 +12,14 @@
 
 @end
 
+static NSString *const reuseIdentifier = @"tablecell";
+
 @implementation TableVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"1");
-    [self.tableView registerClass:[TableViewCell class] forCellReuseIdentifier:@"tablecell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"TableViewCell" bundle:nil] forCellReuseIdentifier:reuseIdentifier];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,13 +41,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"tablecell" forIndexPath:indexPath];
-
-    TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tablecell" forIndexPath:indexPath];
-    if (cell == nil) {
-        cell = [[TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                      reuseIdentifier:@"tablecell"];
-    }
+    TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+//    if (cell == nil) {
+//        cell = [[TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+//                                      reuseIdentifier:@"tablecell"];
+//    }
     
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
     

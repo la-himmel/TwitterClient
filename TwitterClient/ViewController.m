@@ -108,7 +108,7 @@
         self.tableVC = segue.destinationViewController;
     }
     
-    if ([segue.identifier isEqualToString:@"embed_collevtion"]) {
+    if ([segue.identifier isEqualToString:@"embed_collection"]) {
         self.collectionVC = segue.destinationViewController;
     }
 }
