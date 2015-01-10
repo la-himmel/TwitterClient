@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C474FE491A6052CB0001E5C3 /* TableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C474FE481A6052CB0001E5C3 /* TableVC.m */; };
 		C474FE4C1A6052F30001E5C3 /* CollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C474FE4B1A6052F30001E5C3 /* CollectionVC.m */; };
+		C474FE521A6151410001E5C3 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C474FE511A6151410001E5C3 /* TableViewCell.xib */; };
+		C474FE541A61514E0001E5C3 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */; };
 		C4D77B2E1A5ED6EF00DB83EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D77B2D1A5ED6EF00DB83EC /* main.m */; };
 		C4D77B311A5ED6EF00DB83EC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D77B301A5ED6EF00DB83EC /* AppDelegate.m */; };
 		C4D77B341A5ED6EF00DB83EC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D77B331A5ED6EF00DB83EC /* ViewController.m */; };
@@ -37,6 +39,8 @@
 		C474FE481A6052CB0001E5C3 /* TableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableVC.m; sourceTree = "<group>"; };
 		C474FE4A1A6052F30001E5C3 /* CollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionVC.h; sourceTree = "<group>"; };
 		C474FE4B1A6052F30001E5C3 /* CollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionVC.m; sourceTree = "<group>"; };
+		C474FE511A6151410001E5C3 /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
+		C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
 		C4D77B281A5ED6EF00DB83EC /* TwitterClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4D77B2C1A5ED6EF00DB83EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4D77B2D1A5ED6EF00DB83EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -99,6 +103,8 @@
 		C4D77B2A1A5ED6EF00DB83EC /* TwitterClient */ = {
 			isa = PBXGroup;
 			children = (
+				C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */,
+				C474FE511A6151410001E5C3 /* TableViewCell.xib */,
 				C4D77B2F1A5ED6EF00DB83EC /* AppDelegate.h */,
 				C4D77B301A5ED6EF00DB83EC /* AppDelegate.m */,
 				C4D77B321A5ED6EF00DB83EC /* ViewController.h */,
@@ -234,8 +240,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4D77B371A5ED6EF00DB83EC /* Main.storyboard in Resources */,
+				C474FE521A6151410001E5C3 /* TableViewCell.xib in Resources */,
 				C4D77B3C1A5ED6EF00DB83EC /* LaunchScreen.xib in Resources */,
 				C4D77B391A5ED6EF00DB83EC /* Images.xcassets in Resources */,
+				C474FE541A61514E0001E5C3 /* CollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

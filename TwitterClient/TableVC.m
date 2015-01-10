@@ -16,7 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    NSLog(@"1");
+    [self.tableView registerClass:[TableViewCell class] forCellReuseIdentifier:@"tablecell"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,17 +39,41 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"tablecell" forIndexPath:indexPath];
+
+    TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tablecell" forIndexPath:indexPath];
+    if (cell == nil) {
+        cell = [[TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:@"tablecell"];
+    }
+    
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
-//    cell.textLabel.text = [[item objectForKey:@"user"] objectForKey:@"name"] ;
-    cell.textLabel.text = [item objectForKey:@"text"];
+    
+    NSString *userName = [[item objectForKey:@"user"] objectForKey:@"name"];
+    NSString *tweet = [item objectForKey:@"text"];
+    NSString *date = [item objectForKey:@"created_at"];
+    NSString *avatar = [[item objectForKey:@"user"] objectForKey:@"profile_image_url"];
+
+    cell.nameLabel.text = userName;
+    cell.tweetLabel.text = tweet;
+    
+    NSLog(@"name: %@ / %@ \n %@ \n %@", userName, date, tweet, avatar);
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 134.0;
 }
 
 - (void)reload
 {
     [self.tableView reloadData];
 }
+
+@end
+
+@implementation TableViewCell
 
 @end

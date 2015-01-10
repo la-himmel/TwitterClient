@@ -14,3 +14,11 @@
 - (void)reload;
 
 @end
+
+@interface CollectionViewCell : UICollectionViewCell
+@property (nonatomic, weak) IBOutlet UIImageView *avatar;
+@property (nonatomic, weak) IBOutlet UIImageView *pic;
+@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
+@property (nonatomic, weak) IBOutlet UILabel *dateLabel;
+@property (nonatomic, weak) IBOutlet UILabel *tweetLabel;
+@end
