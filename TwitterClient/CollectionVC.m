@@ -111,7 +111,7 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 
 - (void)reload
 {
-    [self.collectionView reloadData];
+//    [self.collectionView reloadData];
 }
 
 - (CGSize)collectionView:(UICollectionView*)collectionView

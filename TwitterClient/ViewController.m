@@ -18,7 +18,7 @@
 #define API_KEY @"nRpsj7pkldHieAbjQrHOdZCpb"
 #define CONSUMER_SECRET @"h3Ldr7GAVgsfnh9p15uwDMjRMSAfCB1OloU9quy8CyGeiQHnH9"
 
-@interface ViewController () <NSURLSessionDelegate>
+@interface ViewController () <NSURLSessionDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) NSArray *data;
 @property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, weak) TableVC *tableVC;
@@ -31,8 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self twitterConnection];
-    
+    [self getAccounts];
     self.viewForTable.hidden = NO;
     self.viewForCollection.hidden = YES;
 }
@@ -62,7 +61,7 @@
                 ACAccount *twitterAccount = [accounts firstObject];
                 NSURL *apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", API_URL, HOME]];
                 NSMutableDictionary *parameters = [NSMutableDictionary new];
-                [parameters setObject:@"20" forKey:@"count"];
+                [parameters setObject:@"100" forKey:@"count"];
                 [parameters setObject:@"1" forKey:@"include_entities"];
                 
                 SLRequest *posts = [SLRequest requestForServiceType:SLServiceTypeTwitter
@@ -71,12 +70,12 @@
                                                          parameters:parameters];
                 posts.account = twitterAccount;
                 
-                [posts performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                [posts performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error)
+                {
                     weakSelf.data = [NSJSONSerialization JSONObjectWithData:responseData
                                                                     options:NSJSONReadingMutableLeaves
                                                                       error:&error];
                     if (weakSelf.data.count) {
-                        NSLog(@"Succeed, count %lu", (unsigned long)weakSelf.data.count);
 //                        NSString *json = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             weakSelf.tableVC.data = weakSelf.data;
@@ -85,20 +84,56 @@
                             [weakSelf.collectionVC reload];
                             
                         });
-                    } else {
-                        NSLog(@"Nothing");
+                    } else if (error) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self showMessage:[error description]];
+                        });
                     }
                 }];
                 
             } else {
                 NSLog(@"Error: no accounts");
+                NSString *showVersion = @"8.0";
+                NSString *version = [[UIDevice currentDevice] systemVersion];
+                if ([version compare:showVersion options:NSNumericSearch] != NSOrderedAscending) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self showSettingsDialog];
+                    });
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self showMessage:@"No accounts presented on device"];
+                    });
+                }
             }
             
         } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showMessage:[error description]];
+            });
             NSLog(@"Error: %@", [error description]);
         }
     }];
+}
+
+- (void)showMessage:(NSString*)message
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                      message:message
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
     
+    [alert show];
+}
+
+- (void)showSettingsDialog
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                      message:@"No accounts presented on device"
+                                                     delegate:self
+                                            cancelButtonTitle:@"Cancel"
+                                            otherButtonTitles:@"Open settings", nil];
+    [alert show];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -155,11 +190,23 @@
                                                                        options:NSJSONReadingMutableLeaves error:&error];
             self.accessToken = [dictionary objectForKey:@"access_token"];
             NSLog(@"access_token %@", self.accessToken);
-            [self getAccounts];
         }
     }];
     
     [postDataTask resume];
+}
+
+#pragma mark - UIAlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (!buttonIndex)
+        return;
+    BOOL canOpenSettings = (&UIApplicationOpenSettingsURLString != NULL);
+    if (canOpenSettings) {
+        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        [[UIApplication sharedApplication] openURL:url];
+    }
 }
 
 @end
