@@ -11,6 +11,7 @@
 		C46C58681A618F8B00F2394A /* GeometryAndConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C46C58671A618F8B00F2394A /* GeometryAndConstants.m */; };
 		C46C586C1A629F8100F2394A /* CollectionViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C46C586B1A629F8100F2394A /* CollectionViewImageCell.xib */; };
 		C46C586E1A629F8E00F2394A /* TableViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C46C586D1A629F8E00F2394A /* TableViewImageCell.xib */; };
+		C46C58711A62D85000F2394A /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C46C58701A62D85000F2394A /* ImageLoader.m */; };
 		C474FE491A6052CB0001E5C3 /* TableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C474FE481A6052CB0001E5C3 /* TableVC.m */; };
 		C474FE4C1A6052F30001E5C3 /* CollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C474FE4B1A6052F30001E5C3 /* CollectionVC.m */; };
 		C474FE521A6151410001E5C3 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C474FE511A6151410001E5C3 /* TableViewCell.xib */; };
@@ -45,6 +46,8 @@
 		C46C58671A618F8B00F2394A /* GeometryAndConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeometryAndConstants.m; sourceTree = "<group>"; };
 		C46C586B1A629F8100F2394A /* CollectionViewImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewImageCell.xib; sourceTree = "<group>"; };
 		C46C586D1A629F8E00F2394A /* TableViewImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewImageCell.xib; sourceTree = "<group>"; };
+		C46C586F1A62D85000F2394A /* ImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageLoader.h; sourceTree = "<group>"; };
+		C46C58701A62D85000F2394A /* ImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageLoader.m; sourceTree = "<group>"; };
 		C474FE471A6052CB0001E5C3 /* TableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableVC.h; sourceTree = "<group>"; };
 		C474FE481A6052CB0001E5C3 /* TableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableVC.m; sourceTree = "<group>"; };
 		C474FE4A1A6052F30001E5C3 /* CollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionVC.h; sourceTree = "<group>"; };
@@ -150,6 +153,8 @@
 				C46C58641A61713F00F2394A /* NSDictionary+twitterFields.m */,
 				C46C58661A618F8B00F2394A /* GeometryAndConstants.h */,
 				C46C58671A618F8B00F2394A /* GeometryAndConstants.m */,
+				C46C586F1A62D85000F2394A /* ImageLoader.h */,
+				C46C58701A62D85000F2394A /* ImageLoader.m */,
 			);
 			path = TwitterClient;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 			files = (
 				C474FE4C1A6052F30001E5C3 /* CollectionVC.m in Sources */,
 				C4D77B341A5ED6EF00DB83EC /* ViewController.m in Sources */,
+				C46C58711A62D85000F2394A /* ImageLoader.m in Sources */,
 				C46C58681A618F8B00F2394A /* GeometryAndConstants.m in Sources */,
 				C474FE491A6052CB0001E5C3 /* TableVC.m in Sources */,
 				C4D77B311A5ED6EF00DB83EC /* AppDelegate.m in Sources */,

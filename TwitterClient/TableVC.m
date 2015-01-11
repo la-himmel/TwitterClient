@@ -9,6 +9,7 @@
 #import "TableVC.h"
 #import "NSDictionary+twitterFields.h"
 #import "GeometryAndConstants.h"
+#import "ImageLoader.h"
 
 @interface TableVC ()
 @end
@@ -59,8 +60,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         [mcell layoutIfNeeded];
         
         __weak TableViewImageCell *wcell = mcell;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:mediaUrl]];
+        [ImageLoader getImageUrl:mediaUrl success:^(NSData *imageData) {
             if (imageData) {
                 UIImage *image = [UIImage imageWithData:imageData];
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -68,7 +68,10 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
                         [wcell.pic setImage:image];
                 });
             }
-        });
+        } failure:^(NSError *error) {
+            NSLog(@"Error: %@", [error description]);
+        }];
+        
     } else {
         TableViewCell *mcell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
         cell = mcell;
@@ -84,10 +87,8 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     
     [cell.contentView setNeedsUpdateConstraints];
     
-    //    +cache
     __weak BaseTableViewCell *wcell = cell;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:avatarUrl]];
+    [ImageLoader getImageUrl:avatarUrl success:^(NSData *imageData) {
         if (imageData) {
             UIImage *image = [UIImage imageWithData:imageData];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -95,7 +96,9 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
                     [wcell.avatar setImage:image];
             });
         }
-    });
+    } failure:^(NSError *error) {
+        NSLog(@"Error: %@", [error description]);
+    }];
 
     cell.tweetLabel.text = tweet;
     
