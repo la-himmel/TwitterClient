@@ -125,22 +125,22 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     float nameDateWidth = [Geometry widthForName:[item authorUsername]
                                             date:[item date]
                                             view:self.view];
-    float contentWidth = MAX(tweetSize.width, nameDateWidth);
+    float textContentWidth = MAX(tweetSize.width, nameDateWidth);
+    float picWidth = 0;
+    if (mediaInfo) {
+        picWidth = [[mediaInfo objectForKey:@"w"] floatValue];
+    }
+    float contentWidth = MAX(textContentWidth, picWidth);
     float width = [Geometry baseWidth] + contentWidth;
     
     float height = [Geometry baseHeight] + tweetSize.height;
     if (mediaInfo) {
-        height += [[mediaInfo objectForKey:@"h"] intValue] + COMMON_OFFSET;
+        height += [[mediaInfo objectForKey:@"h"] floatValue] + COMMON_OFFSET;
     }
     
-    NSLog(@"tweet size (%ld) %f, content %f", indexPath.item, tweetSize.width, contentWidth);
-
     CGSize size = CGSizeMake(width, height);
-//    NSLog(@"indexpath %ld size TOTAL %@", (long)indexPath.item, NSStringFromCGSize(size));
     return size;
 }
-
-
 
 @end
 

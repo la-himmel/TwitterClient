@@ -62,7 +62,7 @@
                 ACAccount *twitterAccount = [accounts firstObject];
                 NSURL *apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", API_URL, HOME]];
                 NSMutableDictionary *parameters = [NSMutableDictionary new];
-                [parameters setObject:@"100" forKey:@"count"];
+                [parameters setObject:@"20" forKey:@"count"];
                 [parameters setObject:@"1" forKey:@"include_entities"];
                 
                 SLRequest *posts = [SLRequest requestForServiceType:SLServiceTypeTwitter
@@ -77,7 +77,7 @@
                                                                       error:&error];
                     if (weakSelf.data.count) {
                         NSLog(@"Succeed, count %lu", (unsigned long)weakSelf.data.count);
-                        NSString *json = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+//                        NSString *json = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             weakSelf.tableVC.data = weakSelf.data;
                             [weakSelf.tableVC reload];
@@ -103,7 +103,6 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"segue id %@", segue.identifier);
     if ([segue.identifier isEqualToString:@"embed_table"]) {
         self.tableVC = segue.destinationViewController;
     }

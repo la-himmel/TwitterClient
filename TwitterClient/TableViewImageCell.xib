@@ -73,6 +73,7 @@
                     <constraint firstItem="YYg-cP-iLj" firstAttribute="top" secondItem="atq-9u-aua" secondAttribute="bottom" constant="8" id="erh-Lc-gbC"/>
                     <constraint firstItem="2CE-hU-UWt" firstAttribute="leading" secondItem="sap-o6-wDX" secondAttribute="leadingMargin" id="hyx-H5-uHD"/>
                     <constraint firstItem="CPd-tF-OzD" firstAttribute="leading" secondItem="sap-o6-wDX" secondAttribute="leadingMargin" constant="58" id="m2G-uh-7xE"/>
+                    <constraint firstItem="atq-9u-aua" firstAttribute="top" secondItem="sap-o6-wDX" secondAttribute="topMargin" constant="26" id="mRO-Tk-DAB"/>
                     <constraint firstAttribute="bottomMargin" secondItem="atq-9u-aua" secondAttribute="bottom" constant="-1" id="pro-pF-yWy"/>
                     <constraint firstAttribute="bottomMargin" secondItem="YYg-cP-iLj" secondAttribute="bottom" constant="-1" id="rfa-zj-QYd"/>
                     <constraint firstItem="YYg-cP-iLj" firstAttribute="trailing" secondItem="sap-o6-wDX" secondAttribute="trailingMargin" id="tFG-gy-Dd6"/>
@@ -82,6 +83,7 @@
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
+                        <exclude reference="HZe-Nh-tdQ"/>
                         <exclude reference="bGf-CH-SZ6"/>
                         <exclude reference="pro-pF-yWy"/>
                         <exclude reference="0PI-od-SAh"/>

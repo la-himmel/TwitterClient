@@ -65,17 +65,19 @@
                 <constraint firstItem="xcs-2t-pJl" firstAttribute="top" secondItem="3bE-vx-c5m" secondAttribute="top" constant="8" id="BhP-bX-uP0"/>
                 <constraint firstItem="2kH-Fs-KWA" firstAttribute="leading" secondItem="xcs-2t-pJl" secondAttribute="trailing" constant="8" id="Dif-Pp-Sg8"/>
                 <constraint firstAttribute="trailing" secondItem="cxs-eN-3QT" secondAttribute="trailing" constant="8" id="JWf-Ta-DAQ"/>
-                <constraint firstItem="B88-rh-LJj" firstAttribute="top" secondItem="cxs-eN-3QT" secondAttribute="bottom" constant="8" id="Ljy-9h-VbC"/>
+                <constraint firstItem="B88-rh-LJj" firstAttribute="top" secondItem="cxs-eN-3QT" secondAttribute="bottom" priority="999" constant="8" id="Ljy-9h-VbC"/>
                 <constraint firstItem="B88-rh-LJj" firstAttribute="leading" secondItem="3bE-vx-c5m" secondAttribute="leading" constant="66" id="NjX-K0-s21"/>
                 <constraint firstItem="cxs-eN-3QT" firstAttribute="leading" secondItem="SxY-1H-pVz" secondAttribute="trailing" constant="8" id="dgD-lC-C5d"/>
                 <constraint firstItem="SxY-1H-pVz" firstAttribute="top" secondItem="3bE-vx-c5m" secondAttribute="top" constant="8" id="hjk-Jy-i5C"/>
                 <constraint firstItem="xcs-2t-pJl" firstAttribute="leading" secondItem="SxY-1H-pVz" secondAttribute="trailing" constant="8" id="oH3-xC-O0B"/>
                 <constraint firstItem="cxs-eN-3QT" firstAttribute="top" secondItem="2kH-Fs-KWA" secondAttribute="bottom" constant="5" id="sb3-IP-4i8"/>
+                <constraint firstItem="cxs-eN-3QT" firstAttribute="top" secondItem="3bE-vx-c5m" secondAttribute="top" constant="34" id="xDt-Nz-4ZG"/>
                 <constraint firstAttribute="bottom" secondItem="cxs-eN-3QT" secondAttribute="bottom" constant="8" id="zct-gg-h7y"/>
             </constraints>
             <size key="customSize" width="430" height="183"/>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="sb3-IP-4i8"/>
                     <exclude reference="zct-gg-h7y"/>
                 </mask>
             </variation>
