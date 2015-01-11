@@ -60,4 +60,19 @@
     }
 }
 
++ (void)cleanCache
+{
+    NSString *path = [ImageLoader path];
+    NSArray *filesArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:path error:nil];
+    NSEnumerator *filesEnumerator = [filesArray objectEnumerator];
+    NSString *fileName;
+    
+    while (fileName = [filesEnumerator nextObject]) {
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:[path stringByAppendingPathComponent:fileName] error:&error];
+        if (error)
+            NSLog(@"error removing file: %@", error.description);
+    }
+}
+
 @end

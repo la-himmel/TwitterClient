@@ -13,5 +13,6 @@
 + (void)getImageUrl:(NSString*)url
             success:(void (^)(NSData *imageData))success
             failure:(void (^)(NSError *error))failure;
++ (void)cleanCache;
 
 @end

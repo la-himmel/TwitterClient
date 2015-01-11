@@ -11,6 +11,7 @@
 #import "CollectionVC.h"
 #import <Accounts/Accounts.h>
 #import <Social/Social.h>
+#import "ImageLoader.h"
 
 #define API_URL @"https://api.twitter.com/1.1/statuses/"
 #define TIMELINE @"user_timeline.json"
@@ -61,6 +62,22 @@
             NSArray *accounts = [account accountsWithAccountType:accountType];
             if ([accounts count]) {
                 ACAccount *twitterAccount = [accounts firstObject];
+                NSString *username = twitterAccount.username;
+                
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                NSString *user = [defaults objectForKey:@"user"];
+                if (!user) {
+                    [defaults setObject:username forKey:@"user"];
+                    [defaults synchronize];
+                } else {
+                    if (![user isEqualToString:username]) {
+                        NSLog(@"User changed. Clean cache");
+                        [ImageLoader cleanCache];
+                        [defaults setObject:username forKey:@"user"];
+                        [defaults synchronize];
+                    }
+                }
+                
                 NSURL *apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", API_URL, HOME]];
                 NSMutableDictionary *parameters = [NSMutableDictionary new];
                 [parameters setObject:@"100" forKey:@"count"];
