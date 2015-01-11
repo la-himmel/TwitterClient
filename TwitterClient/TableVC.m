@@ -41,7 +41,6 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     return self.data.count;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
@@ -51,30 +50,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     if (mediaInfo) {
         TableViewImageCell *mcell = [tableView dequeueReusableCellWithIdentifier:reuseImageIdentifier forIndexPath:indexPath];
         cell = mcell;
-        
-        CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W] intValue], [[mediaInfo objectForKey:MEDIA_H] intValue]);
-        CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
-        mcell.picHeight.constant = size.height;
-        mcell.picWidth.constant = size.width;
-        UIImage *placeholder = [Geometry imageWithColor:[UIColor clearColor]];
-        mcell.pic.image = placeholder;
-        NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
-        [mcell.contentView setNeedsUpdateConstraints];
-        [mcell layoutIfNeeded];
-        
-        __weak TableViewImageCell *wcell = mcell;
-        [ImageLoader getImageUrl:mediaUrl success:^(NSData *imageData) {
-            if (imageData) {
-                UIImage *image = [UIImage imageWithData:imageData];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (wcell)
-                        [wcell.pic setImage:image];
-                });
-            }
-        } failure:^(NSError *error) {
-            NSLog(@"Error: %@", [error description]);
-        }];
-        
+        [self configureMediaCell:mcell withMedia:mediaInfo];        
     } else {
         TableViewCell *mcell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
         cell = mcell;
@@ -88,40 +64,26 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     NSString *date = [item date];
     NSString *avatarUrl = [item avatarURL];
     
-    float nameDateWidth = [Geometry widthForName:userName
-                                            date:date
-                                            view:self.view];
-    if (self.view.frame.size.width < nameDateWidth + [Geometry baseWidth])
-        userName = [item username];    
-    
-    [cell.contentView setNeedsUpdateConstraints];
+    float nameDateWidth = [Geometry widthForName:userName date:date view:self.view];
+    if (self.view.frame.size.width < nameDateWidth + [Geometry baseWidth]) {
+        //show nickname only if we have small space
+        userName = [item username];
+    }
     
     __weak BaseTableViewCell *wcell = cell;
     [ImageLoader getImageUrl:avatarUrl success:^(NSData *imageData) {
-        if (imageData) {
-            UIImage *image = [UIImage imageWithData:imageData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (wcell)
-                    [wcell.avatar setImage:image];
-            });
-        }
+        UIImage *image = [UIImage imageWithData:imageData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (wcell)
+                [wcell.avatar setImage:image];
+        });
+        
     } failure:^(NSError *error) {
         NSLog(@"Error: %@", [error description]);
     }];
 
     cell.tweetLabel.text = tweet;
-    
-//    cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin,
-//        [Geometry defaultLabelSizeForView:self.view]};
     cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", userName, date];
-//    [cell.nameLabel sizeToFit];
-//    cell.nameWidth.constant = cell.nameLabel.frame.size.width;
-    
-//    cell.dateLabel.frame = (CGRect){cell.dateLabel.frame.origin,
-//        CGSizeMake(DATE_DEFAULT_W, LABEL_HEIGHT)};
-//    cell.dateLabel.text = date;
-//    [cell.dateLabel sizeToFit];
-//    cell.dateWidth.constant = [Geometry widthForDate:date view:self.view];
     
     [cell.contentView setNeedsUpdateConstraints];
     [cell.contentView layoutIfNeeded];
@@ -147,6 +109,31 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
 - (void)reload
 {
     [self.tableView reloadData];
+}
+
+- (void)configureMediaCell:(TableViewImageCell*)mcell withMedia:(NSDictionary*)mediaInfo
+{
+    CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W] intValue], [[mediaInfo objectForKey:MEDIA_H] intValue]);
+    CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
+    mcell.picHeight.constant = size.height;
+    mcell.picWidth.constant = size.width;
+    
+    UIImage *placeholder = [Geometry imageWithColor:[UIColor clearColor]];
+    mcell.pic.image = placeholder;
+    NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
+    [mcell.contentView setNeedsUpdateConstraints];
+    [mcell layoutIfNeeded];
+    
+    __weak TableViewImageCell *wcell = mcell;
+    [ImageLoader getImageUrl:mediaUrl success:^(NSData *imageData) {
+        UIImage *image = [UIImage imageWithData:imageData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (wcell)
+                [wcell.pic setImage:image];
+        });
+    } failure:^(NSError *error) {
+        NSLog(@"Error: %@", [error description]);
+    }];
 }
 
 @end

@@ -50,28 +50,7 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     if (mediaInfo) {
         CollectionViewImageCell *mcell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseImageIdentifier forIndexPath:indexPath];
         cell = mcell;
-        CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W] intValue], [[mediaInfo objectForKey:MEDIA_H] intValue]);
-        CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
-        mcell.picHeight.constant = size.height;
-        mcell.picWidth.constant = size.width;
-        UIImage *placeholder = [Geometry imageWithColor:[UIColor clearColor]];
-        mcell.pic.image = placeholder;
-        NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
-        [mcell.contentView setNeedsUpdateConstraints];
-        [mcell layoutIfNeeded];
-        
-        __weak CollectionViewImageCell *wcell = mcell;
-        [ImageLoader getImageUrl:mediaUrl success:^(NSData *imageData) {
-            if (imageData) {
-                UIImage *image = [UIImage imageWithData:imageData];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (wcell)
-                        [wcell.pic setImage:image];
-                });
-            }
-        } failure:^(NSError *error) {
-            NSLog(@"Error: %@", [error description]);
-        }];
+        [self configureMediaCell:mcell withMedia:mediaInfo];
         
     } else {
         CollectionViewCell *mcell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
@@ -88,26 +67,24 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     
     __weak BaseCollectionViewCell *wcell = cell;
     [ImageLoader getImageUrl:avatarUrl success:^(NSData *imageData) {
-        if (imageData) {
-            UIImage *image = [UIImage imageWithData:imageData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (wcell)
-                    [wcell.avatar setImage:image];
-            });
-        }
+        UIImage *image = [UIImage imageWithData:imageData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (wcell)
+                [wcell.avatar setImage:image];
+        });
+        
     } failure:^(NSError *error) {
         NSLog(@"Error: %@", [error description]);
     }];
     
-    float nameDateWidth = [Geometry widthForName:userName
-                                            date:date
-                                            view:self.view];
-    if (self.view.frame.size.width < nameDateWidth + [Geometry baseWidth])
+    float nameDateWidth = [Geometry widthForName:userName date:date view:self.view];
+    if (self.view.frame.size.width < nameDateWidth + [Geometry baseWidth]) {
+        //small space, show only username
         userName = [item username];
+    }
 
     cell.tweetLabel.text = tweet;
     cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [Geometry defaultLabelSizeForView:self.view]};
-    
     cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", userName, date];
     [cell.nameLabel sizeToFit];
     cell.nameWidth.constant = [Geometry widthForName:userName view:self.view];
@@ -155,8 +132,31 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     float width = [Geometry baseWidth] + contentWidth;
     
     CGSize size = CGSizeMake(width, height);
-//    NSLog(@"size: %@", NSStringFromCGSize(size));
     return size;
+}
+
+- (void)configureMediaCell:(CollectionViewImageCell*)mcell withMedia:(NSDictionary*)mediaInfo
+{
+    CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W] intValue], [[mediaInfo objectForKey:MEDIA_H] intValue]);
+    CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
+    mcell.picHeight.constant = size.height;
+    mcell.picWidth.constant = size.width;
+    UIImage *placeholder = [Geometry imageWithColor:[UIColor clearColor]];
+    mcell.pic.image = placeholder;
+    NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
+    [mcell.contentView setNeedsUpdateConstraints];
+    [mcell layoutIfNeeded];
+    
+    __weak CollectionViewImageCell *wcell = mcell;
+    [ImageLoader getImageUrl:mediaUrl success:^(NSData *imageData) {
+        UIImage *image = [UIImage imageWithData:imageData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (wcell)
+                [wcell.pic setImage:image];
+        });
+    } failure:^(NSError *error) {
+        NSLog(@"Error: %@", [error description]);
+    }];
 }
 
 @end
