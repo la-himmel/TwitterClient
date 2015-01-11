@@ -8,18 +8,21 @@
 
 #import "TableVC.h"
 #import "NSDictionary+twitterFields.h"
+#import "GeometryAndConstants.h"
 
 @interface TableVC ()
 
 @end
 
 static NSString *const reuseIdentifier = @"tablecell";
+static NSString *const reuseImageIdentifier = @"tableImageCell";
 
 @implementation TableVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"TableViewCell" bundle:nil] forCellReuseIdentifier:reuseIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"TableViewImageCell" bundle:nil] forCellReuseIdentifier:reuseImageIdentifier];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,30 +44,87 @@ static NSString *const reuseIdentifier = @"tablecell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-//    if (cell == nil) {
-//        cell = [[TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-//                                      reuseIdentifier:@"tablecell"];
-//    }
-    
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
+    NSDictionary *mediaInfo = [item mediaURLAndSize];
     
-    NSString *userName = [item author];
+    BaseTableViewCell *cell = nil;
+    if (mediaInfo) {
+        TableViewImageCell *mcell = [tableView dequeueReusableCellWithIdentifier:reuseImageIdentifier forIndexPath:indexPath];
+        cell = mcell;
+        mcell.picHeight.constant = [[mediaInfo objectForKey:@"h"] intValue];
+        mcell.picWidth.constant = [[mediaInfo objectForKey:@"w"] intValue];
+        NSString *mediaUrl = [mediaInfo objectForKey:@"url"];
+        [mcell.contentView setNeedsUpdateConstraints];
+        [mcell layoutIfNeeded];
+        
+        __weak TableViewImageCell *wcell = mcell;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:mediaUrl]];
+            if (imageData) {
+                UIImage *image = [UIImage imageWithData:imageData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (wcell)
+                        [wcell.pic setImage:image];
+                });
+            }
+        });
+    } else {
+        TableViewCell *mcell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+        cell = mcell;
+    }
+    
+    UIColor *backgroundColor = indexPath.row %2 ? UIColorFromRGB(0xEFFEFF) : UIColorFromRGB(0xDBFDFD);
+    cell.contentView.backgroundColor = backgroundColor;
+    
+    NSString *userName = [item authorUsername];
     NSString *tweet = [item tweet];
     NSString *date = [item date];
-    NSString *avatar = [item avatarURL];
+    NSString *avatarUrl = [item avatarURL];
+    
+    [cell.contentView setNeedsUpdateConstraints];
+    
+    //    +cache
+    __weak BaseTableViewCell *wcell = cell;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:avatarUrl]];
+        if (imageData) {
+            UIImage *image = [UIImage imageWithData:imageData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (wcell)
+                    [wcell.avatar setImage:image];
+            });
+        }
+    });
 
-    cell.nameLabel.text = userName;
     cell.tweetLabel.text = tweet;
     
-//    NSLog(@"name: %@ / %@ \n %@ \n %@", userName, date, tweet, avatar);
+    cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [Geometry defaultLabelSizeForView:self.view]};
+    cell.nameLabel.text = userName;
+    [cell.nameLabel sizeToFit];
+    cell.nameWidth.constant = cell.nameLabel.frame.size.width;
+    
+    cell.dateLabel.frame = (CGRect){cell.dateLabel.frame.origin,
+        CGSizeMake(DATE_DEFAULT_W, LABEL_HEIGHT)};
+    cell.dateLabel.text = date;
+    [cell.dateLabel sizeToFit];
+    cell.dateWidth.constant = [Geometry widthForDate:date view:self.view];
+    
+    [cell.contentView setNeedsUpdateConstraints];
+    [cell.contentView layoutIfNeeded];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 134.0;
+    NSDictionary *item = [self.data objectAtIndex:indexPath.item];
+    NSDictionary *mediaInfo = [item mediaURLAndSize];
+    CGSize tweetSize = [Geometry sizeForTweetWithContent:[item tweet] view:self.view];
+    float height = [Geometry baseHeight] + tweetSize.height;
+    if (mediaInfo) {
+        height += [[mediaInfo objectForKey:@"h"] intValue] + COMMON_OFFSET;
+    }
+    return height;
 }
 
 - (void)reload
@@ -74,6 +134,11 @@ static NSString *const reuseIdentifier = @"tablecell";
 
 @end
 
-@implementation TableViewCell
+@implementation BaseTableViewCell
+@end
 
+@implementation TableViewCell
+@end
+
+@implementation TableViewImageCell
 @end

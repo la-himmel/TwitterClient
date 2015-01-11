@@ -15,14 +15,20 @@
 
 @end
 
-@interface CollectionViewCell : UICollectionViewCell
+@interface BaseCollectionViewCell : UICollectionViewCell
 @property (nonatomic, weak) IBOutlet UIImageView *avatar;
-@property (nonatomic, weak) IBOutlet UIImageView *pic;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *dateLabel;
 @property (nonatomic, weak) IBOutlet UILabel *tweetLabel;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *picHeight;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *tweetBottom;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *nameWidth;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateWidth;
+@end
+
+@interface CollectionViewImageCell : BaseCollectionViewCell
+@property (nonatomic, weak) IBOutlet UIImageView *pic;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *picHeight;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *picWidth;
+@end
+
+@interface CollectionViewCell : BaseCollectionViewCell
 @end

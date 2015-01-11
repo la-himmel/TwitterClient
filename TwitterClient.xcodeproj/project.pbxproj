@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C46C58651A61713F00F2394A /* NSDictionary+twitterFields.m in Sources */ = {isa = PBXBuildFile; fileRef = C46C58641A61713F00F2394A /* NSDictionary+twitterFields.m */; };
 		C46C58681A618F8B00F2394A /* GeometryAndConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C46C58671A618F8B00F2394A /* GeometryAndConstants.m */; };
+		C46C586C1A629F8100F2394A /* CollectionViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C46C586B1A629F8100F2394A /* CollectionViewImageCell.xib */; };
+		C46C586E1A629F8E00F2394A /* TableViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C46C586D1A629F8E00F2394A /* TableViewImageCell.xib */; };
 		C474FE491A6052CB0001E5C3 /* TableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C474FE481A6052CB0001E5C3 /* TableVC.m */; };
 		C474FE4C1A6052F30001E5C3 /* CollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C474FE4B1A6052F30001E5C3 /* CollectionVC.m */; };
 		C474FE521A6151410001E5C3 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C474FE511A6151410001E5C3 /* TableViewCell.xib */; };
@@ -41,6 +43,8 @@
 		C46C58641A61713F00F2394A /* NSDictionary+twitterFields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+twitterFields.m"; sourceTree = "<group>"; };
 		C46C58661A618F8B00F2394A /* GeometryAndConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeometryAndConstants.h; sourceTree = "<group>"; };
 		C46C58671A618F8B00F2394A /* GeometryAndConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeometryAndConstants.m; sourceTree = "<group>"; };
+		C46C586B1A629F8100F2394A /* CollectionViewImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewImageCell.xib; sourceTree = "<group>"; };
+		C46C586D1A629F8E00F2394A /* TableViewImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewImageCell.xib; sourceTree = "<group>"; };
 		C474FE471A6052CB0001E5C3 /* TableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableVC.h; sourceTree = "<group>"; };
 		C474FE481A6052CB0001E5C3 /* TableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableVC.m; sourceTree = "<group>"; };
 		C474FE4A1A6052F30001E5C3 /* CollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionVC.h; sourceTree = "<group>"; };
@@ -88,6 +92,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C46C58691A629F2000F2394A /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				C46C586B1A629F8100F2394A /* CollectionViewImageCell.xib */,
+				C474FE4A1A6052F30001E5C3 /* CollectionVC.h */,
+				C474FE4B1A6052F30001E5C3 /* CollectionVC.m */,
+				C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */,
+			);
+			name = Collection;
+			sourceTree = "<group>";
+		};
+		C46C586A1A629F2E00F2394A /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				C46C586D1A629F8E00F2394A /* TableViewImageCell.xib */,
+				C474FE471A6052CB0001E5C3 /* TableVC.h */,
+				C474FE481A6052CB0001E5C3 /* TableVC.m */,
+				C474FE511A6151410001E5C3 /* TableViewCell.xib */,
+			);
+			name = Table;
+			sourceTree = "<group>";
+		};
 		C4D77B1F1A5ED6EF00DB83EC = {
 			isa = PBXGroup;
 			children = (
@@ -111,17 +137,13 @@
 			children = (
 				C4D77B2F1A5ED6EF00DB83EC /* AppDelegate.h */,
 				C4D77B301A5ED6EF00DB83EC /* AppDelegate.m */,
-				C474FE4A1A6052F30001E5C3 /* CollectionVC.h */,
-				C474FE4B1A6052F30001E5C3 /* CollectionVC.m */,
-				C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */,
+				C46C58691A629F2000F2394A /* Collection */,
 				C4D77B591A5EDCF000DB83EC /* frameworks */,
 				C4D77B381A5ED6EF00DB83EC /* Images.xcassets */,
 				C4D77B3A1A5ED6EF00DB83EC /* LaunchScreen.xib */,
 				C4D77B351A5ED6EF00DB83EC /* Main.storyboard */,
 				C4D77B2B1A5ED6EF00DB83EC /* Supporting Files */,
-				C474FE471A6052CB0001E5C3 /* TableVC.h */,
-				C474FE481A6052CB0001E5C3 /* TableVC.m */,
-				C474FE511A6151410001E5C3 /* TableViewCell.xib */,
+				C46C586A1A629F2E00F2394A /* Table */,
 				C4D77B321A5ED6EF00DB83EC /* ViewController.h */,
 				C4D77B331A5ED6EF00DB83EC /* ViewController.m */,
 				C46C58631A61713F00F2394A /* NSDictionary+twitterFields.h */,
@@ -249,11 +271,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C46C586C1A629F8100F2394A /* CollectionViewImageCell.xib in Resources */,
 				C4D77B371A5ED6EF00DB83EC /* Main.storyboard in Resources */,
 				C474FE521A6151410001E5C3 /* TableViewCell.xib in Resources */,
 				C4D77B3C1A5ED6EF00DB83EC /* LaunchScreen.xib in Resources */,
 				C4D77B391A5ED6EF00DB83EC /* Images.xcassets in Resources */,
 				C474FE541A61514E0001E5C3 /* CollectionViewCell.xib in Resources */,
+				C46C586E1A629F8E00F2394A /* TableViewImageCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

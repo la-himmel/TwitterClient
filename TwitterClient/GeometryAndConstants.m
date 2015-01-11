@@ -43,6 +43,7 @@
     UILabel *tweetLabel = [[UILabel alloc] initWithFrame:[Geometry tweetDefaultRectForView:view]];
     tweetLabel.numberOfLines = 0;
     tweetLabel.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:17.0];
+    tweetLabel.lineBreakMode = NSLineBreakByWordWrapping;
     tweetLabel.text = content;
     [tweetLabel sizeToFit];
     return tweetLabel.frame.size;

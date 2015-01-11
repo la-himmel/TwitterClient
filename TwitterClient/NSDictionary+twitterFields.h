@@ -23,5 +23,6 @@
 - (NSString*)tweet;
 - (NSString*)avatarURL;
 - (NSString*)date;
+- (NSDictionary*)mediaURLAndSize;
 
 @end

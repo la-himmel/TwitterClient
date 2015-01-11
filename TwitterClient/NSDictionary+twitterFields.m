@@ -8,7 +8,7 @@
 
 #import "NSDictionary+twitterFields.h"
 
-#define KEY_ENTITY @"entity"
+#define KEY_ENTITIES @"entities"
 #define KEY_RETWEETED @"retweeted_status"
 
 @implementation NSDictionary (twitterFields)
@@ -27,15 +27,37 @@
 
 - (NSString*)tweet
 {
-    if ([self objectForKey:KEY_RETWEETED]) {
-        return [[self objectForKey:KEY_RETWEETED] objectForKey:KEY_TEXT];
-    }
+//    if ([self objectForKey:KEY_RETWEETED]) {
+//        return [[self objectForKey:KEY_RETWEETED] objectForKey:KEY_TEXT];
+//    }
     return [self objectForKey:KEY_TEXT];
 }
 
 - (NSString*)avatarURL
 {
     return [[self objectForKey:KEY_USER] objectForKey:KEY_AVATAR];
+}
+
+- (NSDictionary*)mediaURLAndSize
+{
+    NSDictionary *result = nil;
+    NSDictionary *entities = [self objectForKey:KEY_ENTITIES];
+    NSArray *mediaArray = [entities objectForKey:KEY_MEDIA];
+    if ([mediaArray count]) {
+        NSDictionary *media = [mediaArray objectAtIndex:0];
+        NSString *url = [media objectForKey:@"media_url"];
+        NSDictionary *size = [[media objectForKey:@"sizes"] objectForKey:@"medium"];
+        int width = [[size objectForKey:@"w"] intValue];
+        int height = [[size objectForKey:@"h"] intValue];
+        
+        if (url && width && height) {
+            result = @{ @"url" : url,
+                        @"w" : [NSNumber numberWithInt:width],
+                        @"h" : [NSNumber numberWithInt:height] };
+        }
+        return result;
+    }
+    return result;
 }
 
 - (NSString*)date

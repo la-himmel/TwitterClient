@@ -117,7 +117,7 @@
         <scene sceneID="yKC-Ya-1Zw">
             <objects>
                 <tableViewController id="tJi-ir-nYZ" customClass="TableVC" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="134" sectionHeaderHeight="22" sectionFooterHeight="22" id="EZe-mX-FGY">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="134" sectionHeaderHeight="22" sectionFooterHeight="22" id="EZe-mX-FGY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="545"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <connections>

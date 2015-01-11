@@ -16,10 +16,12 @@
 @implementation CollectionVC
 
 static NSString *const reuseIdentifier = @"cell";
+static NSString *const reuseImageIdentifier = @"imagecell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewCell" bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewImageCell" bundle:nil] forCellWithReuseIdentifier:reuseImageIdentifier];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,28 +42,45 @@ static NSString *const reuseIdentifier = @"cell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
-    NSDictionary *media = [[item objectForKey:@"entities"] objectForKey:@"media"];
-    if (!media) {
-        cell.dateLabel.backgroundColor = [UIColor clearColor];
-//        cell.picHeight.constant = 0;
-//        cell.tweetBottom.constant = COMMON_OFFSET;
+    NSDictionary *mediaInfo = [item mediaURLAndSize];
+    
+    BaseCollectionViewCell *cell = nil;
+    if (mediaInfo) {
+        CollectionViewImageCell *mcell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseImageIdentifier forIndexPath:indexPath];
+        cell = mcell;
+        mcell.picHeight.constant = [[mediaInfo objectForKey:@"h"] intValue];
+        mcell.picWidth.constant = [[mediaInfo objectForKey:@"w"] intValue];
+        NSString *mediaUrl = [mediaInfo objectForKey:@"url"];
+        [mcell.contentView setNeedsUpdateConstraints];
+        [mcell layoutIfNeeded];
+        
+        __weak CollectionViewImageCell *wcell = mcell;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:mediaUrl]];
+            if (imageData) {
+                UIImage *image = [UIImage imageWithData:imageData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (wcell)
+                        [wcell.pic setImage:image];
+                });
+            }
+        });
     } else {
-        cell.dateLabel.backgroundColor = [UIColor blueColor];
-//        cell.picHeight.constant = PIC_DEFAULT_H;
-//        cell.tweetBottom.constant = COMMON_OFFSET*2 + PIC_DEFAULT_H;
+        CollectionViewCell *mcell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+        cell = mcell;
     }
-    [cell.contentView setNeedsUpdateConstraints];
-
+    
+    UIColor *backgroundColor = UIColorFromRGB(0xDBFDFD);
+    cell.backgroundColor = backgroundColor;
+    
     NSString *userName = [item authorUsername];
     NSString *tweet = [item tweet];
     NSString *date = [item date];
     NSString *avatarUrl = [item avatarURL];
     
 //    +cache
-    __weak CollectionViewCell *wcell = cell;
+    __weak BaseCollectionViewCell *wcell = cell;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:avatarUrl]];
         if (imageData) {
@@ -76,7 +95,6 @@ static NSString *const reuseIdentifier = @"cell";
     cell.tweetLabel.text = tweet;
     cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [Geometry defaultLabelSizeForView:self.view]};
     cell.nameLabel.text = userName;
-
     [cell.nameLabel sizeToFit];
     cell.nameWidth.constant = cell.nameLabel.frame.size.width;
 
@@ -101,7 +119,7 @@ static NSString *const reuseIdentifier = @"cell";
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *item = [self.data objectAtIndex:indexPath.item];
-    NSDictionary *media = [[item objectForKey:@"entities"] objectForKey:@"media"];
+    NSDictionary *mediaInfo = [item mediaURLAndSize];
     
     CGSize tweetSize = [Geometry sizeForTweetWithContent:[item tweet] view:self.view];
     float nameDateWidth = [Geometry widthForName:[item authorUsername]
@@ -109,14 +127,14 @@ static NSString *const reuseIdentifier = @"cell";
                                             view:self.view];
     float contentWidth = MAX(tweetSize.width, nameDateWidth);
     float width = [Geometry baseWidth] + contentWidth;
+    
     float height = [Geometry baseHeight] + tweetSize.height;
+    if (mediaInfo) {
+        height += [[mediaInfo objectForKey:@"h"] intValue] + COMMON_OFFSET;
+    }
     
     NSLog(@"tweet size (%ld) %f, content %f", indexPath.item, tweetSize.width, contentWidth);
 
-    
-//    if (media) {
-//        height += 450;
-//    }
     CGSize size = CGSizeMake(width, height);
 //    NSLog(@"indexpath %ld size TOTAL %@", (long)indexPath.item, NSStringFromCGSize(size));
     return size;
@@ -126,6 +144,11 @@ static NSString *const reuseIdentifier = @"cell";
 
 @end
 
-@implementation CollectionViewCell
+@implementation BaseCollectionViewCell
+@end
 
+@implementation CollectionViewCell
+@end
+
+@implementation CollectionViewImageCell
 @end
