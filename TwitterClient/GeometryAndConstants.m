@@ -54,6 +54,16 @@
     return [Geometry widthForName:name view:view] + COMMON_OFFSET + [Geometry widthForDate:date view:view];
 }
 
++ (CGSize)sizeForImageWithSize:(CGSize)oldSize view:(UIView*)view
+{
+    float maxWidth = view.frame.size.width - [Geometry baseWidth];
+    if (maxWidth < oldSize.width) {
+        float newHeight = oldSize.height * maxWidth / oldSize.width;
+        return CGSizeMake(maxWidth, newHeight);
+    }
+    return oldSize;
+}
+
 + (float)widthForName:(NSString*)name view:(UIView*)view
 {
     CGRect labelRect = (CGRect){CGPointZero, [Geometry defaultLabelSizeForView:view]};
@@ -70,7 +80,7 @@
     CGRect labelRect = (CGRect){CGPointZero, [Geometry defaultLabelSizeForView:view]};
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:labelRect];
     dateLabel.numberOfLines = 1;
-    dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:15.0];
+    dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:17.0];
     dateLabel.text = date;
     [dateLabel sizeToFit];
     return dateLabel.frame.size.width;

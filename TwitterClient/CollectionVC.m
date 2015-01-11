@@ -45,13 +45,15 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 {
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
     NSDictionary *mediaInfo = [item mediaURLAndSize];
-    
+
     BaseCollectionViewCell *cell = nil;
     if (mediaInfo) {
         CollectionViewImageCell *mcell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseImageIdentifier forIndexPath:indexPath];
         cell = mcell;
-        mcell.picHeight.constant = [[mediaInfo objectForKey:MEDIA_H] intValue];
-        mcell.picWidth.constant = [[mediaInfo objectForKey:MEDIA_W] intValue];
+        CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W] intValue], [[mediaInfo objectForKey:MEDIA_H] intValue]);
+        CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
+        mcell.picHeight.constant = size.height;
+        mcell.picWidth.constant = size.width;
         UIImage *placeholder = [Geometry imageWithColor:[UIColor clearColor]];
         mcell.pic.image = placeholder;
         NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
@@ -96,21 +98,23 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     } failure:^(NSError *error) {
         NSLog(@"Error: %@", [error description]);
     }];
+    
+    float nameDateWidth = [Geometry widthForName:userName
+                                            date:date
+                                            view:self.view];
+    if (self.view.frame.size.width < nameDateWidth + [Geometry baseWidth])
+        userName = [item username];
 
     cell.tweetLabel.text = tweet;
     cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [Geometry defaultLabelSizeForView:self.view]};
-    cell.nameLabel.text = userName;
-    [cell.nameLabel sizeToFit];
-    cell.nameWidth.constant = cell.nameLabel.frame.size.width;
-
-    cell.dateLabel.frame = (CGRect){cell.dateLabel.frame.origin,
-        CGSizeMake(DATE_DEFAULT_W, LABEL_HEIGHT)};
-    cell.dateLabel.text = date;
-    [cell.dateLabel sizeToFit];
-    cell.dateWidth.constant = [Geometry widthForDate:date view:self.view];
     
-    [cell.contentView setNeedsUpdateConstraints];
-    [cell.contentView layoutIfNeeded];
+    cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", userName, date];
+    [cell.nameLabel sizeToFit];
+    cell.nameWidth.constant = [Geometry widthForName:userName view:self.view];
+
+    [cell setNeedsUpdateConstraints];
+    [cell layoutIfNeeded];
+    
     return cell;
 }
 
@@ -130,21 +134,28 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     float nameDateWidth = [Geometry widthForName:[item authorUsername]
                                             date:[item date]
                                             view:self.view];
+    if (nameDateWidth + [Geometry baseWidth] > self.view.frame.size.width) {
+        nameDateWidth = [Geometry widthForName:[item username]
+                                          date:[item date]
+                                          view:self.view];
+    }
     float textContentWidth = MAX(tweetSize.width, nameDateWidth);
     float picWidth = 0;
+    float height = [Geometry baseHeight] + tweetSize.height;
+    
     if (mediaInfo) {
-        picWidth = [[mediaInfo objectForKey:MEDIA_W] floatValue];
+        CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W] intValue], [[mediaInfo objectForKey:MEDIA_H] intValue]);
+        CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
+        
+        picWidth = size.width;
+        height += size.height + COMMON_OFFSET;
     }
     
     float contentWidth = MAX(textContentWidth, picWidth);
     float width = [Geometry baseWidth] + contentWidth;
-    float height = [Geometry baseHeight] + tweetSize.height;
-    
-    if (mediaInfo) {
-        height += [[mediaInfo objectForKey:MEDIA_H] floatValue] + COMMON_OFFSET;
-    }
     
     CGSize size = CGSizeMake(width, height);
+//    NSLog(@"size: %@", NSStringFromCGSize(size));
     return size;
 }
 

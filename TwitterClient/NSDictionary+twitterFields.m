@@ -26,6 +26,12 @@
     return [NSString stringWithFormat:@"%@ (@%@)", name, nick];
 }
 
+- (NSString*)username
+{
+    NSString *nick = [[self objectForKey:KEY_USER] objectForKey:KEY_NICKNAME];
+    return [NSString stringWithFormat:@"@%@", nick];
+}
+
 - (NSString*)tweet
 {
 //    if ([self objectForKey:KEY_RETWEETED]) {

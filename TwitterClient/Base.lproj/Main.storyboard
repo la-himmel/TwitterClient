@@ -29,10 +29,10 @@
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0v1-u8-O5W" userLabel="View collection">
-                                <rect key="frame" x="0.0" y="55" width="600" height="545"/>
+                                <rect key="frame" x="8" y="55" width="584" height="545"/>
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hEo-PV-uxB">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="545"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="584" height="545"/>
                                         <connections>
                                             <segue destination="RAF-qu-LWj" kind="embed" identifier="embed_collection" id="rNs-Ds-D7q"/>
                                         </connections>
@@ -47,10 +47,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XzH-eT-OEB" userLabel="View table">
-                                <rect key="frame" x="0.0" y="55" width="600" height="545"/>
+                                <rect key="frame" x="8" y="55" width="584" height="545"/>
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tx8-UY-4A5">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="545"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="584" height="545"/>
                                         <connections>
                                             <segue destination="tJi-ir-nYZ" kind="embed" identifier="embed_table" id="ZYI-ww-pjT"/>
                                         </connections>
@@ -68,15 +68,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="0v1-u8-O5W" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="35" id="37y-Vf-U7e"/>
-                            <constraint firstItem="0v1-u8-O5W" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="4zc-YR-2gd"/>
+                            <constraint firstItem="0v1-u8-O5W" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-8" id="4zc-YR-2gd"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="0v1-u8-O5W" secondAttribute="bottom" id="6ch-7g-XCX"/>
                             <constraint firstItem="1wK-XT-CyA" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="2" id="FRu-OY-LVY"/>
                             <constraint firstItem="XzH-eT-OEB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="35" id="Vlf-Xl-6S1"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="0v1-u8-O5W" secondAttribute="trailing" constant="-16" id="Vs4-Fa-cXa"/>
-                            <constraint firstItem="XzH-eT-OEB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="aF0-gd-BwQ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0v1-u8-O5W" secondAttribute="trailing" constant="-8" id="Vs4-Fa-cXa"/>
+                            <constraint firstItem="XzH-eT-OEB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-8" id="aF0-gd-BwQ"/>
                             <constraint firstAttribute="centerX" secondItem="1wK-XT-CyA" secondAttribute="centerX" constant="0.5" id="env-YE-8Ra"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="XzH-eT-OEB" secondAttribute="bottom" id="fVi-df-1rf"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="XzH-eT-OEB" secondAttribute="trailing" constant="-16" id="hhA-LS-C8X"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XzH-eT-OEB" secondAttribute="trailing" constant="-8" id="hhA-LS-C8X"/>
                         </constraints>
                     </view>
                     <connections>
@@ -93,7 +93,7 @@
             <objects>
                 <collectionViewController id="RAF-qu-LWj" customClass="CollectionVC" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Dc9-Vq-9iT">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="545"/>
+                        <rect key="frame" x="0.0" y="0.0" width="584" height="545"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="GDQ-Xe-f2d">
@@ -118,7 +118,7 @@
             <objects>
                 <tableViewController id="tJi-ir-nYZ" customClass="TableVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="134" sectionHeaderHeight="22" sectionFooterHeight="22" id="EZe-mX-FGY">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="545"/>
+                        <rect key="frame" x="0.0" y="0.0" width="584" height="545"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <connections>
                             <outlet property="dataSource" destination="tJi-ir-nYZ" id="b9q-yG-X5A"/>

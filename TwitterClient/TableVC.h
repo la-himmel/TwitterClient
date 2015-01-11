@@ -18,10 +18,7 @@
 @interface BaseTableViewCell : UITableViewCell
 @property (nonatomic, weak) IBOutlet UIImageView *avatar;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
-@property (nonatomic, weak) IBOutlet UILabel *dateLabel;
 @property (nonatomic, weak) IBOutlet UILabel *tweetLabel;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *nameWidth;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateWidth;
 @end
 
 @interface TableViewImageCell : BaseTableViewCell

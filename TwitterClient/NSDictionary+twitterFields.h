@@ -28,5 +28,6 @@
 - (NSString*)avatarURL;
 - (NSString*)date;
 - (NSDictionary*)mediaURLAndSize;
+- (NSString*)username;
 
 @end

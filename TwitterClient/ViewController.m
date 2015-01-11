@@ -33,6 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self getAccounts];
+    NSLog(@"%@", NSStringFromCGRect(self.view.frame));
     self.viewForTable.hidden = NO;
     self.viewForCollection.hidden = YES;
 }

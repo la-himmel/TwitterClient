@@ -22,23 +22,12 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Lastname" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPd-tF-OzD">
-                        <rect key="frame" x="66" y="8" width="120" height="21"/>
+                        <rect key="frame" x="66" y="8" width="246" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="120" id="fVj-jY-Ytz"/>
                             <constraint firstAttribute="height" constant="21" id="qG2-4u-q1e"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- some date ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lGl-o8-KRM">
-                        <rect key="frame" x="194" y="8" width="100" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="100" id="F9y-hW-M55"/>
-                            <constraint firstAttribute="height" constant="21" id="phL-JT-vfr"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                        <color key="textColor" red="0.5135337752525253" green="0.5135337752525253" blue="0.5135337752525253" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweet" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atq-9u-aua">
@@ -50,14 +39,13 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="atq-9u-aua" firstAttribute="trailing" secondItem="sap-o6-wDX" secondAttribute="trailingMargin" id="2Fy-ho-bY2"/>
-                    <constraint firstItem="lGl-o8-KRM" firstAttribute="top" secondItem="sap-o6-wDX" secondAttribute="topMargin" id="5IL-4F-HP9"/>
-                    <constraint firstItem="lGl-o8-KRM" firstAttribute="leading" secondItem="CPd-tF-OzD" secondAttribute="trailing" constant="8" id="E7W-o3-kJj"/>
                     <constraint firstItem="atq-9u-aua" firstAttribute="top" secondItem="sap-o6-wDX" secondAttribute="topMargin" constant="26" id="HZe-Nh-tdQ"/>
                     <constraint firstItem="CPd-tF-OzD" firstAttribute="top" secondItem="sap-o6-wDX" secondAttribute="topMargin" id="Ka1-wZ-qc6"/>
                     <constraint firstItem="2CE-hU-UWt" firstAttribute="top" secondItem="sap-o6-wDX" secondAttribute="topMargin" id="Xff-V6-EgW"/>
                     <constraint firstItem="atq-9u-aua" firstAttribute="top" secondItem="CPd-tF-OzD" secondAttribute="bottom" constant="6" id="bGf-CH-SZ6"/>
                     <constraint firstItem="2CE-hU-UWt" firstAttribute="leading" secondItem="sap-o6-wDX" secondAttribute="leadingMargin" id="hyx-H5-uHD"/>
                     <constraint firstItem="CPd-tF-OzD" firstAttribute="leading" secondItem="sap-o6-wDX" secondAttribute="leadingMargin" constant="58" id="m2G-uh-7xE"/>
+                    <constraint firstItem="CPd-tF-OzD" firstAttribute="trailing" secondItem="sap-o6-wDX" secondAttribute="trailingMargin" id="mWP-S1-g76"/>
                     <constraint firstAttribute="bottomMargin" secondItem="atq-9u-aua" secondAttribute="bottom" constant="-1" id="pro-pF-yWy"/>
                     <constraint firstItem="atq-9u-aua" firstAttribute="leading" secondItem="sap-o6-wDX" secondAttribute="leadingMargin" constant="58" id="wEa-dq-Yww"/>
                 </constraints>
@@ -69,13 +57,10 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="avatar" destination="2CE-hU-UWt" id="Zm2-ia-srB"/>
-                <outlet property="dateLabel" destination="lGl-o8-KRM" id="OeS-w6-atp"/>
-                <outlet property="dateWidth" destination="F9y-hW-M55" id="xiM-sf-7MK"/>
                 <outlet property="nameLabel" destination="CPd-tF-OzD" id="GLm-oE-vfy"/>
-                <outlet property="nameWidth" destination="fVj-jY-Ytz" id="Wwb-vu-ghW"/>
                 <outlet property="tweetLabel" destination="atq-9u-aua" id="6ze-ue-Shb"/>
             </connections>
-            <point key="canvasLocation" x="319.5" y="229.5"/>
+            <point key="canvasLocation" x="319" y="228"/>
         </tableViewCell>
     </objects>
 </document>
