@@ -18,6 +18,8 @@
 #define API_KEY @"nRpsj7pkldHieAbjQrHOdZCpb"
 #define CONSUMER_SECRET @"h3Ldr7GAVgsfnh9p15uwDMjRMSAfCB1OloU9quy8CyGeiQHnH9"
 
+#define NO_ACCOUNTS @"No accounts presented on device. Please go to Settings and add an account."
+
 @interface ViewController () <NSURLSessionDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) NSArray *data;
 @property (nonatomic, strong) NSString *accessToken;
@@ -101,7 +103,7 @@
                     });
                 } else {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self showMessage:@"No accounts presented on device"];
+                        [self showMessage:NO_ACCOUNTS];
                     });
                 }
             }
@@ -129,7 +131,7 @@
 - (void)showSettingsDialog
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                      message:@"No accounts presented on device"
+                                                      message:NO_ACCOUNTS
                                                      delegate:self
                                             cancelButtonTitle:@"Cancel"
                                             otherButtonTitles:@"Open settings", nil];

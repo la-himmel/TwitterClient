@@ -10,6 +10,7 @@
 
 #define KEY_ENTITIES @"entities"
 #define KEY_RETWEETED @"retweeted_status"
+#define KEY_MEDIA_URL @"media_url"
 
 @implementation NSDictionary (twitterFields)
 
@@ -45,15 +46,15 @@
     NSArray *mediaArray = [entities objectForKey:KEY_MEDIA];
     if ([mediaArray count]) {
         NSDictionary *media = [mediaArray objectAtIndex:0];
-        NSString *url = [media objectForKey:@"media_url"];
+        NSString *url = [media objectForKey:KEY_MEDIA_URL];
         NSDictionary *size = [[media objectForKey:@"sizes"] objectForKey:@"medium"];
-        int width = [[size objectForKey:@"w"] intValue];
-        int height = [[size objectForKey:@"h"] intValue];
+        int width = [[size objectForKey:MEDIA_W] intValue];
+        int height = [[size objectForKey:MEDIA_H] intValue];
         
         if (url && width && height) {
-            result = @{ @"url" : url,
-                        @"w" : [NSNumber numberWithInt:width],
-                        @"h" : [NSNumber numberWithInt:height] };
+            result = @{ MEDIA_URL : url,
+                        MEDIA_W : [NSNumber numberWithInt:width],
+                        MEDIA_H : [NSNumber numberWithInt:height] };
         }
         return result;
     }

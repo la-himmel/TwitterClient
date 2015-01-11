@@ -16,6 +16,10 @@
 #define KEY_AVATAR @"profile_image_url"
 #define KEY_NICKNAME @"screen_name"
 
+#define MEDIA_URL @"url"
+#define MEDIA_H @"h"
+#define MEDIA_W @"w"
+
 @interface NSDictionary (twitterFields)
 
 - (NSString*)author;

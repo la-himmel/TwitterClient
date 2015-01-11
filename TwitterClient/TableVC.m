@@ -11,7 +11,6 @@
 #import "GeometryAndConstants.h"
 
 @interface TableVC ()
-
 @end
 
 static NSString *const reuseIdentifier = @"tablecell";
@@ -51,9 +50,11 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     if (mediaInfo) {
         TableViewImageCell *mcell = [tableView dequeueReusableCellWithIdentifier:reuseImageIdentifier forIndexPath:indexPath];
         cell = mcell;
-        mcell.picHeight.constant = [[mediaInfo objectForKey:@"h"] intValue];
-        mcell.picWidth.constant = [[mediaInfo objectForKey:@"w"] intValue];
-        NSString *mediaUrl = [mediaInfo objectForKey:@"url"];
+        mcell.picHeight.constant = [[mediaInfo objectForKey:MEDIA_H] intValue];
+        mcell.picWidth.constant = [[mediaInfo objectForKey:MEDIA_W] intValue];
+        UIImage *placeholder = [Geometry imageWithColor:[UIColor clearColor]];
+        mcell.pic.image = placeholder;
+        NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
         [mcell.contentView setNeedsUpdateConstraints];
         [mcell layoutIfNeeded];
         
@@ -98,7 +99,8 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
 
     cell.tweetLabel.text = tweet;
     
-    cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [Geometry defaultLabelSizeForView:self.view]};
+    cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin,
+        [Geometry defaultLabelSizeForView:self.view]};
     cell.nameLabel.text = userName;
     [cell.nameLabel sizeToFit];
     cell.nameWidth.constant = cell.nameLabel.frame.size.width;
@@ -122,7 +124,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     CGSize tweetSize = [Geometry sizeForTweetWithContent:[item tweet] view:self.view];
     float height = [Geometry baseHeight] + tweetSize.height;
     if (mediaInfo) {
-        height += [[mediaInfo objectForKey:@"h"] intValue] + COMMON_OFFSET;
+        height += [[mediaInfo objectForKey:MEDIA_H] intValue] + COMMON_OFFSET;
     }
     return height;
 }

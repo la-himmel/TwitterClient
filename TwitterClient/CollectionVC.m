@@ -49,9 +49,11 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     if (mediaInfo) {
         CollectionViewImageCell *mcell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseImageIdentifier forIndexPath:indexPath];
         cell = mcell;
-        mcell.picHeight.constant = [[mediaInfo objectForKey:@"h"] intValue];
-        mcell.picWidth.constant = [[mediaInfo objectForKey:@"w"] intValue];
-        NSString *mediaUrl = [mediaInfo objectForKey:@"url"];
+        mcell.picHeight.constant = [[mediaInfo objectForKey:MEDIA_H] intValue];
+        mcell.picWidth.constant = [[mediaInfo objectForKey:MEDIA_W] intValue];
+        UIImage *placeholder = [Geometry imageWithColor:[UIColor clearColor]];
+        mcell.pic.image = placeholder;
+        NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
         [mcell.contentView setNeedsUpdateConstraints];
         [mcell layoutIfNeeded];
         
@@ -111,7 +113,7 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 
 - (void)reload
 {
-//    [self.collectionView reloadData];
+    [self.collectionView reloadData];
 }
 
 - (CGSize)collectionView:(UICollectionView*)collectionView
@@ -128,14 +130,15 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     float textContentWidth = MAX(tweetSize.width, nameDateWidth);
     float picWidth = 0;
     if (mediaInfo) {
-        picWidth = [[mediaInfo objectForKey:@"w"] floatValue];
+        picWidth = [[mediaInfo objectForKey:MEDIA_W] floatValue];
     }
+    
     float contentWidth = MAX(textContentWidth, picWidth);
     float width = [Geometry baseWidth] + contentWidth;
-    
     float height = [Geometry baseHeight] + tweetSize.height;
+    
     if (mediaInfo) {
-        height += [[mediaInfo objectForKey:@"h"] floatValue] + COMMON_OFFSET;
+        height += [[mediaInfo objectForKey:MEDIA_H] floatValue] + COMMON_OFFSET;
     }
     
     CGSize size = CGSizeMake(width, height);
