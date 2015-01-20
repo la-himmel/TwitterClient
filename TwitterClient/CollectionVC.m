@@ -64,8 +64,14 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     __weak CollectionVC *wself = self;
     [manager getNextPageDataMaxId:lastIdPrev success:^(NSArray *data) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            NSInteger totalBeforeUpdate = [wself.data count];
             [wself.data addObjectsFromArray:data];
-            [wself reload];
+            NSMutableArray *indexPaths = [NSMutableArray new];
+            for (NSInteger i = totalBeforeUpdate; i < [wself.data count]; i++) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+                [indexPaths addObject:indexPath];
+            }
+            [wself.collectionView insertItemsAtIndexPaths:indexPaths];
             [wself stopControl];
         });
     } failure:^(NSError *error) {

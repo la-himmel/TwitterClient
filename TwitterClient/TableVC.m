@@ -50,8 +50,14 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     __weak TableVC *wself = self;
     [manager getNextPageDataMaxId:lastIdPrev success:^(NSArray *data) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            NSInteger totalBeforeUpdate = [wself.data count];
             [wself.data addObjectsFromArray:data];
-            [wself reload];
+            NSMutableArray *indexPaths = [NSMutableArray new];
+            for (NSInteger i = totalBeforeUpdate; i < [wself.data count]; i++) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                [indexPaths addObject:indexPath];
+            }
+            [wself.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
             [wself stopControl];
         });
     } failure:^(NSError *error) {
