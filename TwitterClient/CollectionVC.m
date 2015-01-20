@@ -11,6 +11,7 @@
 #import "GeometryAndConstants.h"
 #import "ImageLoader.h"
 #import "NetworkManager.h"
+#import "Helper.h"
 
 #define CELL_MIN_H 66
 
@@ -46,7 +47,7 @@ static NSString *const reuseImageIdentifier = @"imagecell";
         });
     } failure:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [wself showMessage:[error description]];
+            [[Helper alertWithMessage:[error description]] show];
         });
     }];
 }
@@ -54,18 +55,6 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
-- (void)showMessage:(NSString*)message
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    
-    [alert show];
-}
-
 
 #pragma mark <UICollectionViewDataSource>
 

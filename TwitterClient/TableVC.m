@@ -11,6 +11,7 @@
 #import "GeometryAndConstants.h"
 #import "ImageLoader.h"
 #import "NetworkManager.h"
+#import "Helper.h"
 
 @interface TableVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *loadMoreRefreshControl;
@@ -57,7 +58,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     } failure:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [wself stopControl];
-            [wself showMessage:[error description]];
+            [[Helper alertWithMessage:[error description]] show];
         });
     }];
 }
@@ -81,7 +82,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         });
     } failure:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [wself showMessage:[error description]];
+            [[Helper alertWithMessage:[error description]] show];
         });
     }];
 }
@@ -198,17 +199,6 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     } failure:^(NSError *error) {
         NSLog(@"Error: %@", [error description]);
     }];
-}
-
-- (void)showMessage:(NSString*)message
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    
-    [alert show];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

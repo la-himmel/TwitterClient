@@ -13,6 +13,7 @@
 #import "NetworkManager.h"
 #import "GeometryAndConstants.h"
 #import <Accounts/Accounts.h>
+#import "Helper.h"
 
 @interface ViewController () <NSURLSessionDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) NSArray *data;
@@ -42,20 +43,20 @@
         ACAccount *firstAcc = [accounts firstObject];
         [networkManager getDataForAccount:firstAcc success:^(NSArray *data) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                wself.tableVC.data = data;
+                wself.tableVC.data = [NSMutableArray arrayWithArray:data];
                 [wself.tableVC reload];
                 wself.collectionVC.data = data;
                 [wself.collectionVC reload];
             });
         } failure:^(NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self showMessage:[error description]];
+                [[Helper alertWithMessage:[error description]] show];
             });
         }];
         
     } failure:^(NSError *error) {
         if (error) { //explainable error
-            [self showMessage:[error description]];
+            [[Helper alertWithMessage:[error description]] show];
         } else { //no accounts
             NSString *showVersion = @"8.0";
             NSString *version = [[UIDevice currentDevice] systemVersion];
@@ -65,7 +66,7 @@
                 });
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self showMessage:NO_ACCOUNTS];
+                    [[Helper alertWithMessage:NO_ACCOUNTS] show];
                 });
             }
         }
@@ -125,17 +126,6 @@
         NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
         [[UIApplication sharedApplication] openURL:url];
     }
-}
-
-- (void)showMessage:(NSString*)message
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    
-    [alert show];
 }
 
 - (void)showSettingsDialog
