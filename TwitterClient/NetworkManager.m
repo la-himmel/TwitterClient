@@ -75,10 +75,18 @@ static NetworkManager *instanceNetworkManager = nil;
     }];
 }
 
+- (void)getDataForCurrentAccountSuccess:(void (^)(NSArray *data))success
+                                failure:(void (^)(NSError *error))failure
+{
+    [self getDataForAccount:self.account success:success failure:failure];
+}
+
 - (void)getDataForAccount:(ACAccount*)twitterAccount
                   success:(void (^)(NSArray *data))success
                   failure:(void (^)(NSError *error))failure
 {
+    if (!self.account)
+        self.account = twitterAccount;
     NSURL *apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", API_URL, HOME]];
     NSMutableDictionary *parameters = [NSMutableDictionary new];
     [parameters setObject:VALUE_COUNT forKey:KEY_COUNT];

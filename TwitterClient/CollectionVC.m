@@ -11,6 +11,8 @@
 #import "GeometryAndConstants.h"
 #import "ImageLoader.h"
 
+#define CELL_MIN_H 66
+
 @interface CollectionVC () <UICollectionViewDelegateFlowLayout>
 @end
 
@@ -23,6 +25,11 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     [super viewDidLoad];
     [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewCell" bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
     [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewImageCell" bundle:nil] forCellWithReuseIdentifier:reuseImageIdentifier];
+}
+
+- (void)pullToRefresh
+{
+    NSLog(@"pullToRefresh");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,10 +67,16 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     UIColor *backgroundColor = UIColorFromRGB(0xDBFDFD);
     cell.backgroundColor = backgroundColor;
     
+    cell.layer.cornerRadius = 5.0;
+    cell.layer.masksToBounds = YES;
+    
     NSString *userName = [item authorUsername];
     NSString *tweet = [item tweet];
     NSString *date = [item date];
     NSString *avatarUrl = [item avatarURL];
+    
+    cell.avatar.layer.cornerRadius = 3.0;
+    cell.avatar.layer.masksToBounds = YES;
     
     __weak BaseCollectionViewCell *wcell = cell;
     [ImageLoader getImageUrl:avatarUrl success:^(NSData *imageData) {
@@ -130,7 +143,8 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     
     float contentWidth = MAX(textContentWidth, picWidth);
     float width = [Geometry baseWidth] + contentWidth;
-    
+    if (height < CELL_MIN_H)
+        height = CELL_MIN_H;
     CGSize size = CGSizeMake(width, height);
     return size;
 }

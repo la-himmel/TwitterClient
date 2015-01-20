@@ -10,6 +10,7 @@
 #import "NSDictionary+twitterFields.h"
 #import "GeometryAndConstants.h"
 #import "ImageLoader.h"
+#import "NetworkManager.h"
 
 @interface TableVC ()
 @end
@@ -23,6 +24,28 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"TableViewCell" bundle:nil] forCellReuseIdentifier:reuseIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"TableViewImageCell" bundle:nil] forCellReuseIdentifier:reuseImageIdentifier];
+    self.tableView.separatorColor = [UIColor whiteColor];
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)pullToRefresh
+{
+    NetworkManager *manager = [NetworkManager sharedInstance];
+    __weak TableVC *wself = self;
+    [manager getDataForCurrentAccountSuccess:^(NSArray *data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [wself reload];
+            wself.data = data;
+            [wself.refreshControl endRefreshing];
+        });
+    } failure:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [wself showMessage:[error description]];
+        });
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +92,8 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         //show nickname only if we have small space
         userName = [item username];
     }
+    cell.avatar.layer.cornerRadius = 3.0;
+    cell.avatar.layer.masksToBounds = YES;
     
     __weak BaseTableViewCell *wcell = cell;
     [ImageLoader getImageUrl:avatarUrl success:^(NSData *imageData) {
@@ -113,7 +138,8 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
 
 - (void)configureMediaCell:(TableViewImageCell*)mcell withMedia:(NSDictionary*)mediaInfo
 {
-    CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W] intValue], [[mediaInfo objectForKey:MEDIA_H] intValue]);
+    CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W] intValue],
+                                [[mediaInfo objectForKey:MEDIA_H] intValue]);
     CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
     mcell.picHeight.constant = size.height;
     mcell.picWidth.constant = size.width;
@@ -134,6 +160,17 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     } failure:^(NSError *error) {
         NSLog(@"Error: %@", [error description]);
     }];
+}
+
+- (void)showMessage:(NSString*)message
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                    message:message
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    
+    [alert show];
 }
 
 @end

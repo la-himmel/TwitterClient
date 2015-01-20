@@ -17,6 +17,8 @@
 - (void)getDataForAccount:(ACAccount*)twitterAccount
                   success:(void (^)(NSArray *data))success
                   failure:(void (^)(NSError *error))failure;
+- (void)getDataForCurrentAccountSuccess:(void (^)(NSArray *data))success
+                                failure:(void (^)(NSError *error))failure;
 + (NetworkManager*)sharedInstance;
 
 @end
