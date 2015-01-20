@@ -142,10 +142,14 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     }
 
     cell.tweetLabel.text = tweet;
+    cell.tweetLabel.font = [Helper fontForTweet];
+
     cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [Geometry defaultLabelSizeForView:self.view]};
     cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", userName, date];
     [cell.nameLabel sizeToFit];
     cell.nameWidth.constant = [Geometry widthForName:userName view:self.view];
+    cell.nameLabel.font = [Helper fontForUserAndTime];
+    cell.nameLabel.textColor = [UIColor darkGrayColor];
 
     [cell setNeedsUpdateConstraints];
     [cell layoutIfNeeded];

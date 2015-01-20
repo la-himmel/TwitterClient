@@ -57,7 +57,6 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         });
     } failure:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            wself.refreshing = NO;
             [wself stopControl];
             [[Helper alertWithMessage:[error description]] show];
         });
@@ -66,6 +65,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
 
 - (void)stopControl
 {
+    self.refreshing = NO;
     self.loadMoreRefreshControl.hidden = YES;
     [self.loadMoreRefreshControl stopAnimating];
 }
@@ -118,19 +118,23 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         cell = mcell;
     }
     
-    UIColor *backgroundColor = indexPath.row %2 ? UIColorFromRGB(0xFFFFFF) : UIColorFromRGB(0xF9FEFF);
-    cell.contentView.backgroundColor = backgroundColor;
+    //Tweet
+    cell.tweetLabel.text = [item tweet];
+    cell.tweetLabel.font = [Helper fontForTweet];
     
+    //Username and date
     NSString *userName = [item authorUsername];
-    NSString *tweet = [item tweet];
     NSString *date = [item date];
-    NSString *avatarUrl = [item avatarURL];
-    
     float nameDateWidth = [Geometry widthForName:userName date:date view:self.view];
     if (self.view.frame.size.width < nameDateWidth + [Geometry baseWidth]) {
-        //show nickname only if we have small space
         userName = [item username];
     }
+    cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", userName, date];
+    cell.nameLabel.font = [Helper fontForUserAndTime];
+    cell.nameLabel.textColor = [UIColor darkGrayColor];
+    
+    //Avatar
+    NSString *avatarUrl = [item avatarURL];
     cell.avatar.layer.cornerRadius = 3.0;
     cell.avatar.layer.masksToBounds = YES;
     
@@ -141,14 +145,12 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
             if (wcell)
                 [wcell.avatar setImage:image];
         });
-        
     } failure:^(NSError *error) {
         NSLog(@"Error: %@", [error description]);
     }];
 
-    cell.tweetLabel.text = tweet;
-    cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", userName, date];
-    
+    UIColor *backgroundColor = indexPath.row %2 ? [UIColor whiteColor] : UIColorFromRGB(0xF9FEFF);
+    cell.contentView.backgroundColor = backgroundColor;
     [cell.contentView setNeedsUpdateConstraints];
     [cell.contentView layoutIfNeeded];
     
