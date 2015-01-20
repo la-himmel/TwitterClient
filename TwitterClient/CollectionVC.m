@@ -10,10 +10,12 @@
 #import "NSDictionary+twitterFields.h"
 #import "GeometryAndConstants.h"
 #import "ImageLoader.h"
+#import "NetworkManager.h"
 
 #define CELL_MIN_H 66
 
 @interface CollectionVC () <UICollectionViewDelegateFlowLayout>
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @end
 
 @implementation CollectionVC
@@ -25,16 +27,45 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     [super viewDidLoad];
     [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewCell" bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
     [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewImageCell" bundle:nil] forCellWithReuseIdentifier:reuseImageIdentifier];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(pullToRefresh)
+             forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
 }
 
 - (void)pullToRefresh
 {
-    NSLog(@"pullToRefresh");
+    NetworkManager *manager = [NetworkManager sharedInstance];
+    __weak CollectionVC *wself = self;
+    [manager getDataForCurrentAccountSuccess:^(NSArray *data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            wself.data = [NSMutableArray arrayWithArray:data];
+            [wself reload];
+            [wself.refreshControl endRefreshing];
+        });
+    } failure:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [wself showMessage:[error description]];
+        });
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
+- (void)showMessage:(NSString*)message
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                    message:message
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    
+    [alert show];
+}
+
 
 #pragma mark <UICollectionViewDataSource>
 
