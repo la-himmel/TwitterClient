@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class UIAlertView;
+#import <UIKit/UIKit.h>
 
 @interface Helper : NSObject
 
 + (UIAlertView*)alertWithMessage:(NSString*)message;
++ (UIImage*)imageWithColor:(UIColor *)color;
 
 @end

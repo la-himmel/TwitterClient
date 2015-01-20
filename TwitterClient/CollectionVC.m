@@ -15,8 +15,9 @@
 
 #define CELL_MIN_H 66
 
-@interface CollectionVC () <UICollectionViewDelegateFlowLayout>
+@interface CollectionVC () <UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, assign) BOOL refreshing;
 @end
 
 @implementation CollectionVC
@@ -50,6 +51,34 @@ static NSString *const reuseImageIdentifier = @"imagecell";
             [[Helper alertWithMessage:[error description]] show];
         });
     }];
+}
+
+- (void)loadMore
+{
+    self.refreshing = YES;
+    NSDictionary *lastTweet = [self.data lastObject];
+    NSInteger lastId = [[lastTweet objectForKey:@"id"] integerValue];
+    NSString *lastIdPrev = [NSString stringWithFormat:@"%ld", lastId -1]; //Twitter API instruction
+    
+    NetworkManager *manager = [NetworkManager sharedInstance];
+    __weak CollectionVC *wself = self;
+    [manager getNextPageDataMaxId:lastIdPrev success:^(NSArray *data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [wself.data addObjectsFromArray:data];
+            [wself reload];
+            [wself stopControl];
+        });
+    } failure:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [wself stopControl];
+            [[Helper alertWithMessage:[error description]] show];
+        });
+    }];
+}
+
+- (void)stopControl
+{
+    self.refreshing = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -128,6 +157,19 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     return cell;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView *reusableview = nil;
+    
+    if (kind == UICollectionElementKindSectionFooter) {
+        UICollectionReusableView *footerview = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FooterView" forIndexPath:indexPath];
+        
+        reusableview = footerview;
+    }
+    
+    return reusableview;
+}
+
 - (void)reload
 {
     [self.collectionView reloadData];
@@ -175,7 +217,7 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
     mcell.picHeight.constant = size.height;
     mcell.picWidth.constant = size.width;
-    UIImage *placeholder = [Geometry imageWithColor:[UIColor clearColor]];
+    UIImage *placeholder = [Helper imageWithColor:[UIColor clearColor]];
     mcell.pic.image = placeholder;
     NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
     [mcell.contentView setNeedsUpdateConstraints];
@@ -191,6 +233,17 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     } failure:^(NSError *error) {
         NSLog(@"Error: %@", [error description]);
     }];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    int currentOffset = scrollView.contentOffset.y;
+    int maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+    int deltaOffset = maximumOffset - currentOffset;
+    
+    if (deltaOffset <= 0 && !self.refreshing) {
+        [self loadMore];
+    }
 }
 
 @end

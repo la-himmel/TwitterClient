@@ -45,7 +45,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 wself.tableVC.data = [NSMutableArray arrayWithArray:data];
                 [wself.tableVC reload];
-                wself.collectionVC.data = data;
+                wself.collectionVC.data = [NSMutableArray arrayWithArray:data];
                 [wself.collectionVC reload];
             });
         } failure:^(NSError *error) {

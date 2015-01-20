@@ -17,7 +17,6 @@
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *loadMoreRefreshControl;
 @property (nonatomic, weak) IBOutlet UIView *bottomView;
 @property (nonatomic, assign) BOOL refreshing;
-@property (nonatomic, assign) int pagesLoaded;
 @end
 
 static NSString *const reuseIdentifier = @"tablecell";
@@ -183,7 +182,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     mcell.picHeight.constant = size.height;
     mcell.picWidth.constant = size.width;
     
-    UIImage *placeholder = [Geometry imageWithColor:[UIColor clearColor]];
+    UIImage *placeholder = [Helper imageWithColor:[UIColor clearColor]];
     mcell.pic.image = placeholder;
     NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
     [mcell.contentView setNeedsUpdateConstraints];
