@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseVC.h"
 
-@interface CollectionVC : UIViewController
+@interface CollectionVC : BaseVC
 @property (nonatomic, strong) NSMutableArray *data;
 
 - (void)reload;

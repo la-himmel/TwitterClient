@@ -18,7 +18,6 @@
 @property (nonatomic, weak) IBOutlet UIView *bottomView;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (nonatomic, assign) BOOL refreshing;
 @end
 
 static NSString *const reuseIdentifier = @"tablecell";
@@ -34,23 +33,17 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     
     self.tableView.separatorColor = [UIColor whiteColor];
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
-    
+    self.tableView.tableFooterView = self.bottomView;
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
     self.loadMoreRefreshControl.hidden = YES;
-    self.tableView.tableFooterView = self.bottomView;
 }
 
 - (void)loadMore
 {
-    self.refreshing = YES;
-    NSDictionary *lastTweet = [self.data lastObject];
-    NSInteger lastId = [[lastTweet objectForKey:@"id"] integerValue];
-    NSString *lastIdPrev = [NSString stringWithFormat:@"%ld", lastId -1]; //Twitter API instruction
-    
-    NetworkManager *manager = [NetworkManager sharedInstance];
     __weak TableVC *wself = self;
-    [manager getNextPageDataMaxId:lastIdPrev success:^(NSArray *data) {
+    [self loadMoreWithSuccess:^(NSArray *data) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSInteger totalBeforeUpdate = [wself.data count];
             [wself.data addObjectsFromArray:data];
@@ -64,15 +57,15 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         });
     } failure:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            wself.refreshing = NO;
             [wself stopControl];
             [[Helper alertWithMessage:[error description]] show];
         });
-    }];
+    } ];
 }
 
 - (void)stopControl
 {
-    self.refreshing = NO;
     self.loadMoreRefreshControl.hidden = YES;
     [self.loadMoreRefreshControl stopAnimating];
 }

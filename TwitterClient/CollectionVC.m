@@ -17,8 +17,8 @@
 
 @interface CollectionVC () <UICollectionViewDelegateFlowLayout, UIScrollViewDelegate,
 UICollectionViewDelegate, UICollectionViewDataSource>
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, assign) BOOL refreshing;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 @end
 
@@ -31,10 +31,9 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     [super viewDidLoad];
     [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewCell" bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
     [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewImageCell" bundle:nil] forCellWithReuseIdentifier:reuseImageIdentifier];
-    
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(pullToRefresh)
-             forControlEvents:UIControlEventValueChanged];
+                  forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
 }
 
@@ -57,14 +56,8 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 
 - (void)loadMore
 {
-    self.refreshing = YES;
-    NSDictionary *lastTweet = [self.data lastObject];
-    NSInteger lastId = [[lastTweet objectForKey:@"id"] integerValue];
-    NSString *lastIdPrev = [NSString stringWithFormat:@"%ld", lastId -1]; //Twitter API instruction
-    
-    NetworkManager *manager = [NetworkManager sharedInstance];
     __weak CollectionVC *wself = self;
-    [manager getNextPageDataMaxId:lastIdPrev success:^(NSArray *data) {
+    [self loadMoreWithSuccess:^(NSArray *data) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSInteger totalBeforeUpdate = [wself.data count];
             [wself.data addObjectsFromArray:data];
@@ -74,19 +67,14 @@ static NSString *const reuseImageIdentifier = @"imagecell";
                 [indexPaths addObject:indexPath];
             }
             [wself.collectionView insertItemsAtIndexPaths:indexPaths];
-            [wself stopControl];
+            wself.refreshing = NO;
         });
     } failure:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [wself stopControl];
+            wself.refreshing = NO;
             [[Helper alertWithMessage:[error description]] show];
         });
-    }];
-}
-
-- (void)stopControl
-{
-    self.refreshing = NO;
+    } ];
 }
 
 - (void)didReceiveMemoryWarning {

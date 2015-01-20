@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface BaseVC : UIViewController
+@property (nonatomic, strong) NSMutableArray *data;
+@property (nonatomic, assign) BOOL refreshing;
 
+- (void)loadMoreWithSuccess:(void (^)(NSArray *data))success
+                    failure:(void (^)(NSError *error))failure;
 @end
