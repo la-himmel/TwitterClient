@@ -46,8 +46,7 @@
             NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
             if (data) {
                 NSFileManager *fileManager = [NSFileManager defaultManager];
-                if(![fileManager fileExistsAtPath:path])
-                {
+                if(![fileManager fileExistsAtPath:path]) {
                     [data writeToFile:path atomically:YES];
                 } else {
                     NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:path];

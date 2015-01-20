@@ -11,6 +11,8 @@
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
+#define NO_ACCOUNTS @"No accounts presented on device. Please go to Settings and add an account."
+
 #define AVATAR_SIZE 50
 #define COMMON_OFFSET 8
 #define DEFAULT_HEIGHT 150

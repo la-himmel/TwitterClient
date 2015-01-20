@@ -16,6 +16,7 @@
 		C474FE4C1A6052F30001E5C3 /* CollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C474FE4B1A6052F30001E5C3 /* CollectionVC.m */; };
 		C474FE521A6151410001E5C3 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C474FE511A6151410001E5C3 /* TableViewCell.xib */; };
 		C474FE541A61514E0001E5C3 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */; };
+		C4CF59DB1A6EA2BE00D939C6 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CF59DA1A6EA2BE00D939C6 /* NetworkManager.m */; };
 		C4D77B2E1A5ED6EF00DB83EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D77B2D1A5ED6EF00DB83EC /* main.m */; };
 		C4D77B311A5ED6EF00DB83EC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D77B301A5ED6EF00DB83EC /* AppDelegate.m */; };
 		C4D77B341A5ED6EF00DB83EC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D77B331A5ED6EF00DB83EC /* ViewController.m */; };
@@ -54,6 +55,8 @@
 		C474FE4B1A6052F30001E5C3 /* CollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionVC.m; sourceTree = "<group>"; };
 		C474FE511A6151410001E5C3 /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		C4CF59D91A6EA2BE00D939C6 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		C4CF59DA1A6EA2BE00D939C6 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		C4D77B281A5ED6EF00DB83EC /* TwitterClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4D77B2C1A5ED6EF00DB83EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4D77B2D1A5ED6EF00DB83EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -99,9 +102,9 @@
 			isa = PBXGroup;
 			children = (
 				C46C586B1A629F8100F2394A /* CollectionViewImageCell.xib */,
+				C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */,
 				C474FE4A1A6052F30001E5C3 /* CollectionVC.h */,
 				C474FE4B1A6052F30001E5C3 /* CollectionVC.m */,
-				C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */,
 			);
 			name = Collection;
 			sourceTree = "<group>";
@@ -110,11 +113,33 @@
 			isa = PBXGroup;
 			children = (
 				C46C586D1A629F8E00F2394A /* TableViewImageCell.xib */,
+				C474FE511A6151410001E5C3 /* TableViewCell.xib */,
 				C474FE471A6052CB0001E5C3 /* TableVC.h */,
 				C474FE481A6052CB0001E5C3 /* TableVC.m */,
-				C474FE511A6151410001E5C3 /* TableViewCell.xib */,
 			);
 			name = Table;
+			sourceTree = "<group>";
+		};
+		C4CF59D81A6EA22100D939C6 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				C46C58631A61713F00F2394A /* NSDictionary+twitterFields.h */,
+				C46C58641A61713F00F2394A /* NSDictionary+twitterFields.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		C4CF59DC1A6EA2EE00D939C6 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C4CF59D91A6EA2BE00D939C6 /* NetworkManager.h */,
+				C4CF59DA1A6EA2BE00D939C6 /* NetworkManager.m */,
+				C46C586F1A62D85000F2394A /* ImageLoader.h */,
+				C46C58701A62D85000F2394A /* ImageLoader.m */,
+				C46C58661A618F8B00F2394A /* GeometryAndConstants.h */,
+				C46C58671A618F8B00F2394A /* GeometryAndConstants.m */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		C4D77B1F1A5ED6EF00DB83EC = {
@@ -138,23 +163,19 @@
 		C4D77B2A1A5ED6EF00DB83EC /* TwitterClient */ = {
 			isa = PBXGroup;
 			children = (
+				C4CF59D81A6EA22100D939C6 /* Categories */,
 				C4D77B2F1A5ED6EF00DB83EC /* AppDelegate.h */,
 				C4D77B301A5ED6EF00DB83EC /* AppDelegate.m */,
-				C46C58691A629F2000F2394A /* Collection */,
-				C4D77B591A5EDCF000DB83EC /* frameworks */,
-				C4D77B381A5ED6EF00DB83EC /* Images.xcassets */,
-				C4D77B3A1A5ED6EF00DB83EC /* LaunchScreen.xib */,
 				C4D77B351A5ED6EF00DB83EC /* Main.storyboard */,
-				C4D77B2B1A5ED6EF00DB83EC /* Supporting Files */,
+				C46C58691A629F2000F2394A /* Collection */,
 				C46C586A1A629F2E00F2394A /* Table */,
+				C4CF59DC1A6EA2EE00D939C6 /* Helpers */,
 				C4D77B321A5ED6EF00DB83EC /* ViewController.h */,
 				C4D77B331A5ED6EF00DB83EC /* ViewController.m */,
-				C46C58631A61713F00F2394A /* NSDictionary+twitterFields.h */,
-				C46C58641A61713F00F2394A /* NSDictionary+twitterFields.m */,
-				C46C58661A618F8B00F2394A /* GeometryAndConstants.h */,
-				C46C58671A618F8B00F2394A /* GeometryAndConstants.m */,
-				C46C586F1A62D85000F2394A /* ImageLoader.h */,
-				C46C58701A62D85000F2394A /* ImageLoader.m */,
+				C4D77B3A1A5ED6EF00DB83EC /* LaunchScreen.xib */,
+				C4D77B381A5ED6EF00DB83EC /* Images.xcassets */,
+				C4D77B2B1A5ED6EF00DB83EC /* Supporting Files */,
+				C4D77B591A5EDCF000DB83EC /* frameworks */,
 			);
 			path = TwitterClient;
 			sourceTree = "<group>";
@@ -307,6 +328,7 @@
 				C474FE491A6052CB0001E5C3 /* TableVC.m in Sources */,
 				C4D77B311A5ED6EF00DB83EC /* AppDelegate.m in Sources */,
 				C4D77B2E1A5ED6EF00DB83EC /* main.m in Sources */,
+				C4CF59DB1A6EA2BE00D939C6 /* NetworkManager.m in Sources */,
 				C46C58651A61713F00F2394A /* NSDictionary+twitterFields.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

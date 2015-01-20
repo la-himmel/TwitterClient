@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
-
-- (void)getAccounts;
-
+- (void)updateData;
 @end
 

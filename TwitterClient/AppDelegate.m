@@ -37,7 +37,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     if (self.shouldRefreshOnForeground) {
         ViewController *vc = (ViewController*)self.window.rootViewController;
-        [vc getAccounts];
+        [vc updateData];
     }
 }
 
