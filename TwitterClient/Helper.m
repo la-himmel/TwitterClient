@@ -36,4 +36,16 @@
     return image;
 }
 
++ (UIFont*)fontForTweet
+{
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17.0];
+    return font;
+}
+
++ (UIFont*)fontForUserAndTime
+{
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17.0];
+    return font;    
+}
+
 @end

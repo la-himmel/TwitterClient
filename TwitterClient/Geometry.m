@@ -6,7 +6,8 @@
 //  Copyright (c) 2015 Ekaterina. All rights reserved.
 //
 
-#import "GeometryAndConstants.h"
+#import "Geometry.h"
+#import "Helper.h"
 
 @implementation Geometry
 
@@ -42,7 +43,7 @@
 {
     UILabel *tweetLabel = [[UILabel alloc] initWithFrame:[Geometry tweetDefaultRectForView:view]];
     tweetLabel.numberOfLines = 0;
-    tweetLabel.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:17.0];
+    tweetLabel.font = [Helper fontForTweet];
     tweetLabel.lineBreakMode = NSLineBreakByWordWrapping;
     tweetLabel.text = content;
     [tweetLabel sizeToFit];

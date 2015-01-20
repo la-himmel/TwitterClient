@@ -13,5 +13,6 @@
 
 + (UIAlertView*)alertWithMessage:(NSString*)message;
 + (UIImage*)imageWithColor:(UIColor *)color;
-
++ (UIFont*)fontForTweet;
++ (UIFont*)fontForUserAndTime;
 @end

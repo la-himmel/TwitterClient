@@ -21,6 +21,9 @@
 #define LABEL_HEIGHT 21
 #define DATE_DEFAULT_W 140
 
+#define COLOR_LIGHT_BLUE 0xDBFDFD
+#define COLOR_LIGHTER_BLUE 0xEFFEFF
+
 @interface Geometry : NSObject
 
 + (CGSize)defaultLabelSizeForView:(UIView*)view;

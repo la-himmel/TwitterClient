@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C46C58651A61713F00F2394A /* NSDictionary+twitterFields.m in Sources */ = {isa = PBXBuildFile; fileRef = C46C58641A61713F00F2394A /* NSDictionary+twitterFields.m */; };
-		C46C58681A618F8B00F2394A /* GeometryAndConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C46C58671A618F8B00F2394A /* GeometryAndConstants.m */; };
+		C46C58681A618F8B00F2394A /* Geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = C46C58671A618F8B00F2394A /* Geometry.m */; };
 		C46C586C1A629F8100F2394A /* CollectionViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C46C586B1A629F8100F2394A /* CollectionViewImageCell.xib */; };
 		C46C586E1A629F8E00F2394A /* TableViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C46C586D1A629F8E00F2394A /* TableViewImageCell.xib */; };
 		C46C58711A62D85000F2394A /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C46C58701A62D85000F2394A /* ImageLoader.m */; };
@@ -18,6 +18,7 @@
 		C474FE541A61514E0001E5C3 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C474FE531A61514E0001E5C3 /* CollectionViewCell.xib */; };
 		C4CF59DB1A6EA2BE00D939C6 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CF59DA1A6EA2BE00D939C6 /* NetworkManager.m */; };
 		C4CF59DF1A6ED60F00D939C6 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CF59DE1A6ED60F00D939C6 /* Helper.m */; };
+		C4CF59E31A6EED3600D939C6 /* BaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CF59E21A6EED3600D939C6 /* BaseVC.m */; };
 		C4D77B2E1A5ED6EF00DB83EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D77B2D1A5ED6EF00DB83EC /* main.m */; };
 		C4D77B311A5ED6EF00DB83EC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D77B301A5ED6EF00DB83EC /* AppDelegate.m */; };
 		C4D77B341A5ED6EF00DB83EC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4D77B331A5ED6EF00DB83EC /* ViewController.m */; };
@@ -44,8 +45,8 @@
 /* Begin PBXFileReference section */
 		C46C58631A61713F00F2394A /* NSDictionary+twitterFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+twitterFields.h"; sourceTree = "<group>"; };
 		C46C58641A61713F00F2394A /* NSDictionary+twitterFields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+twitterFields.m"; sourceTree = "<group>"; };
-		C46C58661A618F8B00F2394A /* GeometryAndConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeometryAndConstants.h; sourceTree = "<group>"; };
-		C46C58671A618F8B00F2394A /* GeometryAndConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeometryAndConstants.m; sourceTree = "<group>"; };
+		C46C58661A618F8B00F2394A /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
+		C46C58671A618F8B00F2394A /* Geometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Geometry.m; sourceTree = "<group>"; };
 		C46C586B1A629F8100F2394A /* CollectionViewImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewImageCell.xib; sourceTree = "<group>"; };
 		C46C586D1A629F8E00F2394A /* TableViewImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewImageCell.xib; sourceTree = "<group>"; };
 		C46C586F1A62D85000F2394A /* ImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageLoader.h; sourceTree = "<group>"; };
@@ -60,6 +61,8 @@
 		C4CF59DA1A6EA2BE00D939C6 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		C4CF59DD1A6ED60F00D939C6 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		C4CF59DE1A6ED60F00D939C6 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
+		C4CF59E11A6EED3600D939C6 /* BaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseVC.h; sourceTree = "<group>"; };
+		C4CF59E21A6EED3600D939C6 /* BaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseVC.m; sourceTree = "<group>"; };
 		C4D77B281A5ED6EF00DB83EC /* TwitterClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4D77B2C1A5ED6EF00DB83EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4D77B2D1A5ED6EF00DB83EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -139,12 +142,23 @@
 				C4CF59DA1A6EA2BE00D939C6 /* NetworkManager.m */,
 				C46C586F1A62D85000F2394A /* ImageLoader.h */,
 				C46C58701A62D85000F2394A /* ImageLoader.m */,
-				C46C58661A618F8B00F2394A /* GeometryAndConstants.h */,
-				C46C58671A618F8B00F2394A /* GeometryAndConstants.m */,
+				C46C58661A618F8B00F2394A /* Geometry.h */,
+				C46C58671A618F8B00F2394A /* Geometry.m */,
 				C4CF59DD1A6ED60F00D939C6 /* Helper.h */,
 				C4CF59DE1A6ED60F00D939C6 /* Helper.m */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		C4CF59E01A6EED0B00D939C6 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C4D77B321A5ED6EF00DB83EC /* ViewController.h */,
+				C4D77B331A5ED6EF00DB83EC /* ViewController.m */,
+				C4CF59E11A6EED3600D939C6 /* BaseVC.h */,
+				C4CF59E21A6EED3600D939C6 /* BaseVC.m */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		C4D77B1F1A5ED6EF00DB83EC = {
@@ -168,6 +182,7 @@
 		C4D77B2A1A5ED6EF00DB83EC /* TwitterClient */ = {
 			isa = PBXGroup;
 			children = (
+				C4CF59E01A6EED0B00D939C6 /* ViewControllers */,
 				C4CF59D81A6EA22100D939C6 /* Categories */,
 				C4D77B2F1A5ED6EF00DB83EC /* AppDelegate.h */,
 				C4D77B301A5ED6EF00DB83EC /* AppDelegate.m */,
@@ -175,8 +190,6 @@
 				C46C58691A629F2000F2394A /* Collection */,
 				C46C586A1A629F2E00F2394A /* Table */,
 				C4CF59DC1A6EA2EE00D939C6 /* Helpers */,
-				C4D77B321A5ED6EF00DB83EC /* ViewController.h */,
-				C4D77B331A5ED6EF00DB83EC /* ViewController.m */,
 				C4D77B3A1A5ED6EF00DB83EC /* LaunchScreen.xib */,
 				C4D77B381A5ED6EF00DB83EC /* Images.xcassets */,
 				C4D77B2B1A5ED6EF00DB83EC /* Supporting Files */,
@@ -329,13 +342,14 @@
 				C474FE4C1A6052F30001E5C3 /* CollectionVC.m in Sources */,
 				C4D77B341A5ED6EF00DB83EC /* ViewController.m in Sources */,
 				C46C58711A62D85000F2394A /* ImageLoader.m in Sources */,
-				C46C58681A618F8B00F2394A /* GeometryAndConstants.m in Sources */,
+				C46C58681A618F8B00F2394A /* Geometry.m in Sources */,
 				C474FE491A6052CB0001E5C3 /* TableVC.m in Sources */,
 				C4D77B311A5ED6EF00DB83EC /* AppDelegate.m in Sources */,
 				C4D77B2E1A5ED6EF00DB83EC /* main.m in Sources */,
 				C4CF59DB1A6EA2BE00D939C6 /* NetworkManager.m in Sources */,
 				C46C58651A61713F00F2394A /* NSDictionary+twitterFields.m in Sources */,
 				C4CF59DF1A6ED60F00D939C6 /* Helper.m in Sources */,
+				C4CF59E31A6EED3600D939C6 /* BaseVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

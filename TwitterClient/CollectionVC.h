@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CollectionVC : UICollectionViewController
+@interface CollectionVC : UIViewController
 @property (nonatomic, strong) NSMutableArray *data;
 
 - (void)reload;

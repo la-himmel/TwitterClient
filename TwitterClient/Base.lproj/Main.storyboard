@@ -18,12 +18,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1wK-XT-CyA">
+                            <segmentedControl contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1wK-XT-CyA">
                                 <rect key="frame" x="224" y="22" width="151" height="29"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <segments>
                                     <segment title="Table"/>
                                     <segment title="Collection"/>
                                 </segments>
+                                <color key="tintColor" red="0.46379009049999997" green="0.64142166940000001" blue="0.74668482729999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="didChangeSegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="ZuJ-eB-992"/>
                                 </connections>
@@ -33,12 +35,13 @@
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hEo-PV-uxB">
                                         <rect key="frame" x="0.0" y="0.0" width="584" height="545"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <segue destination="RAF-qu-LWj" kind="embed" identifier="embed_collection" id="rNs-Ds-D7q"/>
                                         </connections>
                                     </containerView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.75984272200000003" green="0.89142166940000001" blue="0.97036903779999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="hEo-PV-uxB" secondAttribute="bottom" id="006-UU-gKt"/>
                                     <constraint firstAttribute="trailing" secondItem="hEo-PV-uxB" secondAttribute="trailing" id="V3g-hK-JWe"/>
@@ -51,12 +54,13 @@
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tx8-UY-4A5">
                                         <rect key="frame" x="0.0" y="0.0" width="584" height="545"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <segue destination="tJi-ir-nYZ" kind="embed" identifier="embed_table" id="ZYI-ww-pjT"/>
                                         </connections>
                                     </containerView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.6743164062" green="0.82563219570000002" blue="0.97694798520000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="Tx8-UY-4A5" firstAttribute="leading" secondItem="XzH-eT-OEB" secondAttribute="leading" id="Ul0-Ra-g0y"/>
                                     <constraint firstAttribute="bottom" secondItem="Tx8-UY-4A5" secondAttribute="bottom" id="kfr-X4-PWb"/>
@@ -65,7 +69,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.75984272203947367" green="0.89142166940789469" blue="0.97036903782894723" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="0v1-u8-O5W" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="35" id="37y-Vf-U7e"/>
                             <constraint firstItem="0v1-u8-O5W" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-8" id="4zc-YR-2gd"/>
@@ -95,7 +99,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Dc9-Vq-9iT">
                         <rect key="frame" x="0.0" y="0.0" width="584" height="545"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="GDQ-Xe-f2d">
                             <size key="itemSize" width="290" height="172"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -111,7 +115,7 @@
                                     <rect key="frame" x="282" y="15" width="20" height="20"/>
                                 </activityIndicatorView>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="0.75984272200000003" green="0.89142166940000001" blue="0.97036903779999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="centerY" secondItem="KgO-qS-6dD" secondAttribute="centerY" id="0FN-PQ-TuH"/>
                                 <constraint firstAttribute="centerX" secondItem="KgO-qS-6dD" secondAttribute="centerX" id="cT7-hQ-XDs"/>
@@ -122,6 +126,9 @@
                             <outlet property="delegate" destination="RAF-qu-LWj" id="7JE-Te-to7"/>
                         </connections>
                     </collectionView>
+                    <connections>
+                        <outlet property="collectionView" destination="Dc9-Vq-9iT" id="s5e-3F-5Xg"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gm3-fe-cjy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -134,6 +141,8 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="134" sectionHeaderHeight="22" sectionFooterHeight="22" id="EZe-mX-FGY">
                         <rect key="frame" x="0.0" y="0.0" width="584" height="545"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.75984272200000003" green="0.89142166940000001" blue="0.97036903779999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="qvY-Ez-gD1">
                             <rect key="frame" x="0.0" y="0.0" width="584" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -142,7 +151,7 @@
                                     <rect key="frame" x="282" y="12" width="20" height="20"/>
                                 </activityIndicatorView>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="0.75984272200000003" green="0.89142166940000001" blue="0.97036903779999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="centerY" secondItem="VKK-1e-6FB" secondAttribute="centerY" id="kd2-Vd-RUq"/>
                                 <constraint firstAttribute="centerX" secondItem="VKK-1e-6FB" secondAttribute="centerX" id="zc8-Be-7Up"/>
@@ -164,6 +173,7 @@
                     <connections>
                         <outlet property="bottomView" destination="qvY-Ez-gD1" id="lZ2-VX-Jk4"/>
                         <outlet property="loadMoreRefreshControl" destination="VKK-1e-6FB" id="m6Z-oa-DPh"/>
+                        <outlet property="tableView" destination="EZe-mX-FGY" id="Zba-zA-yhb"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zcu-8G-64V" userLabel="First Responder" sceneMemberID="firstResponder"/>

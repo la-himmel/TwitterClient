@@ -105,8 +105,15 @@ static NetworkManager *instanceNetworkManager = nil;
                                                      options:NSJSONReadingMutableLeaves
                                                        error:&error];
         if (data.count) {
-            if (success)
-                success(data);
+            if (data.count == 1) {
+                NSDictionary *errorDict = [data firstObject];
+                NSError *error = [NSError errorWithDomain:nil code:[[errorDict objectForKey:@"code"] integerValue] userInfo:@{@"description" : [errorDict objectForKey:@"message"]}];
+                if (failure)
+                    failure(error);
+            } else {
+                if (success)
+                    success(data);
+            }
 //        NSString *json = [[NSString alloc] initWithData:responseData
 //                                            encoding:NSUTF8StringEncoding];
         } else if (error) {

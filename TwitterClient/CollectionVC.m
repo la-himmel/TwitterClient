@@ -8,16 +8,18 @@
 
 #import "CollectionVC.h"
 #import "NSDictionary+twitterFields.h"
-#import "GeometryAndConstants.h"
+#import "Geometry.h"
 #import "ImageLoader.h"
 #import "NetworkManager.h"
 #import "Helper.h"
 
 #define CELL_MIN_H 66
 
-@interface CollectionVC () <UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
+@interface CollectionVC () <UICollectionViewDelegateFlowLayout, UIScrollViewDelegate,
+UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, assign) BOOL refreshing;
+@property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 @end
 
 @implementation CollectionVC
@@ -119,7 +121,7 @@ static NSString *const reuseImageIdentifier = @"imagecell";
         cell = mcell;
     }
     
-    UIColor *backgroundColor = UIColorFromRGB(0xDBFDFD);
+    UIColor *backgroundColor = [UIColor whiteColor];//UIColorFromRGB(0xDBFDFD);
     cell.backgroundColor = backgroundColor;
     
     cell.layer.cornerRadius = 5.0;

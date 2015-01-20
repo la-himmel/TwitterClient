@@ -8,14 +8,16 @@
 
 #import "TableVC.h"
 #import "NSDictionary+twitterFields.h"
-#import "GeometryAndConstants.h"
+#import "Geometry.h"
 #import "ImageLoader.h"
 #import "NetworkManager.h"
 #import "Helper.h"
 
-@interface TableVC ()<UIScrollViewDelegate>
+@interface TableVC ()<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *loadMoreRefreshControl;
 @property (nonatomic, weak) IBOutlet UIView *bottomView;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, assign) BOOL refreshing;
 @end
 
@@ -123,7 +125,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         cell = mcell;
     }
     
-    UIColor *backgroundColor = indexPath.row %2 ? UIColorFromRGB(0xEFFEFF) : UIColorFromRGB(0xDBFDFD);
+    UIColor *backgroundColor = indexPath.row %2 ? UIColorFromRGB(0xFFFFFF) : UIColorFromRGB(0xF9FEFF);
     cell.contentView.backgroundColor = backgroundColor;
     
     NSString *userName = [item authorUsername];
