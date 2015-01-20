@@ -20,5 +20,8 @@
 - (void)getDataForCurrentAccountSuccess:(void (^)(NSArray *data))success
                                 failure:(void (^)(NSError *error))failure;
 + (NetworkManager*)sharedInstance;
+- (void)getNextPageDataMaxId:(NSString*)maxId
+                     success:(void (^)(NSArray *data))success
+                     failure:(void (^)(NSError *error))failure;
 
 @end

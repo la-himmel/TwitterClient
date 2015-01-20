@@ -12,7 +12,11 @@
 #import "ImageLoader.h"
 #import "NetworkManager.h"
 
-@interface TableVC ()
+@interface TableVC ()<UIScrollViewDelegate>
+@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *loadMoreRefreshControl;
+@property (nonatomic, weak) IBOutlet UIView *bottomView;
+@property (nonatomic, assign) BOOL refreshing;
+@property (nonatomic, assign) int pagesLoaded;
 @end
 
 static NSString *const reuseIdentifier = @"tablecell";
@@ -22,13 +26,47 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.refreshing = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"TableViewCell" bundle:nil] forCellReuseIdentifier:reuseIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"TableViewImageCell" bundle:nil] forCellReuseIdentifier:reuseImageIdentifier];
+    
     self.tableView.separatorColor = [UIColor whiteColor];
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
+    self.loadMoreRefreshControl.hidden = YES;
+    self.tableView.tableFooterView = self.bottomView;
+}
+
+- (void)loadMore
+{
+    self.refreshing = YES;
+    NSDictionary *lastTweet = [self.data lastObject];
+    NSInteger lastId = [[lastTweet objectForKey:@"id"] integerValue];
+    NSString *lastIdPrev = [NSString stringWithFormat:@"%ld", lastId -1]; //Twitter API instruction
+    
+    NetworkManager *manager = [NetworkManager sharedInstance];
+    __weak TableVC *wself = self;
+    [manager getNextPageDataMaxId:lastIdPrev success:^(NSArray *data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [wself.data addObjectsFromArray:data];
+            [wself reload];
+            [wself stopControl];
+        });
+    } failure:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [wself stopControl];
+            [wself showMessage:[error description]];
+        });
+    }];
+}
+
+- (void)stopControl
+{
+    self.refreshing = NO;
+    self.loadMoreRefreshControl.hidden = YES;
+    [self.loadMoreRefreshControl stopAnimating];
 }
 
 - (void)pullToRefresh
@@ -37,8 +75,8 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     __weak TableVC *wself = self;
     [manager getDataForCurrentAccountSuccess:^(NSArray *data) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            wself.data = [NSMutableArray arrayWithArray:data];
             [wself reload];
-            wself.data = data;
             [wself.refreshControl endRefreshing];
         });
     } failure:^(NSError *error) {
@@ -171,6 +209,19 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
                                           otherButtonTitles:nil];
     
     [alert show];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    int currentOffset = scrollView.contentOffset.y;
+    int maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+    int deltaOffset = maximumOffset - currentOffset;
+        
+    if (deltaOffset <= 0 && !self.refreshing) {
+        self.loadMoreRefreshControl.hidden = NO;
+        [self.loadMoreRefreshControl startAnimating];
+        [self loadMore];
+    }
 }
 
 @end

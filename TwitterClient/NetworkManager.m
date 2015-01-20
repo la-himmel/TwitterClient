@@ -16,7 +16,7 @@
 
 #define KEY_COUNT @"count"
 #define KEY_INCL_ENTITIES @"include_entities"
-#define VALUE_COUNT @"100"
+#define VALUE_COUNT @"20"
 #define VALUE_ENT @"1"
 
 @interface NetworkManager()
@@ -107,8 +107,40 @@ static NetworkManager *instanceNetworkManager = nil;
         if (data.count) {
             if (success)
                 success(data);
-//         NSString *json = [[NSString alloc] initWithData:responseData
-//                                                encoding:NSUTF8StringEncoding];
+//        NSString *json = [[NSString alloc] initWithData:responseData
+//                                            encoding:NSUTF8StringEncoding];
+        } else if (error) {
+            if (failure)
+                failure(error);
+        }
+    }];
+}
+
+- (void)getNextPageDataMaxId:(NSString*)maxId
+                     success:(void (^)(NSArray *data))success
+                     failure:(void (^)(NSError *error))failure
+{
+    NSURL *apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", API_URL, HOME]];
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    [parameters setObject:VALUE_COUNT forKey:KEY_COUNT];
+    [parameters setObject:VALUE_ENT forKey:KEY_INCL_ENTITIES];
+    [parameters setObject:maxId forKey:@"max_id"];
+    
+    SLRequest *posts = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                          requestMethod:SLRequestMethodGET
+                                                    URL:apiUrl
+                                             parameters:parameters];
+    posts.account = self.account;
+    
+    [posts performRequestWithHandler:^(NSData *responseData,
+                                       NSHTTPURLResponse *urlResponse,
+                                       NSError *error) {
+        NSArray *data = [NSJSONSerialization JSONObjectWithData:responseData
+                                                        options:NSJSONReadingMutableLeaves
+                                                          error:&error];
+        if (data.count) {
+            if (success)
+                success(data);
         } else if (error) {
             if (failure)
                 failure(error);

@@ -120,11 +120,37 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="134" sectionHeaderHeight="22" sectionFooterHeight="22" id="EZe-mX-FGY">
                         <rect key="frame" x="0.0" y="0.0" width="584" height="545"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="qvY-Ez-gD1">
+                            <rect key="frame" x="0.0" y="0.0" width="584" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VKK-1e-6FB">
+                                    <rect key="frame" x="282" y="12" width="20" height="20"/>
+                                </activityIndicatorView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="centerY" secondItem="VKK-1e-6FB" secondAttribute="centerY" id="kd2-Vd-RUq"/>
+                                <constraint firstAttribute="centerX" secondItem="VKK-1e-6FB" secondAttribute="centerX" id="zc8-Be-7Up"/>
+                            </constraints>
+                        </view>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vtp-Nl-J9h">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vtp-Nl-J9h" id="IZN-K8-274">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="tJi-ir-nYZ" id="b9q-yG-X5A"/>
                             <outlet property="delegate" destination="tJi-ir-nYZ" id="bsw-Yj-m7T"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="bottomView" destination="qvY-Ez-gD1" id="lZ2-VX-Jk4"/>
+                        <outlet property="loadMoreRefreshControl" destination="VKK-1e-6FB" id="m6Z-oa-DPh"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zcu-8G-64V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
