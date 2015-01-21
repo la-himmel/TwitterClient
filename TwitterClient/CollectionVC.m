@@ -17,7 +17,6 @@
 
 @interface CollectionVC () <UICollectionViewDelegateFlowLayout, UIScrollViewDelegate,
 UICollectionViewDelegate, UICollectionViewDataSource>
-@property (nonatomic, assign) BOOL refreshing;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 @end
@@ -39,18 +38,8 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 
 - (void)pullToRefresh
 {
-    NetworkManager *manager = [NetworkManager sharedInstance];
-    __weak CollectionVC *wself = self;
-    [manager getDataForCurrentAccountSuccess:^(NSArray *data) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            wself.data = [NSMutableArray arrayWithArray:data];
-            [wself reload];
-            [wself.refreshControl endRefreshing];
-        });
-    } failure:^(NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[Helper alertWithMessage:[error description]] show];
-        });
+    [self pullToRefreshWithSuccess:^{
+        [self reload];
     }];
 }
 
@@ -67,14 +56,8 @@ static NSString *const reuseImageIdentifier = @"imagecell";
                 [indexPaths addObject:indexPath];
             }
             [wself.collectionView insertItemsAtIndexPaths:indexPaths];
-            wself.refreshing = NO;
         });
-    } failure:^(NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            wself.refreshing = NO;
-            [[Helper alertWithMessage:[error description]] show];
-        });
-    } ];
+    } failure:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -109,17 +92,28 @@ static NSString *const reuseImageIdentifier = @"imagecell";
         cell = mcell;
     }
     
-    UIColor *backgroundColor = [UIColor whiteColor];//UIColorFromRGB(0xDBFDFD);
-    cell.backgroundColor = backgroundColor;
-    
-    cell.layer.cornerRadius = 5.0;
-    cell.layer.masksToBounds = YES;
-    
-    NSString *userName = [item authorUsername];
+    //Tweet
     NSString *tweet = [item tweet];
+    cell.tweetLabel.text = tweet;
+    cell.tweetLabel.font = [Helper fontForTweet];
+
+    //Username and date
+    NSString *userName = [item authorUsername];
     NSString *date = [item date];
-    NSString *avatarUrl = [item avatarURL];
+    float nameDateWidth = [Geometry widthForName:userName date:date view:self.view];
+    if (self.view.frame.size.width < nameDateWidth + [Geometry baseWidth]) {
+        userName = [item username];
+    }
+    cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin,
+        [Geometry defaultLabelSizeForView:self.view]};
+    cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", userName, date];
+    [cell.nameLabel sizeToFit];
+    cell.nameWidth.constant = [Geometry widthForName:userName view:self.view];
+    cell.nameLabel.font = [Helper fontForUserAndTime];
+    cell.nameLabel.textColor = [UIColor darkGrayColor];
     
+    //Avatar
+    NSString *avatarUrl = [item avatarURL];
     cell.avatar.layer.cornerRadius = 3.0;
     cell.avatar.layer.masksToBounds = YES;
     
@@ -130,27 +124,14 @@ static NSString *const reuseImageIdentifier = @"imagecell";
             if (wcell)
                 [wcell.avatar setImage:image];
         });
-        
     } failure:^(NSError *error) {
         NSLog(@"Error: %@", [error description]);
     }];
     
-    float nameDateWidth = [Geometry widthForName:userName date:date view:self.view];
-    if (self.view.frame.size.width < nameDateWidth + [Geometry baseWidth]) {
-        //small space, show only username
-        userName = [item username];
-    }
-
-    cell.tweetLabel.text = tweet;
-    cell.tweetLabel.font = [Helper fontForTweet];
-
-    cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin, [Geometry defaultLabelSizeForView:self.view]};
-    cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", userName, date];
-    [cell.nameLabel sizeToFit];
-    cell.nameWidth.constant = [Geometry widthForName:userName view:self.view];
-    cell.nameLabel.font = [Helper fontForUserAndTime];
-    cell.nameLabel.textColor = [UIColor darkGrayColor];
-
+    UIColor *backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = backgroundColor;
+    cell.layer.cornerRadius = 5.0;
+    cell.layer.masksToBounds = YES;
     [cell setNeedsUpdateConstraints];
     [cell layoutIfNeeded];
     

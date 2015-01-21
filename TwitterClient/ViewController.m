@@ -11,9 +11,11 @@
 #import "CollectionVC.h"
 #import "ImageLoader.h"
 #import "NetworkManager.h"
-#import "GeometryAndConstants.h"
+#import "Geometry.h"
 #import <Accounts/Accounts.h>
 #import "Helper.h"
+
+#define DURATION 0.4
 
 @interface ViewController () <NSURLSessionDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) NSArray *data;
@@ -28,8 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.viewForTable.hidden = NO;
-    self.viewForCollection.hidden = YES;
+    self.viewForTable.alpha = 1.0;
+    self.viewForCollection.alpha = 0.0;
     [self updateData];
 }
 
@@ -99,8 +101,10 @@
 {
     UISegmentedControl *segmented = (UISegmentedControl*)sender;
     BOOL tableShown = (segmented.selectedSegmentIndex == 0);
-    self.viewForTable.hidden = !tableShown;
-    self.viewForCollection.hidden = tableShown;
+    [UIView animateWithDuration:DURATION animations:^{
+        self.viewForTable.alpha = !tableShown ? 0.0 : 1.0;
+        self.viewForCollection.alpha = tableShown ? 0.0 : 1.0;
+    }];
 }
 
 

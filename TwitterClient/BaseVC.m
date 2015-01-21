@@ -8,6 +8,7 @@
 
 #import "BaseVC.h"
 #import "NetworkManager.h"
+#import "Helper.h"
 
 @interface BaseVC ()
 @end
@@ -30,14 +31,39 @@
     NSInteger lastId = [[lastTweet objectForKey:@"id"] integerValue];
     NSString *lastIdPrev = [NSString stringWithFormat:@"%ld", lastId -1]; //Twitter API instruction
     
+    __weak BaseVC *wself = self;
     NetworkManager *manager = [NetworkManager sharedInstance];
     [manager getNextPageDataMaxId:lastIdPrev success:^(NSArray *data) {
+        wself.refreshing = NO;
         if (success)
             success(data);
     } failure:^(NSError *error) {
-        if (failure)
-            failure(error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            wself.refreshing = NO;
+            [[Helper alertWithMessage:[error description]] show];
+            if (failure)
+                failure(error);
+        });
     }];
 }
+
+- (void)pullToRefreshWithSuccess:(void (^)())success
+{
+    NetworkManager *manager = [NetworkManager sharedInstance];
+    __weak __typeof(&*self)wself = self;
+    [manager getDataForCurrentAccountSuccess:^(NSArray *data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            wself.data = [NSMutableArray arrayWithArray:data];
+            [wself.refreshControl endRefreshing];
+            if (success)
+                success();
+        });
+    } failure:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[Helper alertWithMessage:[error description]] show];
+        });
+    }];
+}
+
 
 @end

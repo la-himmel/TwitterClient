@@ -11,7 +11,10 @@
 @interface BaseVC : UIViewController
 @property (nonatomic, strong) NSMutableArray *data;
 @property (nonatomic, assign) BOOL refreshing;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 - (void)loadMoreWithSuccess:(void (^)(NSArray *data))success
                     failure:(void (^)(NSError *error))failure;
+- (void)pullToRefreshWithSuccess:(void (^)())success;
+
 @end

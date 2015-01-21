@@ -17,7 +17,6 @@
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *loadMoreRefreshControl;
 @property (nonatomic, weak) IBOutlet UIView *bottomView;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @end
 
 static NSString *const reuseIdentifier = @"tablecell";
@@ -40,6 +39,13 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     self.loadMoreRefreshControl.hidden = YES;
 }
 
+- (void)pullToRefresh
+{
+    [self pullToRefreshWithSuccess:^{
+        [self reload];
+    }];
+}
+
 - (void)loadMore
 {
     __weak TableVC *wself = self;
@@ -56,35 +62,14 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
             [wself stopControl];
         });
     } failure:^(NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [wself stopControl];
-            [[Helper alertWithMessage:[error description]] show];
-        });
-    } ];
+        [wself stopControl]; //main thread
+    }];
 }
 
 - (void)stopControl
 {
-    self.refreshing = NO;
     self.loadMoreRefreshControl.hidden = YES;
     [self.loadMoreRefreshControl stopAnimating];
-}
-
-- (void)pullToRefresh
-{
-    NetworkManager *manager = [NetworkManager sharedInstance];
-    __weak TableVC *wself = self;
-    [manager getDataForCurrentAccountSuccess:^(NSArray *data) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            wself.data = [NSMutableArray arrayWithArray:data];
-            [wself reload];
-            [wself.refreshControl endRefreshing];
-        });
-    } failure:^(NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[Helper alertWithMessage:[error description]] show];
-        });
-    }];
 }
 
 - (void)didReceiveMemoryWarning {
