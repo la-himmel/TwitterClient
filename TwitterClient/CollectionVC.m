@@ -86,7 +86,6 @@ static NSString *const reuseImageIdentifier = @"imagecell";
         CollectionViewImageCell *mcell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseImageIdentifier forIndexPath:indexPath];
         cell = mcell;
         [self configureMediaCell:mcell withMedia:mediaInfo];
-        
     } else {
         CollectionViewCell *mcell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
         cell = mcell;
@@ -96,37 +95,15 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     NSString *tweet = [item tweet];
     cell.tweetLabel.text = tweet;
     cell.tweetLabel.font = [Helper fontForTweet];
-
+    
     //Username and date
-    NSString *userName = [item authorUsername];
-    NSString *date = [item date];
-    float nameDateWidth = [Geometry widthForName:userName date:date view:self.view];
-    if (self.view.frame.size.width < nameDateWidth + [Geometry baseWidth]) {
-        userName = [item username];
-    }
+    float labelWidth = [self configureNameLabel:cell.nameLabel item:item];
     cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin,
         [Geometry defaultLabelSizeForView:self.view]};
-    cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", userName, date];
     [cell.nameLabel sizeToFit];
-    cell.nameWidth.constant = [Geometry widthForName:userName view:self.view];
-    cell.nameLabel.font = [Helper fontForUserAndTime];
-    cell.nameLabel.textColor = [UIColor darkGrayColor];
+    cell.nameWidth.constant = labelWidth;
     
-    //Avatar
-    NSString *avatarUrl = [item avatarURL];
-    cell.avatar.layer.cornerRadius = 3.0;
-    cell.avatar.layer.masksToBounds = YES;
-    
-    __weak BaseCollectionViewCell *wcell = cell;
-    [ImageLoader getImageUrl:avatarUrl success:^(NSData *imageData) {
-        UIImage *image = [UIImage imageWithData:imageData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (wcell)
-                [wcell.avatar setImage:image];
-        });
-    } failure:^(NSError *error) {
-        NSLog(@"Error: %@", [error description]);
-    }];
+    [self configureImageView:cell.avatar withUrl:[item avatarURL]];
     
     UIColor *backgroundColor = [UIColor whiteColor];
     cell.backgroundColor = backgroundColor;
@@ -198,22 +175,10 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
     mcell.picHeight.constant = size.height;
     mcell.picWidth.constant = size.width;
-    UIImage *placeholder = [Helper imageWithColor:[UIColor clearColor]];
-    mcell.pic.image = placeholder;
-    NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
     [mcell.contentView setNeedsUpdateConstraints];
     [mcell layoutIfNeeded];
     
-    __weak CollectionViewImageCell *wcell = mcell;
-    [ImageLoader getImageUrl:mediaUrl success:^(NSData *imageData) {
-        UIImage *image = [UIImage imageWithData:imageData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (wcell)
-                [wcell.pic setImage:image];
-        });
-    } failure:^(NSError *error) {
-        NSLog(@"Error: %@", [error description]);
-    }];
+    [self configureImageView:mcell.pic withUrl:[mediaInfo objectForKey:MEDIA_URL]];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

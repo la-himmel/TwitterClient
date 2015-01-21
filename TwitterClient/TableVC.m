@@ -107,32 +107,8 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     cell.tweetLabel.text = [item tweet];
     cell.tweetLabel.font = [Helper fontForTweet];
     
-    //Username and date
-    NSString *userName = [item authorUsername];
-    NSString *date = [item date];
-    float nameDateWidth = [Geometry widthForName:userName date:date view:self.view];
-    if (self.view.frame.size.width < nameDateWidth + [Geometry baseWidth]) {
-        userName = [item username];
-    }
-    cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", userName, date];
-    cell.nameLabel.font = [Helper fontForUserAndTime];
-    cell.nameLabel.textColor = [UIColor darkGrayColor];
-    
-    //Avatar
-    NSString *avatarUrl = [item avatarURL];
-    cell.avatar.layer.cornerRadius = 3.0;
-    cell.avatar.layer.masksToBounds = YES;
-    
-    __weak BaseTableViewCell *wcell = cell;
-    [ImageLoader getImageUrl:avatarUrl success:^(NSData *imageData) {
-        UIImage *image = [UIImage imageWithData:imageData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (wcell)
-                [wcell.avatar setImage:image];
-        });
-    } failure:^(NSError *error) {
-        NSLog(@"Error: %@", [error description]);
-    }];
+    [self configureNameLabel:cell.nameLabel item:item];
+    [self configureImageView:cell.avatar withUrl:[item avatarURL]];
 
     UIColor *backgroundColor = indexPath.row %2 ? [UIColor whiteColor] : UIColorFromRGB(0xF9FEFF);
     cell.contentView.backgroundColor = backgroundColor;
@@ -170,22 +146,10 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     mcell.picHeight.constant = size.height;
     mcell.picWidth.constant = size.width;
     
-    UIImage *placeholder = [Helper imageWithColor:[UIColor clearColor]];
-    mcell.pic.image = placeholder;
-    NSString *mediaUrl = [mediaInfo objectForKey:MEDIA_URL];
     [mcell.contentView setNeedsUpdateConstraints];
     [mcell layoutIfNeeded];
     
-    __weak TableViewImageCell *wcell = mcell;
-    [ImageLoader getImageUrl:mediaUrl success:^(NSData *imageData) {
-        UIImage *image = [UIImage imageWithData:imageData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (wcell)
-                [wcell.pic setImage:image];
-        });
-    } failure:^(NSError *error) {
-        NSLog(@"Error: %@", [error description]);
-    }];
+    [self configureImageView:mcell.pic withUrl:[mediaInfo objectForKey:MEDIA_URL]];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
