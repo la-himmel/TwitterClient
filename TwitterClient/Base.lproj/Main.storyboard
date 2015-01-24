@@ -122,12 +122,6 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ACm-zr-Ec3">
-                                            <rect key="frame" x="66" y="34" width="363" height="38"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="igd-NM-M15">
                                             <rect key="frame" x="8" y="8" width="50" height="50"/>
                                             <constraints>
@@ -142,32 +136,45 @@
                                                 <constraint firstAttribute="height" constant="86" id="scb-3v-fHD"/>
                                             </constraints>
                                         </imageView>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nmT-Hf-8tA">
+                                            <rect key="frame" x="66" y="30" width="363" height="50"/>
+                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                        </textView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <color key="backgroundColor" red="0.85882352939999995" green="0.99215686270000003" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="ACm-zr-Ec3" firstAttribute="top" secondItem="Vd8-JT-1SU" secondAttribute="topMargin" constant="26" id="3CA-hw-iRC"/>
                                     <constraint firstItem="w5Q-K1-mQG" firstAttribute="leading" secondItem="Vd8-JT-1SU" secondAttribute="leadingMargin" constant="58" id="4Rd-0b-bXu"/>
-                                    <constraint firstItem="8As-kv-dBM" firstAttribute="top" secondItem="ACm-zr-Ec3" secondAttribute="bottom" constant="8" id="Acn-eO-Dnv"/>
                                     <constraint firstItem="8As-kv-dBM" firstAttribute="bottom" secondItem="Vd8-JT-1SU" secondAttribute="bottomMargin" id="MKc-xW-kUi"/>
                                     <constraint firstItem="8As-kv-dBM" firstAttribute="leading" secondItem="Vd8-JT-1SU" secondAttribute="leadingMargin" constant="58" id="O0y-DT-hO6"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="nmT-Hf-8tA" secondAttribute="bottom" constant="86" id="OSi-kH-cMv"/>
+                                    <constraint firstItem="8As-kv-dBM" firstAttribute="top" secondItem="nmT-Hf-8tA" secondAttribute="bottom" id="Q3f-Nz-cg4"/>
+                                    <constraint firstItem="nmT-Hf-8tA" firstAttribute="trailing" secondItem="Vd8-JT-1SU" secondAttribute="trailingMargin" id="SBx-Wr-fPa"/>
+                                    <constraint firstItem="nmT-Hf-8tA" firstAttribute="top" secondItem="Vd8-JT-1SU" secondAttribute="topMargin" constant="22" id="SMV-Rf-VmV"/>
                                     <constraint firstItem="w5Q-K1-mQG" firstAttribute="top" secondItem="Vd8-JT-1SU" secondAttribute="topMargin" id="TQf-dT-6W0"/>
-                                    <constraint firstItem="ACm-zr-Ec3" firstAttribute="leading" secondItem="Vd8-JT-1SU" secondAttribute="leadingMargin" constant="58" id="dua-DI-i9k"/>
                                     <constraint firstItem="w5Q-K1-mQG" firstAttribute="trailing" secondItem="Vd8-JT-1SU" secondAttribute="trailingMargin" id="gGh-1m-I7i"/>
                                     <constraint firstItem="igd-NM-M15" firstAttribute="top" secondItem="Vd8-JT-1SU" secondAttribute="topMargin" id="hw0-hu-Yp6"/>
+                                    <constraint firstItem="nmT-Hf-8tA" firstAttribute="leading" secondItem="Vd8-JT-1SU" secondAttribute="leadingMargin" constant="58" id="kDX-ZV-w0A"/>
                                     <constraint firstItem="igd-NM-M15" firstAttribute="leading" secondItem="Vd8-JT-1SU" secondAttribute="leadingMargin" id="nrr-Fx-5dv"/>
-                                    <constraint firstItem="ACm-zr-Ec3" firstAttribute="trailing" secondItem="Vd8-JT-1SU" secondAttribute="trailingMargin" id="uDq-Gn-Hsv"/>
                                     <constraint firstItem="8As-kv-dBM" firstAttribute="trailing" secondItem="Vd8-JT-1SU" secondAttribute="trailingMargin" id="z78-Tb-6gj"/>
                                 </constraints>
                                 <size key="customSize" width="437" height="174"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="OSi-kH-cMv"/>
+                                        <exclude reference="z78-Tb-6gj"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="avatar" destination="igd-NM-M15" id="mQN-Yx-qaf"/>
                                     <outlet property="nameLabel" destination="w5Q-K1-mQG" id="uSV-O6-I1f"/>
                                     <outlet property="pic" destination="8As-kv-dBM" id="ceV-jw-Evr"/>
                                     <outlet property="picHeight" destination="scb-3v-fHD" id="5HH-bZ-19C"/>
                                     <outlet property="picWidth" destination="OJN-2D-w7r" id="OHZ-63-Xu4"/>
-                                    <outlet property="tweetLabel" destination="ACm-zr-Ec3" id="KLG-md-VAZ"/>
+                                    <outlet property="tweet" destination="nmT-Hf-8tA" id="8nH-6V-Otf"/>
                                 </connections>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="nop-X8-TDn" customClass="CollectionViewCell">
@@ -185,12 +192,6 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dpq-0f-3Py">
-                                            <rect key="frame" x="66" y="38" width="363" height="38"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zNl-up-wdw">
                                             <rect key="frame" x="8" y="8" width="50" height="50"/>
                                             <constraints>
@@ -198,26 +199,32 @@
                                                 <constraint firstAttribute="height" constant="50" id="dhu-yX-vKG"/>
                                             </constraints>
                                         </imageView>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ENR-gS-1OR">
+                                            <rect key="frame" x="66" y="30" width="363" height="54"/>
+                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                        </textView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <color key="backgroundColor" red="1" green="0.71989254410000003" blue="0.66894161900000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="dpq-0f-3Py" firstAttribute="top" secondItem="nop-X8-TDn" secondAttribute="topMargin" constant="30" id="0Uu-VZ-73W"/>
-                                    <constraint firstItem="dpq-0f-3Py" firstAttribute="leading" secondItem="nop-X8-TDn" secondAttribute="leadingMargin" constant="58" id="6am-6r-wQ1"/>
                                     <constraint firstItem="EpE-b5-Umu" firstAttribute="top" secondItem="nop-X8-TDn" secondAttribute="topMargin" id="HLA-en-ZBN"/>
+                                    <constraint firstItem="ENR-gS-1OR" firstAttribute="trailing" secondItem="nop-X8-TDn" secondAttribute="trailingMargin" id="Imy-aj-LXd"/>
                                     <constraint firstItem="zNl-up-wdw" firstAttribute="leading" secondItem="nop-X8-TDn" secondAttribute="leadingMargin" id="Obn-mg-eZm"/>
+                                    <constraint firstItem="ENR-gS-1OR" firstAttribute="top" secondItem="nop-X8-TDn" secondAttribute="topMargin" constant="22" id="XMr-rg-SQk"/>
                                     <constraint firstItem="zNl-up-wdw" firstAttribute="top" secondItem="nop-X8-TDn" secondAttribute="topMargin" id="Y5o-4e-u2x"/>
                                     <constraint firstItem="EpE-b5-Umu" firstAttribute="leading" secondItem="nop-X8-TDn" secondAttribute="leadingMargin" constant="58" id="eQk-Kp-v8s"/>
-                                    <constraint firstItem="dpq-0f-3Py" firstAttribute="bottom" secondItem="nop-X8-TDn" secondAttribute="bottomMargin" id="fOA-jU-JFj"/>
-                                    <constraint firstItem="dpq-0f-3Py" firstAttribute="trailing" secondItem="nop-X8-TDn" secondAttribute="trailingMargin" id="nEA-lK-jTm"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="ENR-gS-1OR" secondAttribute="bottom" constant="-8" id="fFn-45-tir"/>
+                                    <constraint firstItem="ENR-gS-1OR" firstAttribute="leading" secondItem="nop-X8-TDn" secondAttribute="leadingMargin" constant="58" id="n3f-PV-3ng"/>
                                     <constraint firstItem="EpE-b5-Umu" firstAttribute="trailing" secondItem="nop-X8-TDn" secondAttribute="trailingMargin" id="zH0-yQ-Ckf"/>
                                 </constraints>
                                 <size key="customSize" width="437" height="84"/>
                                 <connections>
                                     <outlet property="avatar" destination="zNl-up-wdw" id="dIc-Mm-m80"/>
                                     <outlet property="nameLabel" destination="EpE-b5-Umu" id="nV7-LR-C7N"/>
-                                    <outlet property="tweetLabel" destination="dpq-0f-3Py" id="gdE-kV-jzZ"/>
+                                    <outlet property="tweet" destination="ENR-gS-1OR" id="S0n-NT-BCt"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>

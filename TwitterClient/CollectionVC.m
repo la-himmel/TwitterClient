@@ -28,8 +28,6 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewCell" bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
-//    [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionViewImageCell" bundle:nil] forCellWithReuseIdentifier:reuseImageIdentifier];
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(pullToRefresh)
                   forControlEvents:UIControlEventValueChanged];
@@ -92,9 +90,10 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     }
     
     //Tweet
-    NSString *tweet = [item tweet];
-    cell.tweetLabel.text = tweet;
-    cell.tweetLabel.font = [Helper fontForTweet];
+    cell.tweet.contentInset = UIEdgeInsetsZero;
+    cell.tweet.textContainer.lineFragmentPadding = 0;
+    cell.tweet.text = [item tweet];
+    cell.tweet.font = [Helper fontForTweet];
     
     //Username and date
     float labelWidth = [self configureNameLabel:cell.nameLabel item:item];
