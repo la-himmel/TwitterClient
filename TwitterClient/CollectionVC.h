@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSMutableArray *data;
 
 - (void)reload;
+- (void)addItems:(NSArray*)newItems;
 
 @end
 

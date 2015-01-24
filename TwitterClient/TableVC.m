@@ -138,6 +138,21 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     [self.tableView reloadData];
 }
 
+- (void)addItems:(NSArray*)newItems
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSRange range = NSMakeRange(0, [newItems count]);
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
+        [self.data insertObjects:newItems atIndexes:indexSet];
+        NSMutableArray *indexPaths = [NSMutableArray new];
+        for (NSInteger i = 0; i < [newItems count]; i++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            [indexPaths addObject:indexPath];
+        }
+        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    });
+}
+
 - (void)configureMediaCell:(TableViewImageCell*)mcell withMedia:(NSDictionary*)mediaInfo
 {
     CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W] intValue],

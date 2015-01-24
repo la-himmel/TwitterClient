@@ -29,5 +29,6 @@
 - (NSString*)date;
 - (NSDictionary*)mediaURLAndSize;
 - (NSString*)username;
+- (NSString*)idStr;
 
 @end

@@ -76,5 +76,9 @@
     return [NSString stringWithFormat:@"- %@ %@", components[1], components[2]];
 }
 
+- (NSString*)idStr
+{
+    return [self objectForKey:@"id_str"];
+}
 
 @end

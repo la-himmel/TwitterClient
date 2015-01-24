@@ -18,5 +18,4 @@
 - (void)pullToRefreshWithSuccess:(void (^)())success;
 - (void)configureImageView:(UIImageView*)imageView withUrl:(NSString*)url;
 - (float)configureNameLabel:(UILabel*)nameLabel item:(NSDictionary*)item;
-
 @end

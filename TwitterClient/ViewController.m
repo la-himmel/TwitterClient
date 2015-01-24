@@ -15,8 +15,10 @@
 #import <Accounts/Accounts.h>
 #import "Helper.h"
 #import <Social/Social.h>
+#import "NSDictionary+twitterFields.h"
 
 #define DURATION 0.4
+#define POST_REFRESH_DELAY 1
 #define SHEET_TEXT @"What account do you want to use?"
 
 @interface ViewController () <NSURLSessionDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
@@ -26,6 +28,7 @@
 @property (nonatomic, weak) CollectionVC *collectionVC;
 @property (nonatomic, weak) IBOutlet UIView *viewForTable;
 @property (nonatomic, weak) IBOutlet UIView *viewForCollection;
+@property (nonatomic, weak) IBOutlet UIButton *postButton;
 @end
 
 @implementation ViewController
@@ -34,6 +37,8 @@
     [super viewDidLoad];
     self.viewForTable.alpha = 1.0;
     self.viewForCollection.alpha = 0.0;
+    self.postButton.layer.cornerRadius = 3.0;
+    self.postButton.layer.masksToBounds = YES;
     [self updateData];
 }
 
@@ -69,6 +74,30 @@
                 });
             }
         }
+    }];
+}
+
+- (void)refresh
+{
+    NetworkManager *manager = [NetworkManager sharedInstance];
+    __weak __typeof(&*self)wself = self;
+    [manager getDataForCurrentAccountSuccess:^(NSArray *data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *topTweet = [wself.tableVC.data firstObject];
+            NSMutableArray *newItems = [NSMutableArray new];
+            for (NSDictionary *item in data) {
+                if (![[topTweet idStr] isEqualToString:[item idStr]])
+                    [newItems addObject:item];
+                else
+                    break;
+                
+            }
+            if ([newItems count]) {
+                [wself.tableVC addItems:newItems];
+                [wself.collectionVC addItems:newItems];
+            }
+        });
+    } failure:^(NSError *error) {
     }];
 }
 
@@ -136,14 +165,7 @@
             }
                 break;
         }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self dismissViewControllerAnimated:NO completion:^{
-                if (needsReload) {
-                    [self updateData];
-                }
-            }];
-        });
+        [self performSelector:@selector(refresh) withObject:nil afterDelay:POST_REFRESH_DELAY];
     };
     [self presentViewController:controller animated:NO completion:nil];
 }

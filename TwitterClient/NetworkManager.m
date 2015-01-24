@@ -200,4 +200,9 @@ static NetworkManager *instanceNetworkManager = nil;
     return _accounts;
 }
 
+- (ACAccount*)currentAccount
+{
+    return _account;
+}
+
 @end

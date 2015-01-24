@@ -70,7 +70,7 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gTC-1f-tdz">
                                 <rect key="frame" x="525" y="21" width="66" height="30"/>
-                                <color key="backgroundColor" red="0.56905324840000004" green="0.77300061679999998" blue="0.91773745890000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.99041426809999999" green="0.99668482729999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="M1T-oE-4iH"/>
                                     <constraint firstAttribute="width" constant="66" id="x1R-LI-8dr"/>
@@ -102,6 +102,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="postButton" destination="gTC-1f-tdz" id="87Y-af-UZj"/>
                         <outlet property="viewForCollection" destination="0v1-u8-O5W" id="0To-tQ-xGF"/>
                         <outlet property="viewForTable" destination="XzH-eT-OEB" id="hH5-kg-dRf"/>
                     </connections>

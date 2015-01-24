@@ -12,7 +12,7 @@
 @interface TableVC : BaseVC
 
 - (void)reload;
-
+- (void)addItems:(NSArray*)newItems;
 @end
 
 @interface BaseTableViewCell : UITableViewCell

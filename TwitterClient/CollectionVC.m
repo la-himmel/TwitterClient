@@ -132,6 +132,22 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     [self.collectionView reloadData];
 }
 
+- (void)addItems:(NSArray*)newItems
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSRange range = NSMakeRange(0, [newItems count]);
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
+        [self.data insertObjects:newItems atIndexes:indexSet];
+        NSMutableArray *indexPaths = [NSMutableArray new];
+        for (NSInteger i = 0; i < [newItems count]; i++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+            [indexPaths addObject:indexPath];
+        }
+        [self.collectionView insertItemsAtIndexPaths:indexPaths];
+    });
+    
+}
+
 - (CGSize)collectionView:(UICollectionView*)collectionView
                   layout:(UICollectionViewLayout*)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
