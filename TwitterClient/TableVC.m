@@ -27,9 +27,6 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.refreshing = NO;
-//    [self.tableView registerNib:[UINib nibWithNibName:@"TableViewCell" bundle:nil] forCellReuseIdentifier:reuseIdentifier];
-//    [self.tableView registerNib:[UINib nibWithNibName:@"TableViewImageCell" bundle:nil] forCellReuseIdentifier:reuseImageIdentifier];
-    
     self.tableView.separatorColor = [UIColor whiteColor];
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
     self.tableView.tableFooterView = self.bottomView;
@@ -104,8 +101,10 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     }
     
     //Tweet
-    cell.tweetLabel.text = [item tweet];
-    cell.tweetLabel.font = [Helper fontForTweet];
+    cell.tweet.contentInset = UIEdgeInsetsZero;
+    cell.tweet.textContainer.lineFragmentPadding = 0;
+    cell.tweet.text = [item tweet];
+    cell.tweet.font = [Helper fontForTweet];
     
     [self configureNameLabel:cell.nameLabel item:item];
     [self configureImageView:cell.avatar withUrl:[item avatarURL]];
@@ -122,13 +121,14 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
 {
     NSDictionary *item = [self.data objectAtIndex:indexPath.item];
     NSDictionary *mediaInfo = [item mediaURLAndSize];
+    
     CGSize tweetSize = [Geometry sizeForTweetWithContent:[item tweet] view:self.view];
 
     float height = [Geometry baseHeight] + tweetSize.height;
     if (mediaInfo) {
         CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W] intValue], [[mediaInfo objectForKey:MEDIA_H] intValue]);
-        CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];   
-        height += size.height + COMMON_OFFSET;
+        CGSize fittedSize = [Geometry sizeForImageWithSize:oldSize view:self.view];
+        height += fittedSize.height + COMMON_OFFSET;
     }
     return height;
 }

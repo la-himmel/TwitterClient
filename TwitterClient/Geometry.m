@@ -22,7 +22,7 @@
 + (CGRect)tweetDefaultRectForView:(UIView*)view
 {
     CGRect frame = view.frame;
-    CGRect labelRect = CGRectMake(2*COMMON_OFFSET + AVATAR_SIZE,
+    CGRect labelRect = CGRectMake(COMMON_OFFSET + TWEET_LEFT_OFFSET,
                                   TWEET_TOP_OFFSET,
                                   frame.size.width - [Geometry baseWidth],
                                   DEFAULT_HEIGHT);
@@ -31,7 +31,7 @@
 
 + (float)baseWidth
 {
-    return AVATAR_SIZE + 3*COMMON_OFFSET;
+    return TWEET_LEFT_OFFSET + COMMON_OFFSET;
 }
 
 + (float)baseHeight
@@ -41,13 +41,22 @@
 
 + (CGSize)sizeForTweetWithContent:(NSString*)content view:(UIView*)view
 {
-    UILabel *tweetLabel = [[UILabel alloc] initWithFrame:[Geometry tweetDefaultRectForView:view]];
-    tweetLabel.numberOfLines = 0;
-    tweetLabel.font = [Helper fontForTweet];
-    tweetLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    tweetLabel.text = content;
-    [tweetLabel sizeToFit];
-    return tweetLabel.frame.size;
+    UITextView *tweet =
+        [[UITextView alloc] initWithFrame:[Geometry tweetDefaultRectForView:view]];
+    tweet.font = [Helper fontForTweet];
+    tweet.contentInset = UIEdgeInsetsZero;
+    tweet.textContainer.lineFragmentPadding = 0;
+    tweet.text = content;
+    CGSize size = [tweet sizeThatFits:tweet.frame.size];
+    NSLog(@"size0 %@", NSStringFromCGSize(tweet.frame.size));
+
+    [tweet sizeToFit];
+    CGSize size1 = tweet.frame.size;
+    CGSize size2 = tweet.contentSize;
+    NSLog(@"size %@", NSStringFromCGSize(size));
+    NSLog(@"size1 %@", NSStringFromCGSize(size1));
+    NSLog(@"size2 %@", NSStringFromCGSize(size2));
+    return size;
 }
 
 + (float)widthForName:(NSString*)name date:(NSString*)date view:(UIView*)view
