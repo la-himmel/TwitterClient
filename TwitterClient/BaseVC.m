@@ -43,7 +43,7 @@
     } failure:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             wself.refreshing = NO;
-            [[Helper alertWithMessage:[error description]] show];
+            [[Helper alertWithMessage:[error localizedDescription]] show];
             if (failure)
                 failure(error);
         });
@@ -63,7 +63,7 @@
         });
     } failure:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[Helper alertWithMessage:[error description]] show];
+            [[Helper alertWithMessage:[error localizedDescription]] show];
         });
     }];
 }
