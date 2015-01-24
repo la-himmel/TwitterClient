@@ -17,8 +17,9 @@
 #import <Social/Social.h>
 
 #define DURATION 0.4
+#define SHEET_TEXT @"What account do you want to use?"
 
-@interface ViewController () <NSURLSessionDelegate, UIAlertViewDelegate>
+@interface ViewController () <NSURLSessionDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 @property (nonatomic, strong) NSArray *data;
 @property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, weak) TableVC *tableVC;
@@ -44,18 +45,13 @@
         //show popup to choose
         
         ACAccount *firstAcc = [accounts firstObject];
-        [networkManager getDataForAccount:firstAcc success:^(NSArray *data) {
+        if ([accounts count] == 1) {
+            [wself processAccount:firstAcc];
+        } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                wself.tableVC.data = [NSMutableArray arrayWithArray:data];
-                [wself.tableVC reload];
-                wself.collectionVC.data = [NSMutableArray arrayWithArray:data];
-                [wself.collectionVC reload];
+                [wself showActionSheetWithAccounts:accounts];
             });
-        } failure:^(NSError *error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[Helper alertWithMessage:[error localizedDescription]] show];
-            });
-        }];
+        }
         
     } failure:^(NSError *error) {
         if (error) { //explainable error
@@ -73,6 +69,25 @@
                 });
             }
         }
+    }];
+}
+
+- (void)processAccount:(ACAccount*)account
+{
+    [self setUserAccount:account];
+    __weak ViewController *wself = self;
+    NetworkManager *networkManager = [NetworkManager sharedInstance];
+    [networkManager getDataForAccount:account success:^(NSArray *data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            wself.tableVC.data = [NSMutableArray arrayWithArray:data];
+            [wself.tableVC reload];
+            wself.collectionVC.data = [NSMutableArray arrayWithArray:data];
+            [wself.collectionVC reload];
+        });
+    } failure:^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[Helper alertWithMessage:[error localizedDescription]] show];
+        });
     }];
 }
 
@@ -111,7 +126,6 @@
 - (IBAction)composeTweet:(id)sender
 {
     SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-    [controller addImage:[UIImage imageNamed:@"socialsharing-facebook-image.jpg"]];
     controller.completionHandler = ^(SLComposeViewControllerResult result) {
         BOOL needsReload = NO;
         switch(result) {
@@ -125,7 +139,6 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self dismissViewControllerAnimated:NO completion:^{
-                NSLog(@"Tweet Sheet has been dismissed.");
                 if (needsReload) {
                     [self updateData];
                 }
@@ -167,6 +180,35 @@
                                           cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:@"Open settings", nil];
     [alert show];
+}
+
+#pragma mark - action sheet
+
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSArray *accounts = [[NetworkManager sharedInstance] accounts];
+    if ([accounts count] > buttonIndex) {
+        ACAccount *account = [accounts objectAtIndex:buttonIndex];
+        [self processAccount:account];
+    }
+}
+
+- (void)showActionSheetWithAccounts:(NSArray*)accounts
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:SHEET_TEXT
+                                                             delegate:self
+                                                    cancelButtonTitle:nil
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:nil];
+    
+    for (ACAccount *account in accounts) {
+        NSString *name = account.username;
+        [actionSheet addButtonWithTitle:name];
+    }
+    
+    actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
+    [actionSheet showInView:self.view];
 }
 
 @end

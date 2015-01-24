@@ -195,4 +195,9 @@ static NetworkManager *instanceNetworkManager = nil;
     return NO;
 }
 
+- (NSArray*)accounts
+{
+    return _accounts;
+}
+
 @end

@@ -23,5 +23,5 @@
 - (void)getNextPageDataMaxId:(NSString*)maxId
                      success:(void (^)(NSArray *data))success
                      failure:(void (^)(NSError *error))failure;
-
+- (NSArray*)accounts;
 @end
