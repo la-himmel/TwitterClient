@@ -27,8 +27,8 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.refreshing = NO;
-    [self.tableView registerNib:[UINib nibWithNibName:@"TableViewCell" bundle:nil] forCellReuseIdentifier:reuseIdentifier];
-    [self.tableView registerNib:[UINib nibWithNibName:@"TableViewImageCell" bundle:nil] forCellReuseIdentifier:reuseImageIdentifier];
+//    [self.tableView registerNib:[UINib nibWithNibName:@"TableViewCell" bundle:nil] forCellReuseIdentifier:reuseIdentifier];
+//    [self.tableView registerNib:[UINib nibWithNibName:@"TableViewImageCell" bundle:nil] forCellReuseIdentifier:reuseImageIdentifier];
     
     self.tableView.separatorColor = [UIColor whiteColor];
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
