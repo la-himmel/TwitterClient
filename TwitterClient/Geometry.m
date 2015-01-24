@@ -48,14 +48,7 @@
     tweet.textContainer.lineFragmentPadding = 0;
     tweet.text = content;
     CGSize size = [tweet sizeThatFits:tweet.frame.size];
-    NSLog(@"size0 %@", NSStringFromCGSize(tweet.frame.size));
-
     [tweet sizeToFit];
-    CGSize size1 = tweet.frame.size;
-    CGSize size2 = tweet.contentSize;
-    NSLog(@"size %@", NSStringFromCGSize(size));
-    NSLog(@"size1 %@", NSStringFromCGSize(size1));
-    NSLog(@"size2 %@", NSStringFromCGSize(size2));
     return size;
 }
 

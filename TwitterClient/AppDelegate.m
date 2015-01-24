@@ -9,8 +9,11 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 
+#define MINS_TO_RELOAD 5
+
 @interface AppDelegate ()
 @property (nonatomic, assign) BOOL shouldRefreshOnForeground;
+@property (nonatomic, strong) NSDate *dateClosed;
 @end
 
 @implementation AppDelegate
@@ -18,6 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.shouldRefreshOnForeground = NO;
+    self.dateClosed = nil;
     return YES;
 }
 
@@ -28,6 +32,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     self.shouldRefreshOnForeground = YES;
+    self.dateClosed = [NSDate date];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -36,8 +41,15 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     if (self.shouldRefreshOnForeground) {
-        ViewController *vc = (ViewController*)self.window.rootViewController;
-        [vc updateData];
+        NSDate *now = [NSDate date];
+        NSTimeInterval secondsBetween = [now timeIntervalSinceDate:self.dateClosed];
+        int minutes = secondsBetween / 60;
+        
+        if (self.dateClosed && minutes > MINS_TO_RELOAD) {
+            ViewController *vc = (ViewController*)self.window.rootViewController;
+            self.shouldRefreshOnForeground = NO;
+            [vc updateData];
+        }
     }
 }
 

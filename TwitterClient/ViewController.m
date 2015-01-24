@@ -14,6 +14,7 @@
 #import "Geometry.h"
 #import <Accounts/Accounts.h>
 #import "Helper.h"
+#import <Social/Social.h>
 
 #define DURATION 0.4
 
@@ -52,13 +53,13 @@
             });
         } failure:^(NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[Helper alertWithMessage:[error description]] show];
+                [[Helper alertWithMessage:[error localizedDescription]] show];
             });
         }];
         
     } failure:^(NSError *error) {
         if (error) { //explainable error
-            [[Helper alertWithMessage:[error description]] show];
+            [[Helper alertWithMessage:[error localizedDescription]] show];
         } else { //no accounts
             NSString *showVersion = @"8.0";
             NSString *version = [[UIDevice currentDevice] systemVersion];
@@ -107,6 +108,32 @@
     }];
 }
 
+- (IBAction)composeTweet:(id)sender
+{
+    SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+    [controller addImage:[UIImage imageNamed:@"socialsharing-facebook-image.jpg"]];
+    controller.completionHandler = ^(SLComposeViewControllerResult result) {
+        BOOL needsReload = NO;
+        switch(result) {
+            case SLComposeViewControllerResultCancelled:
+                break;
+            case SLComposeViewControllerResultDone: {
+                needsReload = YES;
+            }
+                break;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self dismissViewControllerAnimated:NO completion:^{
+                NSLog(@"Tweet Sheet has been dismissed.");
+                if (needsReload) {
+                    [self updateData];
+                }
+            }];
+        });
+    };
+    [self presentViewController:controller animated:NO completion:nil];
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

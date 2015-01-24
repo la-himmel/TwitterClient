@@ -101,31 +101,43 @@ static NetworkManager *instanceNetworkManager = nil;
     [posts performRequestWithHandler:^(NSData *responseData,
                                        NSHTTPURLResponse *urlResponse,
                                        NSError *error) {
-        NSObject *object = [NSJSONSerialization JSONObjectWithData:responseData
-                                                     options:NSJSONReadingMutableLeaves
-                                                       error:&error];
-        if ([object isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *data = (NSDictionary*)object;
-            NSLog(@"not ok");
-
-//            NSDictionary *errorDict = [data firstObject];
-//            NSError *error = [NSError errorWithDomain:nil code:[[errorDict objectForKey:@"code"] integerValue] userInfo:@{@"description" : [errorDict objectForKey:@"message"]}];
-//            if (failure)
-//                failure(error);
-        
-        } else if ([object isKindOfClass:[NSArray class]]) {
-            NSLog(@"ok");
-            NSArray *data = (NSArray*)object;
-            if (success)
-                success(data);
-        } else if (error) {
-            if (failure)
-                failure(error);
-        }
-
-//        NSString *json = [[NSString alloc] initWithData:responseData
-//                                            encoding:NSUTF8StringEncoding];
+        if (error && failure)
+            failure(error);
+        else
+            [self processData:responseData success:success failure:failure];
     }];
+}
+
+- (void)processData:(NSData*)responseData
+            success:(void (^)(NSArray *data))success
+            failure:(void (^)(NSError *error))failure
+{
+    NSError *error;
+    NSObject *obj = [NSJSONSerialization JSONObjectWithData:responseData
+                                                    options:NSJSONReadingMutableLeaves
+                                                      error:&error];
+    if ([self objectIsValidData:obj]) {
+        NSArray *data = (NSArray*)obj;
+        if (success)
+            success(data);
+    } else if ([self objectIsServerError:obj]) {
+        NSString *message = [self errorMessageFromObject:obj];        
+        NSMutableDictionary *details = [NSMutableDictionary new];
+        [details setValue:message forKey:NSLocalizedDescriptionKey];
+        NSError *error1 = [NSError errorWithDomain:@"TwitterClient"
+                                            code:[self errorCodeFromObject:obj]
+                                        userInfo:details];
+        if (failure)
+            failure(error1);
+    } else if (error) {
+        if (failure)
+            failure(error);
+    } else {
+        NSLog(@"Unexpected error");
+        NSString *json = [[NSString alloc] initWithData:responseData
+                                               encoding:NSUTF8StringEncoding];
+        NSLog(@"%@", json);
+    }
 }
 
 - (void)getNextPageDataMaxId:(NSString*)maxId
@@ -147,24 +159,40 @@ static NetworkManager *instanceNetworkManager = nil;
     [posts performRequestWithHandler:^(NSData *responseData,
                                        NSHTTPURLResponse *urlResponse,
                                        NSError *error) {
-        NSArray *data = [NSJSONSerialization JSONObjectWithData:responseData
-                                                        options:NSJSONReadingMutableLeaves
-                                                          error:&error];
-        if (data.count) {
-            if (data.count == 1) {
-                NSDictionary *errorDict = [data firstObject];
-                NSError *error = [NSError errorWithDomain:nil code:[[errorDict objectForKey:@"code"] integerValue] userInfo:@{@"description" : [errorDict objectForKey:@"message"]}];
-                if (failure)
-                    failure(error);
-            } else {
-                if (success)
-                    success(data);
-            }
-        } else if (error) {
-            if (failure)
-                failure(error);
-        }
+        if (error && failure)
+            failure(error);
+        else
+            [self processData:responseData success:success failure:failure];
     }];
+}
+
+- (NSString*)errorMessageFromObject:(NSObject*)obj
+{
+    NSDictionary *data = (NSDictionary*)obj;
+    NSDictionary *error = [[data objectForKey:@"errors"] firstObject];
+    NSString *message = [error objectForKey:@"message"];
+    return message;
+}
+
+- (NSInteger)errorCodeFromObject:(NSObject*)obj
+{
+    NSDictionary *data = (NSDictionary*)obj;
+    NSDictionary *error = [[data objectForKey:@"errors"] firstObject];
+    NSInteger code = [[error objectForKey:@"code"] integerValue];
+    return code;
+}
+
+- (BOOL)objectIsValidData:(NSObject*)obj
+{
+    return [obj isKindOfClass:[NSArray class]];
+}
+
+- (BOOL)objectIsServerError:(NSObject*)obj
+{
+    NSDictionary *error = (NSDictionary*)obj;
+    if ([error objectForKey:@"errors"] != nil)
+        return YES;
+    return NO;
 }
 
 @end
