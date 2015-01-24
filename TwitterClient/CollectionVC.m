@@ -12,6 +12,7 @@
 #import "ImageLoader.h"
 #import "NetworkManager.h"
 #import "Helper.h"
+#import "UIView+cell.h"
 
 #define CELL_MIN_H 66
 
@@ -130,6 +131,38 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 - (void)reload
 {
     [self.collectionView reloadData];
+}
+
+- (NSDictionary*)itemByCellSubview:(UIView*)view
+{
+    UICollectionViewCell *cell = [view collectionCell];
+    if (!cell)
+        return nil;
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    NSDictionary *item = [self.data objectAtIndex:indexPath.item];
+    return item;
+}
+
+- (IBAction)retweet:(id)sender
+{
+    UIButton *button = sender;
+    NSDictionary *item = [self itemByCellSubview:button];
+    [[NetworkManager sharedInstance] retweetTweetId:[item idStr] success:^(NSArray *data) {
+        
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+- (IBAction)favorite:(id)sender
+{
+    UIButton *button = sender;
+    NSDictionary *item = [self itemByCellSubview:button];
+    [[NetworkManager sharedInstance] favouriteTweetId:[item idStr] success:^(NSArray *data) {
+        
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)addItems:(NSArray*)newItems

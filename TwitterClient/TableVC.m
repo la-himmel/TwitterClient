@@ -12,6 +12,7 @@
 #import "ImageLoader.h"
 #import "NetworkManager.h"
 #import "Helper.h"
+#import "UIView+cell.h"
 
 @interface TableVC ()<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *loadMoreRefreshControl;
@@ -178,6 +179,38 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         [self.loadMoreRefreshControl startAnimating];
         [self loadMore];
     }
+}
+
+- (NSDictionary*)itemByCellSubview:(UIView*)view
+{
+    UITableViewCell *cell = [view tableCell];
+    if (!cell)
+        return nil;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary *item = [self.data objectAtIndex:indexPath.row];
+    return item;
+}
+
+- (IBAction)retweet:(id)sender
+{
+    UIButton *button = sender;
+    NSDictionary *item = [self itemByCellSubview:button];
+    [[NetworkManager sharedInstance] retweetTweetId:[item idStr] success:^(NSArray *data) {
+        
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+- (IBAction)favorite:(id)sender
+{
+    UIButton *button = sender;
+    NSDictionary *item = [self itemByCellSubview:button];
+    [[NetworkManager sharedInstance] favouriteTweetId:[item idStr] success:^(NSArray *data) {
+        
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 @end

@@ -36,7 +36,7 @@
 
 + (float)baseHeight
 {
-    return TWEET_TOP_OFFSET + COMMON_OFFSET;
+    return TWEET_TOP_OFFSET + COMMON_OFFSET + BUTTONS_HEIGHT;
 }
 
 + (CGSize)sizeForTweetWithContent:(NSString*)content view:(UIView*)view

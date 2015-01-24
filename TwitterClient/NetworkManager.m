@@ -13,6 +13,9 @@
 #define API_URL @"https://api.twitter.com/1.1/statuses/"
 #define TIMELINE @"user_timeline.json"
 #define HOME @"home_timeline.json"
+#define RETWEET_FORMAT @"https://api.twitter.com/1.1/statuses/retweet/%@.json"
+#define FAV_FORMAT @"https://api.twitter.com/1.1/favorites/destroy.json?id=%@"
+#define UNFAV_FORMAT @"https://api.twitter.com/1.1/favorites/create.json?id=%@"
 
 #define KEY_COUNT @"count"
 #define KEY_INCL_ENTITIES @"include_entities"
@@ -72,6 +75,64 @@ static NetworkManager *instanceNetworkManager = nil;
             });
             NSLog(@"Error: %@", [error description]);
         }
+    }];
+}
+
+- (void)retweetTweetId:(NSString*)tweetId
+               success:(void (^)(NSArray *data))success
+               failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *parameters = [NSDictionary dictionaryWithObject:tweetId forKey:@"status"];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:RETWEET_FORMAT, tweetId]];
+    SLRequest *twitterRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                                   requestMethod:SLRequestMethodPOST
+                                                             URL:url
+                                                      parameters:parameters];
+    
+    twitterRequest.account = self.account;
+    
+    [twitterRequest performRequestWithHandler:^(NSData *responseData,
+                                       NSHTTPURLResponse *urlResponse,
+                                       NSError *error) {
+        if (error && failure)
+            failure(error);
+        else
+            [self processData:responseData success:success failure:nil];
+    }];
+}
+
+- (void)favouriteTweetId:(NSString*)tweetId
+                 success:(void (^)(NSArray *data))success
+                 failure:(void (^)(NSError *error))failure
+{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:FAV_FORMAT, tweetId]];
+    [self postRequestUrl:url success:success failure:failure];
+}
+
+- (void)unfavouriteTweetId:(NSString*)tweetId
+                 success:(void (^)(NSArray *data))success
+                 failure:(void (^)(NSError *error))failure
+{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:UNFAV_FORMAT, tweetId]];
+    [self postRequestUrl:url success:success failure:failure];
+}
+
+- (void)postRequestUrl:(NSURL*)url
+               success:(void (^)(NSArray *data))success
+               failure:(void (^)(NSError *error))failure
+{
+    SLRequest *twitterRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                                   requestMethod:SLRequestMethodPOST
+                                                             URL:url
+                                                      parameters:nil];
+    twitterRequest.account = self.account;
+    [twitterRequest performRequestWithHandler:^(NSData *responseData,
+                                                NSHTTPURLResponse *urlResponse,
+                                                NSError *error) {
+        if (error && failure)
+            failure(error);
+        else
+            [self processData:responseData success:success failure:nil];
     }];
 }
 

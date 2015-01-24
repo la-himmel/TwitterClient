@@ -25,4 +25,14 @@
                      failure:(void (^)(NSError *error))failure;
 - (NSArray*)accounts;
 - (ACAccount*)currentAccount;
+- (void)retweetTweetId:(NSString*)tweetId
+               success:(void (^)(NSArray *data))success
+               failure:(void (^)(NSError *error))failure;
+- (void)favouriteTweetId:(NSString*)tweetId
+                 success:(void (^)(NSArray *data))success
+                 failure:(void (^)(NSError *error))failure;
+- (void)unfavouriteTweetId:(NSString*)tweetId
+                   success:(void (^)(NSArray *data))success
+                   failure:(void (^)(NSError *error))failure;
+
 @end
