@@ -81,4 +81,9 @@
     return [self objectForKey:@"id_str"];
 }
 
+- (BOOL)favourited
+{
+    return [self objectForKey:@"favourited"];
+}
+
 @end

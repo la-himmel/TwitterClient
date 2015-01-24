@@ -14,8 +14,8 @@
 #define TIMELINE @"user_timeline.json"
 #define HOME @"home_timeline.json"
 #define RETWEET_FORMAT @"https://api.twitter.com/1.1/statuses/retweet/%@.json"
-#define FAV_FORMAT @"https://api.twitter.com/1.1/favorites/destroy.json?id=%@"
-#define UNFAV_FORMAT @"https://api.twitter.com/1.1/favorites/create.json?id=%@"
+#define UNFAV_FORMAT @"https://api.twitter.com/1.1/favorites/destroy.json?id=%@"
+#define FAV_FORMAT @"https://api.twitter.com/1.1/favorites/create.json?id=%@"
 
 #define KEY_COUNT @"count"
 #define KEY_INCL_ENTITIES @"include_entities"
@@ -97,7 +97,7 @@ static NetworkManager *instanceNetworkManager = nil;
         if (error && failure)
             failure(error);
         else
-            [self processData:responseData success:success failure:nil];
+            [self processSingleTweet:responseData success:success failure:failure];
     }];
 }
 
@@ -105,26 +105,29 @@ static NetworkManager *instanceNetworkManager = nil;
                  success:(void (^)(NSArray *data))success
                  failure:(void (^)(NSError *error))failure
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:FAV_FORMAT, tweetId]];
-    [self postRequestUrl:url success:success failure:failure];
+    NSURL *url = [NSURL URLWithString:FAV_FORMAT];
+    NSDictionary *parameters = @{@"id": tweetId};
+    [self postRequestUrl:url success:success failure:failure parameters:parameters];
 }
 
 - (void)unfavouriteTweetId:(NSString*)tweetId
                  success:(void (^)(NSArray *data))success
                  failure:(void (^)(NSError *error))failure
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:UNFAV_FORMAT, tweetId]];
-    [self postRequestUrl:url success:success failure:failure];
+    NSURL *url = [NSURL URLWithString:UNFAV_FORMAT];
+    NSDictionary *parameters = @{@"id": tweetId};
+    [self postRequestUrl:url success:success failure:failure parameters:parameters];
 }
 
 - (void)postRequestUrl:(NSURL*)url
                success:(void (^)(NSArray *data))success
                failure:(void (^)(NSError *error))failure
+            parameters:(NSDictionary*)parameters
 {
     SLRequest *twitterRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter
                                                    requestMethod:SLRequestMethodPOST
                                                              URL:url
-                                                      parameters:nil];
+                                                      parameters:parameters];
     twitterRequest.account = self.account;
     [twitterRequest performRequestWithHandler:^(NSData *responseData,
                                                 NSHTTPURLResponse *urlResponse,
@@ -132,7 +135,7 @@ static NetworkManager *instanceNetworkManager = nil;
         if (error && failure)
             failure(error);
         else
-            [self processData:responseData success:success failure:nil];
+            [self processSingleTweet:responseData success:success failure:failure];
     }];
 }
 
@@ -168,6 +171,41 @@ static NetworkManager *instanceNetworkManager = nil;
             [self processData:responseData success:success failure:failure];
     }];
 }
+
+- (void)processSingleTweet:(NSData*)responseData
+            success:(void (^)(NSArray *data))success
+            failure:(void (^)(NSError *error))failure
+{
+    NSError *error;
+    NSDictionary *obj = [NSJSONSerialization JSONObjectWithData:responseData
+                                                    options:NSJSONReadingMutableLeaves
+                                                      error:&error];
+    
+    if ([obj objectForKey:@"id_str"]) {
+        NSArray *data = [NSArray arrayWithObject:obj];
+        if (success)
+            success(data);
+    } else if ([self objectIsServerError:obj]) {
+        NSString *message = [self errorMessageFromObject:obj];
+        NSMutableDictionary *details = [NSMutableDictionary new];
+        [details setValue:message forKey:NSLocalizedDescriptionKey];
+        NSError *error1 = [NSError errorWithDomain:@"TwitterClient"
+                                              code:[self errorCodeFromObject:obj]
+                                          userInfo:details];
+        if (failure)
+            failure(error1);
+    } else if (error) {
+        if (failure)
+            failure(error);
+    } else {
+        NSLog(@"Unexpected error");
+        NSString *json = [[NSString alloc] initWithData:responseData
+                                               encoding:NSUTF8StringEncoding];
+        NSLog(@"%@", json);
+        
+    }
+}
+
 
 - (void)processData:(NSData*)responseData
             success:(void (^)(NSArray *data))success

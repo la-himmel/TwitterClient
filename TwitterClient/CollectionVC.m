@@ -158,11 +158,23 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 {
     UIButton *button = sender;
     NSDictionary *item = [self itemByCellSubview:button];
-    [[NetworkManager sharedInstance] favouriteTweetId:[item idStr] success:^(NSArray *data) {
-        
-    } failure:^(NSError *error) {
-        
-    }];
+    if ([item favourited]) {
+        [[NetworkManager sharedInstance] unfavouriteTweetId:[item idStr] success:^(NSArray *data) {
+            NSLog(@"Unfav succeed");
+            
+        } failure:^(NSError *error) {
+            NSLog(@"Unfav failed");
+            
+        }];
+    } else {
+        [[NetworkManager sharedInstance] favouriteTweetId:[item idStr] success:^(NSArray *data) {
+            NSLog(@"Fav succeed");
+            
+        } failure:^(NSError *error) {
+            NSLog(@"Fav failed");
+            
+        }];
+    }
 }
 
 - (void)addItems:(NSArray*)newItems

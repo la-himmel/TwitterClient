@@ -30,5 +30,6 @@
 - (NSDictionary*)mediaURLAndSize;
 - (NSString*)username;
 - (NSString*)idStr;
+- (BOOL)favourited;
 
 @end

@@ -19,6 +19,8 @@
 @property (nonatomic, weak) IBOutlet UIImageView *avatar;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UITextView *tweet;
+@property (nonatomic, weak) IBOutlet UIImageView *retweet;
+@property (nonatomic, weak) IBOutlet UIImageView *favorite;
 @end
 
 @interface TableViewImageCell : BaseTableViewCell
