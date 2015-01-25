@@ -103,6 +103,9 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     [cell.nameLabel sizeToFit];
     cell.nameWidth.constant = labelWidth;
     
+    [cell setFavorited:[item favorited]];
+    [cell setRetweeted:[item retweeted]];
+
     [self configureImageView:cell.avatar withUrl:[item avatarURL]];
     
     UIColor *backgroundColor = [UIColor whiteColor];
@@ -133,75 +136,60 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     [self.collectionView reloadData];
 }
 
-- (NSDictionary*)itemByCellSubview:(UIView*)view
-{
-    UICollectionViewCell *cell = [view collectionCell];
-    if (!cell)
-        return nil;
-    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    NSDictionary *item = [self.data objectAtIndex:indexPath.item];
-    return item;
-}
-
-- (void)updateCellIndexPath:(NSIndexPath*)indexPath withItem:(NSDictionary*)item
-{
-    dispatch_async(dispatch_get_main_queue(), ^{        
-        [self.data replaceObjectAtIndex:indexPath.item withObject:item];
-        [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
-    });
-}
-
 - (IBAction)retweet:(id)sender
 {
     UIButton *button = sender;
-    UICollectionViewCell *cell = [button collectionCell];
+    BaseCollectionViewCell *cell = (BaseCollectionViewCell*)[button collectionCell];
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSDictionary *item = [self.data objectAtIndex:indexPath.item];
     
     if ([item retweeted]) {
-        [[NetworkManager sharedInstance] unretweetTweetId:[item idStr] success:^(NSArray *data) {
-            NSLog(@"Unretweet succeed");
-            [self updateCellIndexPath:indexPath withItem:[data firstObject]];
-            
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell setRetweeted:NO];
+            [cell setNeedsDisplay];
+        });
+        [[NetworkManager sharedInstance] unretweetTweetId:[item retweetedId] success:^(NSArray *data) {
+            [self toggleKey:KEY_RETWEETED_BY_ME forItemAtIndex:indexPath.item];
         } failure:^(NSError *error) {
-            NSLog(@"Unretweet failed");
+            NSLog(@"Unretweet failed, %@", [error localizedDescription]);
         }];
     } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell setRetweeted:YES];
+            [cell setNeedsDisplay];
+        });
         [[NetworkManager sharedInstance] retweetTweetId:[item idStr] success:^(NSArray *data) {
-            NSLog(@"Retweet succeed");
-            [self updateCellIndexPath:indexPath withItem:[data firstObject]];
-
-            
+            [self toggleKey:KEY_RETWEETED_BY_ME forItemAtIndex:indexPath.item];
         } failure:^(NSError *error) {
-            NSLog(@"Retweet failed");
+            NSLog(@"Retweet failed, %@", [error localizedDescription]);
         }];
     }}
 
 - (IBAction)favorite:(id)sender
 {
     UIButton *button = sender;
-    UICollectionViewCell *cell = [button collectionCell];
+    BaseCollectionViewCell *cell = (BaseCollectionViewCell*)[button collectionCell];
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSDictionary *item = [self.data objectAtIndex:indexPath.item];
-    
     if ([item favorited]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell setFavorited:NO];
+            [cell setNeedsDisplay];
+        });
         [[NetworkManager sharedInstance] unfavouriteTweetId:[item idStr] success:^(NSArray *data) {
-            NSLog(@"Unfav succeed");
-            [self updateCellIndexPath:indexPath withItem:[data firstObject]];
-            
+            [self toggleKey:KEY_FAVORITE forItemAtIndex:indexPath.row];
         } failure:^(NSError *error) {
             NSLog(@"Unfav failed");
-            
         }];
     } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell setFavorited:YES];
+            [cell setNeedsDisplay];
+        });
         [[NetworkManager sharedInstance] favouriteTweetId:[item idStr] success:^(NSArray *data) {
-            NSLog(@"Fav succeed");
-            [self updateCellIndexPath:indexPath withItem:[data firstObject]];
-
-            
+            [self toggleKey:KEY_FAVORITE forItemAtIndex:indexPath.row];
         } failure:^(NSError *error) {
             NSLog(@"Fav failed");
-            
         }];
     }
 }

@@ -87,43 +87,15 @@ static NetworkManager *instanceNetworkManager = nil;
 {
     NSDictionary *parameters = [NSDictionary dictionaryWithObject:tweetId forKey:@"status"];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:RETWEET_FORMAT, tweetId]];
-    SLRequest *twitterRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter
-                                                   requestMethod:SLRequestMethodPOST
-                                                             URL:url
-                                                      parameters:parameters];
-    
-    twitterRequest.account = self.account;
-    
-    [twitterRequest performRequestWithHandler:^(NSData *responseData,
-                                       NSHTTPURLResponse *urlResponse,
-                                       NSError *error) {
-        if (error && failure)
-            failure(error);
-        else
-            [self processSingleTweet:responseData success:success failure:failure];
-    }];
-}
+    [self postRequestUrl:url success:success failure:failure parameters:parameters];}
 
 - (void)unretweetTweetId:(NSString*)tweetId
                success:(void (^)(NSArray *data))success
                failure:(void (^)(NSError *error))failure
 {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:UNRETW_FORMAT, tweetId]];
-    SLRequest *twitterRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter
-                                                   requestMethod:SLRequestMethodPOST
-                                                             URL:url
-                                                      parameters:nil];
-    
-    twitterRequest.account = self.account;
-    
-    [twitterRequest performRequestWithHandler:^(NSData *responseData,
-                                                NSHTTPURLResponse *urlResponse,
-                                                NSError *error) {
-        if (error && failure)
-            failure(error);
-        else
-            [self processSingleTweet:responseData success:success failure:failure];
-    }];
+    NSDictionary *parameters = @{@"id": tweetId};
+    [self postRequestUrl:url success:success failure:failure parameters:parameters];
 }
 
 - (void)favouriteTweetId:(NSString*)tweetId
@@ -187,7 +159,6 @@ static NetworkManager *instanceNetworkManager = nil;
                                                     URL:apiUrl
                                              parameters:parameters];
     posts.account = twitterAccount;
-    
     [posts performRequestWithHandler:^(NSData *responseData,
                                        NSHTTPURLResponse *urlResponse,
                                        NSError *error) {
@@ -228,7 +199,6 @@ static NetworkManager *instanceNetworkManager = nil;
         NSString *json = [[NSString alloc] initWithData:responseData
                                                encoding:NSUTF8StringEncoding];
         NSLog(@"%@", json);
-        
     }
 }
 

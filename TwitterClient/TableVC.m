@@ -191,21 +191,26 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
     if ([item retweeted]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell setRetweeted:NO];
+            [cell setNeedsDisplay];
+        });
+        NSLog(@"%@", [item retweetedId]);
         [[NetworkManager sharedInstance] unretweetTweetId:[item retweetedId]
-                                                  success:^(NSArray *data)
-        {
-            NSLog(@"Unretweet succeed");
-
+                                                  success:^(NSArray *data) {
+            [self toggleKey:KEY_RETWEETED_BY_ME forItemAtIndex:indexPath.row];
         } failure:^(NSError *error) {
-            NSLog(@"Unretweet failed");
+            NSLog(@"Unretweet failed, %@", [error localizedDescription]);
         }];
     } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell setRetweeted:YES];
+            [cell setNeedsDisplay];
+        });
         [[NetworkManager sharedInstance] retweetTweetId:[item idStr] success:^(NSArray *data) {
-            NSLog(@"Retweet succeed");
-
-            
+            [self toggleKey:KEY_RETWEETED_BY_ME forItemAtIndex:indexPath.row];
         } failure:^(NSError *error) {
-            NSLog(@"Retweet failed");
+            NSLog(@"Retweet failed, %@", [error localizedDescription]);
         }];
     }
 }
