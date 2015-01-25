@@ -201,6 +201,10 @@ static NetworkManager *instanceNetworkManager = nil;
     [twitterRequest performRequestWithHandler:^(NSData *responseData,
                                                 NSHTTPURLResponse *urlResponse,
                                                 NSError *error) {
+        
+//        NSString *json = [[NSString alloc] initWithData:responseData
+//                                               encoding:NSUTF8StringEncoding];
+//        NSLog(@"%@", json);
         if (error && failure)
             failure(error);
         else

@@ -166,6 +166,16 @@
     [UIView animateWithDuration:DURATION animations:^{
         self.viewForTable.alpha = !tableShown ? 0.0 : 1.0;
         self.viewForCollection.alpha = tableShown ? 0.0 : 1.0;
+        
+    } completion:^(BOOL finished) {
+        if (self.tableVC.dataChanged && tableShown) {
+            self.tableVC.dataChanged = NO;
+            [self.tableVC pullToRefresh];
+        }
+        if (self.collectionVC.dataChanged && !tableShown) {
+            self.collectionVC.dataChanged = NO;
+            [self.collectionVC pullToRefresh];
+        }
     }];
 }
 
@@ -278,6 +288,16 @@
     } failure:^(NSError *error) {
         NSLog(@"Error: %@", [error description]);
     }];
+}
+
+- (void)setDataChangedForTable
+{
+    self.tableVC.dataChanged = YES;
+}
+
+- (void)setDataChangedForCollection
+{
+    self.collectionVC.dataChanged = YES;
 }
 
 @end

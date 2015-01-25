@@ -11,6 +11,8 @@
 @protocol BaseVCParent <NSObject>
 @required
 - (void)openImageWithDictionary:(NSDictionary*)mediaInfo;
+- (void)setDataChangedForTable;
+- (void)setDataChangedForCollection;
 
 @end
 
@@ -19,6 +21,7 @@
 @property (nonatomic, assign) BOOL refreshing;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, weak) id<BaseVCParent> baseParent;
+@property (nonatomic, assign) BOOL dataChanged;
 
 - (void)loadMoreWithSuccess:(void (^)(NSArray *data))success
                     failure:(void (^)(NSError *error))failure;

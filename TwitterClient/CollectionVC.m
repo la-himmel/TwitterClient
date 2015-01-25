@@ -139,12 +139,18 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     NSDictionary *item = [self.data objectAtIndex:indexPath.item];
     
     if ([item retweeted]) {
+        if (![item retweetedId]) {
+            NSLog(@"Error: no retweeted id");
+            return;
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             [cell setRetweeted:NO];
             [cell setNeedsDisplay];
         });
         [[NetworkManager sharedInstance] unretweetTweetId:[item retweetedId] success:^(NSArray *data) {
             [self toggleKey:KEY_RETWEETED_BY_ME forItemAtIndex:indexPath.item];
+            [self.baseParent setDataChangedForTable];
+
         } failure:^(NSError *error) {
             NSLog(@"Unretweet failed, %@", [error localizedDescription]);
         }];
@@ -155,6 +161,8 @@ static NSString *const reuseImageIdentifier = @"imagecell";
         });
         [[NetworkManager sharedInstance] retweetTweetId:[item idStr] success:^(NSArray *data) {
             [self toggleKey:KEY_RETWEETED_BY_ME forItemAtIndex:indexPath.item];
+            [self.baseParent setDataChangedForTable];
+
         } failure:^(NSError *error) {
             NSLog(@"Retweet failed, %@", [error localizedDescription]);
         }];
@@ -173,6 +181,8 @@ static NSString *const reuseImageIdentifier = @"imagecell";
         });
         [[NetworkManager sharedInstance] unfavouriteTweetId:[item idStr] success:^(NSArray *data) {
             [self toggleKey:KEY_FAVORITE forItemAtIndex:indexPath.row];
+            [self.baseParent setDataChangedForTable];
+
         } failure:^(NSError *error) {
             NSLog(@"Unfav failed, %@", [error localizedDescription]);
         }];
@@ -183,6 +193,8 @@ static NSString *const reuseImageIdentifier = @"imagecell";
         });
         [[NetworkManager sharedInstance] favouriteTweetId:[item idStr] success:^(NSArray *data) {
             [self toggleKey:KEY_FAVORITE forItemAtIndex:indexPath.row];
+            [self.baseParent setDataChangedForTable];
+
         } failure:^(NSError *error) {
             NSLog(@"Fav failed, %@", [error localizedDescription]);
         }];

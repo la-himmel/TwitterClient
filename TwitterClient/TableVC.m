@@ -191,6 +191,10 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     NSDictionary *item = [self.data objectAtIndex:indexPath.row];
     if ([item retweeted]) {
+        if (![item retweetedId]) {
+            NSLog(@"Error: no retweeted id");
+            return;
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             [cell setRetweeted:NO];
             [cell setNeedsDisplay];
@@ -198,6 +202,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         [[NetworkManager sharedInstance] unretweetTweetId:[item retweetedId]
                                                   success:^(NSArray *data) {
             [self toggleKey:KEY_RETWEETED_BY_ME forItemAtIndex:indexPath.row];
+            [self.baseParent setDataChangedForCollection];
         } failure:^(NSError *error) {
             NSLog(@"Unretweet failed, %@", [error localizedDescription]);
         }];
@@ -208,6 +213,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         });
         [[NetworkManager sharedInstance] retweetTweetId:[item idStr] success:^(NSArray *data) {
             [self toggleKey:KEY_RETWEETED_BY_ME forItemAtIndex:indexPath.row];
+            [self.baseParent setDataChangedForCollection];
         } failure:^(NSError *error) {
             NSLog(@"Retweet failed, %@", [error localizedDescription]);
         }];
@@ -227,6 +233,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         });
         [[NetworkManager sharedInstance] unfavouriteTweetId:[item idStr] success:^(NSArray *data) {
             [self toggleKey:KEY_FAVORITE forItemAtIndex:indexPath.row];
+            [self.baseParent setDataChangedForCollection];
         } failure:^(NSError *error) {
             NSLog(@"Unfav failed, %@", [error localizedDescription]);
         }];
@@ -237,6 +244,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
         });
         [[NetworkManager sharedInstance] favouriteTweetId:[item idStr] success:^(NSArray *data) {
             [self toggleKey:KEY_FAVORITE forItemAtIndex:indexPath.row];
+            [self.baseParent setDataChangedForCollection];
         } failure:^(NSError *error) {
             NSLog(@"Fav failed, %@", [error localizedDescription]);
         }];

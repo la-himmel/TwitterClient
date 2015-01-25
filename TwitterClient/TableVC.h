@@ -13,6 +13,7 @@
 
 - (void)reload;
 - (void)addItems:(NSArray*)newItems;
+- (void)pullToRefresh;
 @end
 
 @interface BaseTableViewCell : UITableViewCell
