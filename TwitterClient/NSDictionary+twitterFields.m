@@ -12,8 +12,6 @@
 #define KEY_RETWEETED @"retweeted_status"
 #define KEY_MEDIA_URL @"media_url"
 #define KEY_ID_STRING @"id_str"
-#define KEY_FAVORITE @"favorited"
-#define KEY_RETWEETED_BY_ME @"retweeted"
 #define KEY_CURR_RETWEET @"current_user_retweet"
 
 

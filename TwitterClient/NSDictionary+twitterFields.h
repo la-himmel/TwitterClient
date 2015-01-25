@@ -16,6 +16,9 @@
 #define KEY_AVATAR @"profile_image_url"
 #define KEY_NICKNAME @"screen_name"
 
+#define KEY_FAVORITE @"favorited"
+#define KEY_RETWEETED_BY_ME @"retweeted"
+
 #define MEDIA_URL @"url"
 #define MEDIA_H @"h"
 #define MEDIA_W @"w"

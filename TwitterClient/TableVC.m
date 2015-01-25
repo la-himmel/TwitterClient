@@ -107,6 +107,9 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     cell.tweet.text = [item tweet];
     cell.tweet.font = [Helper fontForTweet];
     
+    [cell setFavorited:[item favorited]];
+    [cell setRetweeted:[item retweeted]];
+    
     [self configureNameLabel:cell.nameLabel item:item];
     [self configureImageView:cell.avatar withUrl:[item avatarURL]];
 
@@ -181,22 +184,16 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     }
 }
 
-- (NSDictionary*)itemByCellSubview:(UIView*)view
-{
-    UITableViewCell *cell = [view tableCell];
-    if (!cell)
-        return nil;
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    NSDictionary *item = [self.data objectAtIndex:indexPath.row];
-    return item;
-}
-
 - (IBAction)retweet:(id)sender
 {
     UIButton *button = sender;
-    NSDictionary *item = [self itemByCellSubview:button];
+    BaseTableViewCell *cell = (BaseTableViewCell*)[button tableCell];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary *item = [self.data objectAtIndex:indexPath.row];
     if ([item retweeted]) {
-        [[NetworkManager sharedInstance] unretweetTweetId:[item retweetedId] success:^(NSArray *data) {
+        [[NetworkManager sharedInstance] unretweetTweetId:[item retweetedId]
+                                                  success:^(NSArray *data)
+        {
             NSLog(@"Unretweet succeed");
 
         } failure:^(NSError *error) {
@@ -205,6 +202,7 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
     } else {
         [[NetworkManager sharedInstance] retweetTweetId:[item idStr] success:^(NSArray *data) {
             NSLog(@"Retweet succeed");
+
             
         } failure:^(NSError *error) {
             NSLog(@"Retweet failed");
@@ -215,22 +213,28 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
 - (IBAction)favorite:(id)sender
 {
     UIButton *button = sender;
-    NSDictionary *item = [self itemByCellSubview:button];
+    BaseTableViewCell *cell = (BaseTableViewCell*)[button tableCell];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSMutableDictionary *item = [self.data objectAtIndex:indexPath.row];
     if ([item favorited]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell setFavorited:NO];
+            [cell setNeedsDisplay];
+        });
         [[NetworkManager sharedInstance] unfavouriteTweetId:[item idStr] success:^(NSArray *data) {
-            NSLog(@"Unfav succeed");
-            
+            [self toggleKey:KEY_FAVORITE forItemAtIndex:indexPath.row];
         } failure:^(NSError *error) {
             NSLog(@"Unfav failed");
-            
         }];
     } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell setFavorited:YES];
+            [cell setNeedsDisplay];
+        });
         [[NetworkManager sharedInstance] favouriteTweetId:[item idStr] success:^(NSArray *data) {
-            NSLog(@"Fav succeed");
-            
+            [self toggleKey:KEY_FAVORITE forItemAtIndex:indexPath.row];
         } failure:^(NSError *error) {
             NSLog(@"Fav failed");
-            
         }];
     }
 }
@@ -238,6 +242,22 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
 @end
 
 @implementation BaseTableViewCell
+
+- (void)setFavorited:(BOOL)favorited
+{
+    [self configureIcon:self.favorite on:favorited];
+}
+
+- (void)setRetweeted:(BOOL)retweeted
+{
+    [self configureIcon:self.retweet on:retweeted];
+}
+
+- (void)configureIcon:(UIImageView*)icon on:(BOOL)on
+{
+    icon.alpha = on ? 0.5 : 0.15;
+}
+
 @end
 
 @implementation TableViewCell

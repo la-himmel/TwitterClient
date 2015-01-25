@@ -21,6 +21,9 @@
 @property (nonatomic, weak) IBOutlet UITextView *tweet;
 @property (nonatomic, weak) IBOutlet UIImageView *retweet;
 @property (nonatomic, weak) IBOutlet UIImageView *favorite;
+
+- (void)setFavorited:(BOOL)favorited;
+- (void)setRetweeted:(BOOL)retweeted;
 @end
 
 @interface TableViewImageCell : BaseTableViewCell

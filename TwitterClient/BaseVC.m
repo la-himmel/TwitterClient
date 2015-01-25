@@ -68,6 +68,14 @@
     }];
 }
 
+- (void)toggleKey:(NSString*)key forItemAtIndex:(NSInteger)index
+{
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:[self.data objectAtIndex:index]];
+    BOOL value = ![[item objectForKey:key] integerValue];
+    [item setObject:[NSNumber numberWithBool:value] forKey:key];
+    [self.data replaceObjectAtIndex:index withObject:item];
+}
+
 - (float)configureNameLabel:(UILabel*)nameLabel item:(NSDictionary*)item
 {
     NSString *userName = [item authorUsername];

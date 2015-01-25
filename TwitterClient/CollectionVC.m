@@ -143,13 +143,25 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     return item;
 }
 
+- (void)updateCellIndexPath:(NSIndexPath*)indexPath withItem:(NSDictionary*)item
+{
+    dispatch_async(dispatch_get_main_queue(), ^{        
+        [self.data replaceObjectAtIndex:indexPath.item withObject:item];
+        [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    });
+}
+
 - (IBAction)retweet:(id)sender
 {
     UIButton *button = sender;
-    NSDictionary *item = [self itemByCellSubview:button];
+    UICollectionViewCell *cell = [button collectionCell];
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    NSDictionary *item = [self.data objectAtIndex:indexPath.item];
+    
     if ([item retweeted]) {
         [[NetworkManager sharedInstance] unretweetTweetId:[item idStr] success:^(NSArray *data) {
             NSLog(@"Unretweet succeed");
+            [self updateCellIndexPath:indexPath withItem:[data firstObject]];
             
         } failure:^(NSError *error) {
             NSLog(@"Unretweet failed");
@@ -157,6 +169,8 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     } else {
         [[NetworkManager sharedInstance] retweetTweetId:[item idStr] success:^(NSArray *data) {
             NSLog(@"Retweet succeed");
+            [self updateCellIndexPath:indexPath withItem:[data firstObject]];
+
             
         } failure:^(NSError *error) {
             NSLog(@"Retweet failed");
@@ -166,10 +180,14 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 - (IBAction)favorite:(id)sender
 {
     UIButton *button = sender;
-    NSDictionary *item = [self itemByCellSubview:button];
+    UICollectionViewCell *cell = [button collectionCell];
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    NSDictionary *item = [self.data objectAtIndex:indexPath.item];
+    
     if ([item favorited]) {
         [[NetworkManager sharedInstance] unfavouriteTweetId:[item idStr] success:^(NSArray *data) {
             NSLog(@"Unfav succeed");
+            [self updateCellIndexPath:indexPath withItem:[data firstObject]];
             
         } failure:^(NSError *error) {
             NSLog(@"Unfav failed");
@@ -178,6 +196,8 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     } else {
         [[NetworkManager sharedInstance] favouriteTweetId:[item idStr] success:^(NSArray *data) {
             NSLog(@"Fav succeed");
+            [self updateCellIndexPath:indexPath withItem:[data firstObject]];
+
             
         } failure:^(NSError *error) {
             NSLog(@"Fav failed");
@@ -264,6 +284,22 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 @end
 
 @implementation BaseCollectionViewCell
+
+- (void)setFavorited:(BOOL)favorited
+{
+    [self configureIcon:self.favorite on:favorited];
+}
+
+- (void)setRetweeted:(BOOL)retweeted
+{
+    [self configureIcon:self.retweet on:retweeted];
+}
+
+- (void)configureIcon:(UIImageView*)icon on:(BOOL)on
+{
+    icon.alpha = on ? 0.5 : 0.15;
+}
+
 @end
 
 @implementation CollectionViewCell
