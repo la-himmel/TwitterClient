@@ -37,5 +37,5 @@
 + (float)widthForName:(NSString*)name view:(UIView*)view;
 + (float)widthForDate:(NSString*)date view:(UIView*)view;
 + (CGSize)sizeForImageWithSize:(CGSize)oldSize view:(UIView*)view;
-
++ (CGSize)fullsizeForImageWithSize:(CGSize)oldSize view:(UIView*)view;
 @end

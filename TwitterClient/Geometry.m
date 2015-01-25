@@ -67,6 +67,29 @@
     return oldSize;
 }
 
++ (CGSize)fullsizeForImageWithSize:(CGSize)oldSize view:(UIView*)view
+{
+    float maxWidth = view.frame.size.width;
+    float maxHeight = view.frame.size.height;
+
+    if (maxWidth < oldSize.width) {
+        float newHeight = oldSize.height * maxWidth / oldSize.width;
+        return CGSizeMake(maxWidth, newHeight);
+    } else if (maxHeight < oldSize.height) {
+        float newWidth = oldSize.width * maxHeight / oldSize.height;
+        return CGSizeMake(newWidth, maxHeight);
+    }
+    return oldSize;
+//        if (maxHeight < oldSize.height) {
+//            float newWidth = oldSize.width * maxHeight / oldSize.height;
+//            return CGSizeMake(newWidth, maxHeight);
+//        } else if (maxWidth < oldSize.width) {
+//            float newHeight = oldSize.height * maxWidth / oldSize.width;
+//            return CGSizeMake(maxWidth, newHeight);
+//        }
+//        return oldSize;
+}
+
 + (float)widthForName:(NSString*)name view:(UIView*)view
 {
     CGRect labelRect = (CGRect){CGPointZero, [Geometry defaultLabelSizeForView:view]};

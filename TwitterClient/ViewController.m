@@ -261,7 +261,7 @@
     self.imageView.image = placeholder;
     CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W_LARGE] intValue],
                                 [[mediaInfo objectForKey:MEDIA_H_LARGE] intValue]);
-    CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
+    CGSize size = [Geometry fullsizeForImageWithSize:oldSize view:self.view];
     self.imageHeight.constant = size.height;
     self.imageWidth.constant = size.width;
     
