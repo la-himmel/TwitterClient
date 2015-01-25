@@ -18,10 +18,11 @@
 #import "NSDictionary+twitterFields.h"
 
 #define DURATION 0.4
+#define DURATION_IMAGE 0.2
 #define POST_REFRESH_DELAY 1
 #define SHEET_TEXT @"What account do you want to use?"
 
-@interface ViewController () <NSURLSessionDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
+@interface ViewController () <NSURLSessionDelegate, UIAlertViewDelegate, UIActionSheetDelegate, BaseVCParent>
 @property (nonatomic, strong) NSArray *data;
 @property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, weak) TableVC *tableVC;
@@ -29,6 +30,10 @@
 @property (nonatomic, weak) IBOutlet UIView *viewForTable;
 @property (nonatomic, weak) IBOutlet UIView *viewForCollection;
 @property (nonatomic, weak) IBOutlet UIButton *postButton;
+@property (nonatomic, weak) IBOutlet UIView *imageBgView;
+@property (nonatomic, weak) IBOutlet UIImageView *imageView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *imageWidth;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *imageHeight;
 @end
 
 @implementation ViewController
@@ -39,7 +44,17 @@
     self.viewForCollection.alpha = 0.0;
     self.postButton.layer.cornerRadius = 3.0;
     self.postButton.layer.masksToBounds = YES;
+    self.imageBgView.alpha = 0.0;
+    UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeImage)];
+    [self.imageBgView addGestureRecognizer:rec];
     [self updateData];
+}
+
+- (void)closeImage
+{
+    [UIView animateWithDuration:DURATION_IMAGE animations:^{
+        self.imageBgView.alpha = 0.0;
+    }];  
 }
 
 - (void)updateData
@@ -109,7 +124,9 @@
     [networkManager getDataForAccount:account success:^(NSArray *data) {
         dispatch_async(dispatch_get_main_queue(), ^{
             wself.tableVC.data = [NSMutableArray arrayWithArray:data];
+            wself.tableVC.baseParent = wself;
             [wself.tableVC reload];
+            wself.collectionVC.baseParent = wself;
             wself.collectionVC.data = [NSMutableArray arrayWithArray:data];
             [wself.collectionVC reload];
         });
@@ -231,6 +248,36 @@
     
     actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
     [actionSheet showInView:self.view];
+}
+
+#pragma mark - BaseVCParent
+
+- (void)openImageWithDictionary:(NSDictionary*)mediaInfo
+{
+    [UIView animateWithDuration:DURATION_IMAGE animations:^{
+        self.imageBgView.alpha = 1.0;
+    }];
+    UIImage *placeholder = [Helper imageWithColor:[UIColor clearColor]];
+    self.imageView.image = placeholder;
+    CGSize oldSize = CGSizeMake([[mediaInfo objectForKey:MEDIA_W_LARGE] intValue],
+                                [[mediaInfo objectForKey:MEDIA_H_LARGE] intValue]);
+    CGSize size = [Geometry sizeForImageWithSize:oldSize view:self.view];
+    self.imageHeight.constant = size.height;
+    self.imageWidth.constant = size.width;
+    
+    [self.view setNeedsUpdateConstraints];
+    [self.view layoutIfNeeded];
+
+    __weak UIImageView *imageV = self.imageView;
+    [ImageLoader getImageUrl:[mediaInfo objectForKey:MEDIA_URL] success:^(NSData *imageData) {
+        UIImage *image = [UIImage imageWithData:imageData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (imageV)
+                [imageV setImage:image];
+        });
+    } failure:^(NSError *error) {
+        NSLog(@"Error: %@", [error description]);
+    }];
 }
 
 @end

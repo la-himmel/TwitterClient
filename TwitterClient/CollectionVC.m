@@ -174,7 +174,7 @@ static NSString *const reuseImageIdentifier = @"imagecell";
         [[NetworkManager sharedInstance] unfavouriteTweetId:[item idStr] success:^(NSArray *data) {
             [self toggleKey:KEY_FAVORITE forItemAtIndex:indexPath.row];
         } failure:^(NSError *error) {
-            NSLog(@"Unfav failed");
+            NSLog(@"Unfav failed, %@", [error localizedDescription]);
         }];
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -184,9 +184,19 @@ static NSString *const reuseImageIdentifier = @"imagecell";
         [[NetworkManager sharedInstance] favouriteTweetId:[item idStr] success:^(NSArray *data) {
             [self toggleKey:KEY_FAVORITE forItemAtIndex:indexPath.row];
         } failure:^(NSError *error) {
-            NSLog(@"Fav failed");
+            NSLog(@"Fav failed, %@", [error localizedDescription]);
         }];
     }
+}
+
+- (IBAction)openImage:(id)sender
+{
+    UIButton *button = sender;
+    BaseCollectionViewCell *cell = (BaseCollectionViewCell*)[button collectionCell];
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    NSMutableDictionary *item = [self.data objectAtIndex:indexPath.row];
+    NSDictionary *mediaInfo = [item mediaURLAndSize];
+    [self.baseParent openImageWithDictionary:mediaInfo];
 }
 
 - (void)addItems:(NSArray*)newItems

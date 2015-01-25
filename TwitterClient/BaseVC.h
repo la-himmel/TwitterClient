@@ -8,10 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol BaseVCParent <NSObject>
+@required
+- (void)openImageWithDictionary:(NSDictionary*)mediaInfo;
+
+@end
+
 @interface BaseVC : UIViewController
 @property (nonatomic, strong) NSMutableArray *data;
 @property (nonatomic, assign) BOOL refreshing;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, weak) id<BaseVCParent> baseParent;
 
 - (void)loadMoreWithSuccess:(void (^)(NSArray *data))success
                     failure:(void (^)(NSError *error))failure;
@@ -19,5 +26,4 @@
 - (void)configureImageView:(UIImageView*)imageView withUrl:(NSString*)url;
 - (float)configureNameLabel:(UILabel*)nameLabel item:(NSDictionary*)item;
 - (void)toggleKey:(NSString*)key forItemAtIndex:(NSInteger)index;
-
 @end

@@ -60,10 +60,16 @@
         int width = [[size objectForKey:MEDIA_W] intValue];
         int height = [[size objectForKey:MEDIA_H] intValue];
         
+        NSDictionary *largeSize = [[media objectForKey:@"sizes"] objectForKey:@"large"];
+        int largeWidth = [[largeSize objectForKey:MEDIA_W] intValue];
+        int largeHeight = [[largeSize objectForKey:MEDIA_H] intValue];
+        
         if (url && width && height) {
             result = @{ MEDIA_URL : url,
                         MEDIA_W : [NSNumber numberWithInt:width],
-                        MEDIA_H : [NSNumber numberWithInt:height] };
+                        MEDIA_H : [NSNumber numberWithInt:height],
+                        MEDIA_W_LARGE : [NSNumber numberWithInt:largeWidth],
+                        MEDIA_H_LARGE : [NSNumber numberWithInt:largeHeight]};
         }
         return result;
     }

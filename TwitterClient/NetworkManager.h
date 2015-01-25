@@ -12,6 +12,8 @@
 
 @interface NetworkManager : NSObject
 
++ (NetworkManager*)sharedInstance;
+
 - (void)getAccountsWithSuccess:(void (^)(NSArray *accounts))success
                        failure:(void (^)(NSError *error))failure;
 - (void)getDataForAccount:(ACAccount*)twitterAccount
@@ -19,12 +21,13 @@
                   failure:(void (^)(NSError *error))failure;
 - (void)getDataForCurrentAccountSuccess:(void (^)(NSArray *data))success
                                 failure:(void (^)(NSError *error))failure;
-+ (NetworkManager*)sharedInstance;
 - (void)getNextPageDataMaxId:(NSString*)maxId
                      success:(void (^)(NSArray *data))success
                      failure:(void (^)(NSError *error))failure;
+
 - (NSArray*)accounts;
 - (ACAccount*)currentAccount;
+
 - (void)retweetTweetId:(NSString*)tweetId
                success:(void (^)(NSArray *data))success
                failure:(void (^)(NSError *error))failure;

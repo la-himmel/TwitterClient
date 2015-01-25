@@ -81,6 +81,78 @@ static NetworkManager *instanceNetworkManager = nil;
     }];
 }
 
+- (void)getDataForCurrentAccountSuccess:(void (^)(NSArray *data))success
+                                failure:(void (^)(NSError *error))failure
+{
+    [self getDataForAccount:self.account success:success failure:failure];
+}
+
+- (void)getDataForAccount:(ACAccount*)twitterAccount
+                  success:(void (^)(NSArray *data))success
+                  failure:(void (^)(NSError *error))failure
+{
+    if (!self.account)
+        self.account = twitterAccount;
+    NSURL *apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", API_URL, HOME]];
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    [parameters setObject:VALUE_COUNT forKey:KEY_COUNT];
+    [parameters setObject:VALUE_ENT forKey:KEY_INCL_ENTITIES];
+    [parameters setObject:VALUE_ENT forKey:KEY_INCL_MY_RETW];
+    
+    SLRequest *posts = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                          requestMethod:SLRequestMethodGET
+                                                    URL:apiUrl
+                                             parameters:parameters];
+    posts.account = twitterAccount;
+    [posts performRequestWithHandler:^(NSData *responseData,
+                                       NSHTTPURLResponse *urlResponse,
+                                       NSError *error) {
+        if (error && failure)
+            failure(error);
+        else
+            [self processData:responseData success:success failure:failure];
+    }];
+}
+
+- (void)getNextPageDataMaxId:(NSString*)maxId
+                     success:(void (^)(NSArray *data))success
+                     failure:(void (^)(NSError *error))failure
+{
+    NSURL *apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", API_URL, HOME]];
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    [parameters setObject:VALUE_COUNT forKey:KEY_COUNT];
+    [parameters setObject:VALUE_ENT forKey:KEY_INCL_ENTITIES];
+    [parameters setObject:maxId forKey:KEY_MAX_ID];
+    [parameters setObject:VALUE_ENT forKey:KEY_INCL_MY_RETW];
+    
+    SLRequest *posts = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                          requestMethod:SLRequestMethodGET
+                                                    URL:apiUrl
+                                             parameters:parameters];
+    posts.account = self.account;
+    
+    [posts performRequestWithHandler:^(NSData *responseData,
+                                       NSHTTPURLResponse *urlResponse,
+                                       NSError *error) {
+        if (error && failure)
+            failure(error);
+        else
+            [self processData:responseData success:success failure:failure];
+    }];
+}
+
+- (NSArray*)accounts
+{
+    return _accounts;
+}
+
+- (ACAccount*)currentAccount
+{
+    return _account;
+}
+
+#pragma mark - Retweets and favorites
+
 - (void)retweetTweetId:(NSString*)tweetId
                success:(void (^)(NSArray *data))success
                failure:(void (^)(NSError *error))failure
@@ -136,38 +208,7 @@ static NetworkManager *instanceNetworkManager = nil;
     }];
 }
 
-- (void)getDataForCurrentAccountSuccess:(void (^)(NSArray *data))success
-                                failure:(void (^)(NSError *error))failure
-{
-    [self getDataForAccount:self.account success:success failure:failure];
-}
-
-- (void)getDataForAccount:(ACAccount*)twitterAccount
-                  success:(void (^)(NSArray *data))success
-                  failure:(void (^)(NSError *error))failure
-{
-    if (!self.account)
-        self.account = twitterAccount;
-    NSURL *apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", API_URL, HOME]];
-    NSMutableDictionary *parameters = [NSMutableDictionary new];
-    [parameters setObject:VALUE_COUNT forKey:KEY_COUNT];
-    [parameters setObject:VALUE_ENT forKey:KEY_INCL_ENTITIES];
-    [parameters setObject:VALUE_ENT forKey:KEY_INCL_MY_RETW];
-    
-    SLRequest *posts = [SLRequest requestForServiceType:SLServiceTypeTwitter
-                                          requestMethod:SLRequestMethodGET
-                                                    URL:apiUrl
-                                             parameters:parameters];
-    posts.account = twitterAccount;
-    [posts performRequestWithHandler:^(NSData *responseData,
-                                       NSHTTPURLResponse *urlResponse,
-                                       NSError *error) {
-        if (error && failure)
-            failure(error);
-        else
-            [self processData:responseData success:success failure:failure];
-    }];
-}
+#pragma mark - Data processing
 
 - (void)processSingleTweet:(NSData*)responseData
             success:(void (^)(NSArray *data))success
@@ -235,33 +276,6 @@ static NetworkManager *instanceNetworkManager = nil;
     }
 }
 
-- (void)getNextPageDataMaxId:(NSString*)maxId
-                     success:(void (^)(NSArray *data))success
-                     failure:(void (^)(NSError *error))failure
-{
-    NSURL *apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", API_URL, HOME]];
-    NSMutableDictionary *parameters = [NSMutableDictionary new];
-    [parameters setObject:VALUE_COUNT forKey:KEY_COUNT];
-    [parameters setObject:VALUE_ENT forKey:KEY_INCL_ENTITIES];
-    [parameters setObject:maxId forKey:KEY_MAX_ID];
-    [parameters setObject:VALUE_ENT forKey:KEY_INCL_MY_RETW];
-    
-    SLRequest *posts = [SLRequest requestForServiceType:SLServiceTypeTwitter
-                                          requestMethod:SLRequestMethodGET
-                                                    URL:apiUrl
-                                             parameters:parameters];
-    posts.account = self.account;
-    
-    [posts performRequestWithHandler:^(NSData *responseData,
-                                       NSHTTPURLResponse *urlResponse,
-                                       NSError *error) {
-        if (error && failure)
-            failure(error);
-        else
-            [self processData:responseData success:success failure:failure];
-    }];
-}
-
 - (NSString*)errorMessageFromObject:(NSObject*)obj
 {
     NSDictionary *data = (NSDictionary*)obj;
@@ -289,16 +303,6 @@ static NetworkManager *instanceNetworkManager = nil;
     if ([error objectForKey:@"errors"] != nil)
         return YES;
     return NO;
-}
-
-- (NSArray*)accounts
-{
-    return _accounts;
-}
-
-- (ACAccount*)currentAccount
-{
-    return _account;
 }
 
 @end

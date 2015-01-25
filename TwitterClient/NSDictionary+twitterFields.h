@@ -22,6 +22,8 @@
 #define MEDIA_URL @"url"
 #define MEDIA_H @"h"
 #define MEDIA_W @"w"
+#define MEDIA_H_LARGE @"h_large"
+#define MEDIA_W_LARGE @"w_large"
 
 @interface NSDictionary (twitterFields)
 
