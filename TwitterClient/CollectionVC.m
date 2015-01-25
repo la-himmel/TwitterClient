@@ -96,12 +96,7 @@ static NSString *const reuseImageIdentifier = @"imagecell";
     cell.tweet.text = [item tweet];
     cell.tweet.font = [Helper fontForTweet];
     
-    //Username and date
-    float labelWidth = [self configureNameLabel:cell.nameLabel item:item];
-    cell.nameLabel.frame = (CGRect){cell.nameLabel.frame.origin,
-        [Geometry defaultLabelSizeForView:self.view]};
-    [cell.nameLabel sizeToFit];
-    cell.nameWidth.constant = labelWidth;
+    [self configureNameLabel:cell.nameLabel item:item];
     
     [cell setFavorited:[item favorited]];
     [cell setRetweeted:[item retweeted]];

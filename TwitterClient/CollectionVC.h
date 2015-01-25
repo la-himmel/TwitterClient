@@ -21,7 +21,6 @@
 @property (nonatomic, weak) IBOutlet UIImageView *avatar;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UITextView *tweet;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *nameWidth;
 @property (nonatomic, weak) IBOutlet UIImageView *retweet;
 @property (nonatomic, weak) IBOutlet UIImageView *favorite;
 - (void)setFavorited:(BOOL)favorited;

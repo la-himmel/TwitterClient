@@ -195,7 +195,6 @@ static NSString *const reuseImageIdentifier = @"tableImageCell";
             [cell setRetweeted:NO];
             [cell setNeedsDisplay];
         });
-        NSLog(@"%@", [item retweetedId]);
         [[NetworkManager sharedInstance] unretweetTweetId:[item retweetedId]
                                                   success:^(NSArray *data) {
             [self toggleKey:KEY_RETWEETED_BY_ME forItemAtIndex:indexPath.row];
