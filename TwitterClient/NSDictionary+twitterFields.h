@@ -30,6 +30,8 @@
 - (NSDictionary*)mediaURLAndSize;
 - (NSString*)username;
 - (NSString*)idStr;
-- (BOOL)favourited;
+- (BOOL)favorited;
+- (BOOL)retweeted;
+- (NSString*)retweetedId;
 
 @end

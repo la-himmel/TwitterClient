@@ -11,6 +11,11 @@
 #define KEY_ENTITIES @"entities"
 #define KEY_RETWEETED @"retweeted_status"
 #define KEY_MEDIA_URL @"media_url"
+#define KEY_ID_STRING @"id_str"
+#define KEY_FAVORITE @"favorited"
+#define KEY_RETWEETED_BY_ME @"retweeted"
+#define KEY_CURR_RETWEET @"current_user_retweet"
+
 
 @implementation NSDictionary (twitterFields)
 
@@ -78,12 +83,22 @@
 
 - (NSString*)idStr
 {
-    return [self objectForKey:@"id_str"];
+    return [self objectForKey:KEY_ID_STRING];
 }
 
-- (BOOL)favourited
+- (BOOL)favorited
 {
-    return [self objectForKey:@"favourited"];
+    return [[self objectForKey:KEY_FAVORITE] boolValue];
+}
+
+- (BOOL)retweeted
+{
+    return [[self objectForKey:KEY_RETWEETED_BY_ME] boolValue];
+}
+
+- (NSString*)retweetedId
+{
+    return [[self objectForKey:KEY_CURR_RETWEET] objectForKey:KEY_ID_STRING];
 }
 
 @end

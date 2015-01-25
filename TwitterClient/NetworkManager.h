@@ -28,6 +28,9 @@
 - (void)retweetTweetId:(NSString*)tweetId
                success:(void (^)(NSArray *data))success
                failure:(void (^)(NSError *error))failure;
+- (void)unretweetTweetId:(NSString*)tweetId
+                 success:(void (^)(NSArray *data))success
+                 failure:(void (^)(NSError *error))failure;
 - (void)favouriteTweetId:(NSString*)tweetId
                  success:(void (^)(NSArray *data))success
                  failure:(void (^)(NSError *error))failure;

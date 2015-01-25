@@ -147,18 +147,27 @@ static NSString *const reuseImageIdentifier = @"imagecell";
 {
     UIButton *button = sender;
     NSDictionary *item = [self itemByCellSubview:button];
-    [[NetworkManager sharedInstance] retweetTweetId:[item idStr] success:^(NSArray *data) {
-        
-    } failure:^(NSError *error) {
-        
-    }];
-}
+    if ([item retweeted]) {
+        [[NetworkManager sharedInstance] unretweetTweetId:[item idStr] success:^(NSArray *data) {
+            NSLog(@"Unretweet succeed");
+            
+        } failure:^(NSError *error) {
+            NSLog(@"Unretweet failed");
+        }];
+    } else {
+        [[NetworkManager sharedInstance] retweetTweetId:[item idStr] success:^(NSArray *data) {
+            NSLog(@"Retweet succeed");
+            
+        } failure:^(NSError *error) {
+            NSLog(@"Retweet failed");
+        }];
+    }}
 
 - (IBAction)favorite:(id)sender
 {
     UIButton *button = sender;
     NSDictionary *item = [self itemByCellSubview:button];
-    if ([item favourited]) {
+    if ([item favorited]) {
         [[NetworkManager sharedInstance] unfavouriteTweetId:[item idStr] success:^(NSArray *data) {
             NSLog(@"Unfav succeed");
             

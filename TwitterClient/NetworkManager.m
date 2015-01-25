@@ -14,11 +14,14 @@
 #define TIMELINE @"user_timeline.json"
 #define HOME @"home_timeline.json"
 #define RETWEET_FORMAT @"https://api.twitter.com/1.1/statuses/retweet/%@.json"
-#define UNFAV_FORMAT @"https://api.twitter.com/1.1/favorites/destroy.json?id=%@"
-#define FAV_FORMAT @"https://api.twitter.com/1.1/favorites/create.json?id=%@"
-
+#define UNFAV_FORMAT @"https://api.twitter.com/1.1/favorites/destroy.json"
+#define FAV_FORMAT @"https://api.twitter.com/1.1/favorites/create.json"
+#define UNRETW_FORMAT @"https://api.twitter.com/1.1/statuses/destroy/%@.json"
+#define URL_SHOW @"https://api.twitter.com/1.1/statuses/show/%@.json?include_my_retweet=1"
 #define KEY_COUNT @"count"
 #define KEY_INCL_ENTITIES @"include_entities"
+#define KEY_INCL_MY_RETW @"include_my_retweet"
+#define KEY_MAX_ID @"max_id"
 #define VALUE_COUNT @"20"
 #define VALUE_ENT @"1"
 
@@ -101,6 +104,28 @@ static NetworkManager *instanceNetworkManager = nil;
     }];
 }
 
+- (void)unretweetTweetId:(NSString*)tweetId
+               success:(void (^)(NSArray *data))success
+               failure:(void (^)(NSError *error))failure
+{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:UNRETW_FORMAT, tweetId]];
+    SLRequest *twitterRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                                   requestMethod:SLRequestMethodPOST
+                                                             URL:url
+                                                      parameters:nil];
+    
+    twitterRequest.account = self.account;
+    
+    [twitterRequest performRequestWithHandler:^(NSData *responseData,
+                                                NSHTTPURLResponse *urlResponse,
+                                                NSError *error) {
+        if (error && failure)
+            failure(error);
+        else
+            [self processSingleTweet:responseData success:success failure:failure];
+    }];
+}
+
 - (void)favouriteTweetId:(NSString*)tweetId
                  success:(void (^)(NSArray *data))success
                  failure:(void (^)(NSError *error))failure
@@ -155,6 +180,7 @@ static NetworkManager *instanceNetworkManager = nil;
     NSMutableDictionary *parameters = [NSMutableDictionary new];
     [parameters setObject:VALUE_COUNT forKey:KEY_COUNT];
     [parameters setObject:VALUE_ENT forKey:KEY_INCL_ENTITIES];
+    [parameters setObject:VALUE_ENT forKey:KEY_INCL_MY_RETW];
     
     SLRequest *posts = [SLRequest requestForServiceType:SLServiceTypeTwitter
                                           requestMethod:SLRequestMethodGET
@@ -247,7 +273,8 @@ static NetworkManager *instanceNetworkManager = nil;
     NSMutableDictionary *parameters = [NSMutableDictionary new];
     [parameters setObject:VALUE_COUNT forKey:KEY_COUNT];
     [parameters setObject:VALUE_ENT forKey:KEY_INCL_ENTITIES];
-    [parameters setObject:maxId forKey:@"max_id"];
+    [parameters setObject:maxId forKey:KEY_MAX_ID];
+    [parameters setObject:VALUE_ENT forKey:KEY_INCL_MY_RETW];
     
     SLRequest *posts = [SLRequest requestForServiceType:SLServiceTypeTwitter
                                           requestMethod:SLRequestMethodGET
